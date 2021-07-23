@@ -11,18 +11,23 @@ import {
     ChainTransferBscBep20,
     ChainTransferCeloErc20Token,
     ChainTransferErc20,
-    ChainTransferEthErc20, ChainTransferHrm20, ChainTransferPolygonErc20,
+    ChainTransferEthErc20,
+    ChainTransferHrm20,
+    ChainTransferPolygonErc20,
 } from './Erc20Base';
 import {HarmonyAddress} from '@harmony-js/crypto';
 import {
-    fromXdcAddress,
     BurnCeloErc20,
     BurnErc20,
     Currency,
     DeployCeloErc20,
     DeployErc20,
+    fromXdcAddress,
     MintCeloErc20,
     MintErc20,
+    OneBurn20,
+    OneMint20,
+    OneTransfer20,
     prepareBscOrBep20SignedTransaction,
     prepareBurnBep20SignedTransaction,
     prepareCeloBurnErc20SignedTransaction,
@@ -35,26 +40,24 @@ import {
     prepareEthMintErc20SignedTransaction,
     prepareEthOrErc20SignedTransaction,
     prepareMintBep20SignedTransaction,
+    prepareOneBurn20SignedTransaction,
+    prepareOneDeploy20SignedTransaction,
+    prepareOneMint20SignedTransaction,
+    prepareOneTransfer20SignedTransaction,
+    preparePolygonBurnErc20SignedTransaction,
+    preparePolygonDeployErc20SignedTransaction,
+    preparePolygonMintErc20SignedTransaction,
+    preparePolygonTransferErc20SignedTransaction,
+    prepareXdcBurnErc20SignedTransaction,
+    prepareXdcDeployErc20SignedTransaction,
+    prepareXdcMintErc20SignedTransaction,
+    prepareXdcOrErc20SignedTransaction,
     TransactionHash,
     TransferBscBep20,
     TransferCeloOrCeloErc20Token,
+    TransferCustomErc20,
     TransferErc20,
     TransferEthErc20,
-    preparePolygonTransferErc20SignedTransaction,
-    preparePolygonBurnErc20SignedTransaction,
-    preparePolygonMintErc20SignedTransaction,
-    preparePolygonDeployErc20SignedTransaction,
-    prepareXdcOrErc20SignedTransaction,
-    prepareXdcBurnErc20SignedTransaction,
-    prepareXdcMintErc20SignedTransaction,
-    prepareXdcDeployErc20SignedTransaction,
-    prepareOneTransfer20SignedTransaction,
-    OneTransfer20,
-    prepareOneBurn20SignedTransaction,
-    OneBurn20,
-    prepareOneMint20SignedTransaction,
-    OneMint20,
-    prepareOneDeploy20SignedTransaction, TransferCustomErc20,
 } from '@tatumio/tatum';
 import erc20_abi from '@tatumio/tatum/dist/src/contracts/erc20/token_abi';
 
@@ -80,7 +83,7 @@ export abstract class Erc20Service {
     }
 
     private async getClient(chain: Currency, testnet: boolean) {
-        if ([Currency.ETH, Currency.BSC, Currency.CELO, Currency.XDC, Currency.ONE].includes(chain)) {
+        if ([Currency.ETH, Currency.BSC, Currency.CELO, Currency.XDC, Currency.ONE, Currency.MATIC].includes(chain)) {
             return new Web3((await this.getFirstNodeUrl(chain, testnet)));
         }
 

@@ -78,12 +78,10 @@ export abstract class AdaService {
 
   public async getBlockChainInfo(isTestnet?: boolean): Promise<AdaBlockchainInfo> {
     const testnet = isTestnet === undefined ? await this.isTestnet() : isTestnet
-    const graphQLUrl = await this.getGraphQLEndpoint(testnet)
-    const { tip } = (
-      await axios.post(graphQLUrl, {
-        query: '{ cardano { tip { number slotNo epoch { number } }} }',
-      })
-    ).data.data.cardano;
+    const response = await this.sendNodeRequest({
+      query: '{ cardano { tip { number slotNo epoch { number } }} }',
+    }, isTestnet)
+    const { tip } = response.data.data.cardano;
     return {
       testnet,
       tip,
@@ -92,10 +90,8 @@ export abstract class AdaService {
 
 
   public async getBlock(hash: string): Promise<Block> {
-    const graphQLUrl = await this.getGraphQLEndpoint();
-    const [block] = (
-      await axios.post(graphQLUrl, {
-        query: `{ blocks (where: { hash: { _eq: "${hash}" } }) {
+    const response = await this.sendNodeRequest({
+      query: `{ blocks (where: { hash: { _eq: "${hash}" } }) {
           fees
           slotLeader { description, hash }
           forgedAt
@@ -112,16 +108,14 @@ export abstract class AdaService {
           previousBlock { hash, number  }
           vrfKey
         } }`,
-      })
-    ).data.data.blocks;
+    })
+    const [block] = response.data.data.blocks
     return block;
   }
 
   public async getTransaction(hash: string): Promise<Transaction> {
-    const graphQLUrl = await this.getGraphQLEndpoint();
-    const [transaction] = (
-      await axios.post(graphQLUrl, {
-        query: `{ transactions (where: { hash: { _eq: "${hash}" } }) {
+    const response = await this.sendNodeRequest({
+      query: `{ transactions (where: { hash: { _eq: "${hash}" } }) {
           block { hash number }
           blockIndex
           deposit
@@ -138,16 +132,14 @@ export abstract class AdaService {
           withdrawals { address amount transaction { hash }}
           withdrawals_aggregate { aggregate { count } }
         } }`,
-      })
-    ).data.data.transactions;
+    })
+    const [transaction] = response.data.data.transactions;
     return transaction;
   }
 
   public async getAccount(address: string): Promise<PaymentAddress> {
-    const graphQLUrl = await this.getGraphQLEndpoint();
-    const [account] = (
-      await axios.post(graphQLUrl, {
-        query: `{ paymentAddresses (addresses: "${address}") {
+    const response = await this.sendNodeRequest({
+      query: `{ paymentAddresses (addresses: "${address}") {
           summary {
             utxosCount
             assetBalances {
@@ -156,8 +148,8 @@ export abstract class AdaService {
             }
           }
         } }`,
-      })
-    ).data.data.paymentAddresses;
+    })
+    const [account] = response.data.data.paymentAddresses;
     return account;
   }
 
@@ -166,12 +158,10 @@ export abstract class AdaService {
     pageSize: string,
     offset: string,
   ): Promise<Transaction[]> {
-    const graphQLUrl = await this.getGraphQLEndpoint();
     const limit = pageSize && !isNaN(Number(pageSize)) ? Number(pageSize) : 0
     const offsetTransaction = offset && !isNaN(Number(offset)) ? Number(offset) : 0
-    const { transactions } = (
-      await axios.post(graphQLUrl, {
-        query: `{ transactions (
+    const response = await this.sendNodeRequest({
+      query: `{ transactions (
           limit: ${limit}
           offset: ${offsetTransaction}
           where: {
@@ -197,22 +187,21 @@ export abstract class AdaService {
             withdrawals_aggregate { aggregate { count } }
           }
         }`,
-      })
-    ).data.data;
+    })
+    const { transactions } = response.data.data;
     return transactions;
   }
 
 
   public async broadcast({txData, signatureId}: TxData): Promise<TransactionResponse> {
-    const graphQLUrl = await this.getGraphQLEndpoint();
-    const txId = (await axios.post(graphQLUrl, {
+    const response = await this.sendNodeRequest({
       query: `mutation {
         submitTransaction(transaction: "${txData}") {
           hash
         }
       }`,
-    })).data.data.submitTransaction.hash;
-
+    })
+    const txId = response.data.data.submitTransaction.hash
     if (signatureId) {
       try {
         await this.completeKMSTransaction(txId, signatureId)
@@ -228,8 +217,7 @@ export abstract class AdaService {
   public async getUtxosByAddress(
     address: string,
   ): Promise<AdaUtxo[]> {
-    const graphQLUrl = await this.getGraphQLEndpoint();
-    const utxos = (await axios.post(graphQLUrl, {
+    const response = await this.sendNodeRequest({
       query: `{ utxos (where: {
         address: {
           _eq: "${address}"
@@ -240,8 +228,8 @@ export abstract class AdaService {
         value
       }
     }`,
-    })).data.data.utxos;
-    return utxos;
+    })
+    return response.data.data.utxos;
   }
 
   public async sendTransaction(
@@ -269,9 +257,8 @@ export abstract class AdaService {
 
   public async getTransactionsFromBlockTillNow(blockNumber: number, isTestnet?: boolean): Promise<Transaction[]> {
     try {
-      const graphQLUrl = await this.getGraphQLEndpoint(isTestnet);
-      const query = `{transactions(where:{block:{number:{_gte:${blockNumber}}}})${TX_FIELDS}}`;
-      const { data } = (await axios.post(graphQLUrl, { query })).data;
+      const response = await this.sendNodeRequest({query: `{transactions(where:{block:{number:{_gte:${blockNumber}}}})${TX_FIELDS}}`}, isTestnet)
+      const { data } = response.data;
       return (data?.transactions || []).map((t: any) => {
         t.block = t.block.number;
         delete t.block.number;
@@ -454,6 +441,19 @@ export abstract class AdaService {
       }
     }
     return this.broadcast({ txData: transactionData })
+  }
+
+  private async sendNodeRequest(body: any, isTestnet?: boolean) {
+    const graphQLUrl = await this.getGraphQLEndpoint(isTestnet)
+    const response = await axios.post(graphQLUrl, body)
+    if(response?.data?.errors?.length > 0 ) {
+      if(response.data.errors[0].message) {
+        throw new AdaError(response.data.errors[0].message, 'ada.error')
+      } else {
+        throw new AdaError('Ada error dont have message.', 'ada.error')
+      }
+    }
+    return response
   }
 }
 

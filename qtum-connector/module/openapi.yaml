@@ -1,0 +1,1013 @@
+openapi: 3.0.0
+servers:
+  - url: 'https://api-eu1.tatum.io'
+info:
+  version: 1.0.1
+  title: Tatum Qtum API
+tags:
+  - description: |
+      <p>Qtum is a cryptocurrency that combines properties of bitcoin and ethereum. It uses a UTXO-based smart contract system with a proof-of-stake (PoS) consensus model. Qtum is designed to be suitable for use by large organizations.<br/>
+      Tatum supports 2 chains:
+      <ul><li>Mainnet - a regular live chain
+      <li>Testnet - a chain used for testing purposes. Coins on the test chain have no value and can be obtained from
+      a faucet, e.g. <a target="_blank" href="http://testnet-faucet.qtum.info/#!/">http://testnet-faucet.qtum.info/</a></li></ul></p>
+    name: Blockchain / QTUM
+paths:
+  /v3/qtum/wallet:
+    get:
+      description: |
+        <h4>1 credit per API call.</h4><br/><p>Tatum supports BIP44 HD wallets. It is very convenient and secure, since it can generate 2^31 addresses from 1 mnemonic phrase. Mnemonic phrase consists of 24 special words in defined order and can restore access to all generated addresses and private keys.<br/>Each address is identified by 3 main values:<ul><li>Private Key - your secret value, which should never be revealed</li><li>Public Key - public address to be published</li><li>Derivation index - index of generated address</li></ul></p><p>Tatum follows BIP44 specification and generates for Qtum wallet with derivation path m'/44'/2301'/0'/0. More about BIP44 HD wallets can be found here - <a target="_blank" href="https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki">https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki</a>.
+                Generate BIP44 compatible QTum wallet.</p>
+      operationId: QtumGenerateAddress
+      responses:
+          200:
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/QtumWallet"
+          400: &API400
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error400"
+            description: Bad Request. Validation failed for the given object in the HTTP Body or Request parameters.
+          401: &API401
+            content:
+              application/json:
+                schema:
+                  oneOf:
+                    - $ref: "#/components/schemas/Error401NotActive"
+                    - $ref: "#/components/schemas/Error401Invalid"
+            description: Unauthorized. Not valid or inactive subscription key present in the HTTP Header.
+          500: &API500
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error500"
+            description: Internal server error. There was an error on the server during the processing of the request.
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Generate QTUM account address from Extended public key
+      tags:
+        - Blockchain / QTUM
+  /v3/qtum/address/{xpub}/{i}:
+    get:
+      description: |
+        <h4>1 credit per API call.</h4><br/>
+        <p>Generate QTUM account deposit address from Extended public key. Deposit address is generated for the specific index - each extended public key can generate
+        up to 2^31 addresses starting from index 0 until 2^31.</p>
+      operationId: QtumGenerateAddress
+      parameters:
+        - description: "Extended public key of wallet."
+          in: path
+          name: xpub
+          required: true
+          schema:
+            type: string
+            example: xpub6EsCk1uU6cJzqvP9CdsTiJwT2rF748YkPnhv5Qo8q44DG7nn2vbyt48YRsNSUYS44jFCW9gwvD9kLQu9AuqXpTpM1c5hgg9PsuBLdeNncid
+        - description: "Derivation index of desired address to be generated."
+          in: path
+          name: i
+          required: true
+          schema:
+            type: number
+            example: 0
+      responses:
+          200:
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    address:
+                      type: string
+                      description: QTUM address
+                      example: "qWpEineYmtc2Ea25GqDYhvuzCjTiu5hMYA"
+            description: OK
+          400: &API400
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error400"
+            description: Bad Request. Validation failed for the given object in the HTTP Body or Request parameters.
+          401: &API401
+            content:
+              application/json:
+                schema:
+                  oneOf:
+                    - $ref: "#/components/schemas/Error401NotActive"
+                    - $ref: "#/components/schemas/Error401Invalid"
+            description: Unauthorized. Not valid or inactive subscription key present in the HTTP Header.
+          500: &API500
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error500"
+            description: Internal server error. There was an error on the server during the processing of the request.
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Generate QTUM account address from Extended public key
+      tags:
+        - Blockchain / QTUM
+  /v3/qtum/wallet/priv:
+    post:
+      description: |
+        <h4>1 credit per API call.</h4><br/><p>Tatum supports BIP44 HD wallets. It is very convenient and secure, since it can generate 2^31 addresses from 1 mnemonic phrase. Mnemonic phrase consists of 24 special words in defined order and can restore access to all generated addresses and private keys.<br/>Each address is identified by 3 main values:<ul><li>Private Key - your secret value, which should never be revealed</li><li>Public Key - public address to be published</li><li>Derivation index - index of generated address</li></ul></p><p>Tatum follows BIP44 specification and generates for Qtum wallet with derivation path defined by QTUM. More about BIP44 HD wallets can be found here - <a target="_blank" href="https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki">https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki</a>.
+        Generate BIP44 compatible QTUM wallet.</p>
+      operationId: generatePrivateKeyFromMnemonic
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: "#/components/schemas/GeneratePrivateKey"
+        required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  key:
+                    type: string
+                    description: key
+                    example: "cNR1n1EuzzaWHD7xcmAo71mwxyVV3uJUbLoamQFiXzaJhjTfCF2P"
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Generate QTUM privaste key
+      tags:
+        - Blockchain / QTUM
+  /v3/qtum/block/current:
+    get:
+      description: "<h4>1 credit per API call.</h4><br/><p>Get QTUM current block number. This is the number of the latest block in the blockchain.</p>"
+      operationId: QtumGetCurrentBlock
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: number
+                description: Current block number
+                example: 6491272
+          description: OK
+        401:
+          <<: *API401
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Get current block number
+      tags:
+        - Blockchain / QTUM
+  /v3/qtum/block/{hash}:
+    get:
+      description: "<h4>1 credit per API call.</h4><br/><p>Get BSC block by block hash or block number.</p>"
+      operationId: QtumGetBlock
+      parameters:
+        - description: "Block hash or block number"
+          in: path
+          name: hash
+          required: true
+          schema:
+            type: string
+            example: 6470657
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QtumBlock"
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Get QTUM block by hash
+      tags:
+        - Blockchain / QTUM
+  /v3/qtum/address/{key}:
+    get:
+      description: "<h4>1 credit per API call.</h4><br/><p>Generate Address by private key</p>"
+      operationId: GenerateAddressPrivatekey
+      parameters:
+        - description: "Private key"
+          in: path
+          name: key
+          required: true
+          schema:
+            type: string
+            example: "cNR1n1EuzzaWHD7xcmAo71mwxyVV3uJUbLoamQFiXzaJhjTfCF2P"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  address:
+                    type: string
+                    description: Address
+                    example: "qWpEineYmtc2Ea25GqDYhvuzCjTiu5hMYA"
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Generate QTUM Address from private key
+      tags:
+        - Blockchain / QTUM
+  /v3/qtum/utxo/{address}:
+    get:
+      description: "<h4>1 credit per API call.</h4><br/><p>Get UTXOS by address</p>"
+      operationId: GetQtumUTXOs
+      parameters:
+        - description: address
+          in: path
+          name: address
+          required: true
+          schema:
+            type: string
+            example: "qWpEineYmtc2Ea25GqDYhvuzCjTiu5hMYA"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QtumIUTXO"
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Get UTXO
+      tags:
+        - Blockchain / QTUM
+  /v3/qtum/address/{address}/balance:
+    get:
+      description: "<h4>1 credit per API call.</h4><br/><p>Get QTUM account balance in QTUM tokens on an account.</p>"
+      operationId: QtumGetBalance
+      parameters:
+        - description: "Account address"
+          in: path
+          name: address
+          required: true
+          schema:
+            type: string
+            example: "qWpEineYmtc2Ea25GqDYhvuzCjTiu5hMYA"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QtumIGetInfo"
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Get QTUM Account balance
+      tags:
+        - Blockchain / QTUM
+  /v3/qtum/transaction/{id}:
+    get:
+      description: "<h4>1 credit per API call.</h4><br/><p>Get QTUM transaction by transaction hash.</p>"
+      operationId: GetQtumTransaction
+      parameters:
+        - description: "Transaction hash"
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            example: "0xe6e7340394958674cdf8606936d292f565e4ecc476aaa8b258ec8a141f7c75d7"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QtumIRawTransactionInfo"
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        403:
+          description: Forbidden. The request is authenticated, but it is not possible to required perform operation due to logical error or invalid permissions.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/Error403TxNotFound"
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Get QTUM Transaction
+      tags:
+        - Blockchain / QTUM
+  /v3/qtum/transactions/address/{address}/:
+    get:
+      description: "<h4>1 credit per API call.</h4><br/><p>Get QTUM paginated transactions by address.</p>"
+      operationId: GetQtumPaginatedTransaction
+      parameters:
+        - description: "Address"
+          in: path
+          name: address
+          required: true
+          schema:
+            type: string
+            example: "qWpEineYmtc2Ea25GqDYhvuzCjTiu5hMYA"
+        - description: "pageSize"
+          in: query
+          name: pageSize
+          required: true
+          schema:
+            type: number
+            example: 20
+        - description: "offset"
+          in: query
+          name: offset
+          required: false
+          schema:
+            type: number
+            example: 0
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QtumIRawTransactions"
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        403:
+          description: Forbidden. The request is authenticated, but it is not possible to required perform operation due to logical error or invalid permissions.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/Error403TxNotFound"
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Get QTUM Transactions by address
+      tags:
+        - Blockchain / QTUM
+  /v3/qtum/transactions/gas/{nblocks}:
+      get:
+        description: "<h4>1 credit per API call.</h4><br/><p>Get estimated gas fees</p>"
+        operationId: EstimateFee
+        parameters:
+          - description: "nblocks"
+            in: path
+            name: nblocks
+            required: true
+            schema:
+              type: number
+              example: 1
+        responses:
+          200:
+            content:
+              application/json:
+                schema:
+                  type: object
+            description: OK
+          400:
+            <<: *API400
+          401:
+            <<: *API401
+          403:
+            description: Forbidden. The request is authenticated, but it is not possible to required perform operation due to logical error or invalid permissions.
+            content:
+              application/json:
+                schema:
+                  oneOf:
+                    - $ref: "#/components/schemas/Error403TxNotFound"
+          500:
+            <<: *API500
+        security:
+          - X-Api-Key: [ ]
+        x-code-samples:
+        summary: Get QTUM estimated gas fees
+        tags:
+          - Blockchain / QTUM
+  /v3/qtum/transactions/gasbytes/{nblocks}:
+    get:
+      description: "<h4>1 credit per API call.</h4><br/><p>Get estimated gas fees per byte</p>"
+      operationId: EstimateFeePerByte
+      parameters:
+        - description: "nblocks"
+          in: path
+          required: true
+          name: nblocks
+          schema:
+            type: number
+            example: 1
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        403:
+          description: Forbidden. The request is authenticated, but it is not possible to required perform operation due to logical error or invalid permissions.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/Error403TxNotFound"
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Get QTUM estimated gas fees per byte
+      tags:
+        - Blockchain / QTUM
+  /v3/qtum/broadcast:
+    post:
+      description: |
+        <h4>2 credits per API call.</h4><br/>
+        <p>Broadcast signed transaction to QTUM blockchain. This method is used internally from Tatum KMS, Tatum Middleware or Tatum client libraries.
+        It is possible to create custom signing mechanism and use this method only for broadcasting data to the blockchian.</p>
+      operationId: QtumBroadcast
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BroadcastKMS"
+        required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionHashKMS"
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        403:
+          description: Forbidden. The request is authenticated, but it is not possible to required perform operation due to logical error or invalid permissions.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error403QtumBroadcast"
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Broadcast signed QTUM transaction
+      tags:
+        - Blockchain / QTUM
+components:
+  schemas:
+    QtumWallet:
+      type: object
+      required:
+        - mnemonic
+        - xpub
+      properties:
+        mnemonic:
+          type: string
+          description: Mnemonic seed for the generated wallet
+          example: plunge setup measure permit junior cheese tortoise olive fly asset merit steak flight paper layer glass sure march confirm rhythm enroll kitchen future ridge
+        xpub:
+          type: string
+          description: Extended public key to generate addresses from the wallet.
+          example: xpub6FL6yNcaXSaJaLoe2e5a1AGWUARpC5bTLKrGLHqN3qFGeBQBYdCFsdYzgoWHMruUcBJrQ1jCpoXvqduqchuHGEvuGm9gC4JR5ZttscVxa3y
+    GeneratePrivateKey:
+      type: object
+      properties:
+        mnemonic:
+          maxLength: 500
+          minLength: 1
+          description: Mnemonic to generate private key for the account of QTUM, from which the gas will be paid (index will be used).
+          example: "urge pulp usage sister evidence arrest palm math please chief egg abuse"
+          type: string
+        index:
+          description: derivation index of address to pay for deployment of ERC20
+          example: 0
+          type: integer
+          maximum: 2147483647
+      required:
+        - index
+        - mnemonic
+    Error403QtumBroadcast:
+      properties:
+        errorCode:
+          description: qtum.broadcast.failed
+          example: qtum.broadcast.failed
+          type: string
+        message:
+          description: Unable to broadcast transaction due to ${error}.
+          example: Unable to broadcast transaction due to ${error}.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    QtumIGetInfo:
+      properties:
+            addrStr:
+              description: account address
+              example: qWpEineYmtc2Ea25GqDYhvuzCjTiu5hMYA
+              type: string
+            balance:
+              description: Balance of address
+              example: 0
+              type: number
+            balanceSat:
+              description: Balance of address in satoshi
+              example: 0
+              type: number
+            totalReceived:
+              description: total amount received
+              example: 0
+              type: number
+            totalReceivedSat:
+              description: total amount received in satoshi
+              example: 0
+              type: number
+            totalSet:
+              description: total set amount
+              example: 0
+              type: number
+            totalSentSat:
+              description: total send amount in satoshi
+              example: 0
+              type: number
+            unconfirmedBalance:
+              description: uncomfirmed balance
+              example: 0
+              type: number
+            unconfirmedBalanceSat:
+              description: unconfirmed balance in satoshi
+              example: 0
+              type: number
+            unconfirmedTxApperances:
+              description: number of unconfirmed transaction
+              example: 0
+              type: number
+            txApperances:
+              description: number of txn apprerances
+              example: 0
+              type: number
+            transactions:
+              description: list of transactions
+              example: ["0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"]
+              type: array
+    QtumIRawTransactionInfo:
+      type: object
+      properties:
+        txid:
+          description: transaction hash
+          example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+          type: string
+        version:
+          description: version number
+          example: 0
+          type: number
+        locktime:
+          description: locktime
+          example: 0
+          type: number
+        receipt:
+          description: transaction receipts
+          example: 0
+          type: array
+          items:
+            properties:
+              blockHash:
+                description: block hash
+                example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+                type: string
+              blockNumber:
+                description: block number
+                example: 0
+                type: number
+              transactionHash:
+                description: transaction hash
+                example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+                type: string
+              transactionIndex:
+                description: transaction index
+                example: 0
+                type: number
+              from:
+                description: from address
+                example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+                type: string
+              to:
+                description: to address
+                example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+                type: string
+              cumulativeGasUsed:
+                description: cumulativeGasUsed
+                example: ""
+                type: string
+              gasUsed:
+                description: gas Used
+                example: "0"
+                type: string
+              contractAddress:
+                description: address of contract
+                example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+                type: string
+              excepted:
+                description: expected
+                example: ""
+                type: string
+              log:
+                description: logs
+                example: [""]
+                type: array
+        vin:
+          type: array
+          items:
+            properties:
+              value:
+                description: value
+                example: 0
+                type: number
+              script:
+                description: buffer of script
+                example: ""
+                type: string
+        vout:
+          type: array
+          items:
+            properties:
+              value:
+                description: value
+                example: 0
+                type: string
+              address:
+                description: address
+                example: "qWpEineYmtc2Ea25GqDYhvuzCjTiu5hMYA"
+                type: string
+              script:
+                description: script buffer
+                example: ""
+                type: string
+              scriptPubKey:
+                type: object
+                properties:
+                  hex:
+                    type: string
+                    description: hex value
+                    example: ""
+                  asm:
+                    type: string
+                    description: asm value
+                    example: ""
+                  addresses:
+                    type: object
+                    example: ["qWpEineYmtc2Ea25GqDYhvuzCjTiu5hMYA"]
+                    description: array of addresses
+        confirmations:
+          type: number
+          description: number of confirmations
+          example: 0
+        time:
+          type: number
+          description: time of txn
+          example: 1626959613
+        valueOut:
+          type: number
+          description: out value
+          example: 0
+        valueIn:
+          type: number
+          description: in value
+          example: 0
+        fees:
+          type: number
+          description: txn fees
+          example: 0
+        blockhash:
+          type: string
+          description: block hash
+          example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+        blockheight:
+          type: number
+          description: block height
+          example: 0
+        isqrc20Transfer:
+          type: boolean
+          description: is qrc20 transfer?
+          example: false
+    QtumIUTXO:
+      type: array
+      items:
+        properties:
+          address:
+            description: account address
+            example: qWpEineYmtc2Ea25GqDYhvuzCjTiu5hMYA
+            type: string
+          txid:
+            description: transaction id
+            example:  "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+            type: string
+          vout:
+            description: number of outputs
+            example: 0
+            type: number
+          scriptPubKey:
+            description: Public key that controls this UXTO, as hex string.
+            example: "4104f5eeb2b10c944c6b9fbcfff94c35bdeecd93df977882babc7f3a2cf7f5c81d3b09a68db7f0e04f21de5d4230e75e6dbe7ad16eefe0d4325a62067dc6f369446aac"
+            type: string
+          amount:
+            description: amount transferred
+            example: 0
+            type: number
+          satoshis:
+            description: Amount of the transaction, in Satoshis
+            example: 0
+            type: number
+          isStake:
+            description: staking true or false
+            example: false
+            type: boolean
+          height:
+            description: height
+            example: 1200
+            type: number
+          confirmations:
+            description: number of confirmations
+            example: 0
+            type: number
+    QtumBlock:
+      properties:
+        hash:
+          description: block hash
+          example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+          type: string
+        confirmations:
+            description: number of confirmations
+            example: 0
+            type: number
+        size:
+            description: block size
+            example: 0
+            type: number
+        height:
+            description: block height
+            example: 0
+            type: number
+        version:
+            description: version number
+            example: 0
+            type: number
+        merkleroot:
+            description: merkle tree root
+            example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+            type: string
+        tx:
+          description: transactions array
+          type: object
+          example: ["0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"]
+        time:
+          description: timestamp
+          example: 0
+          type: number
+        nonce:
+          description: nonce
+          example: 0
+          type: number
+        bits:
+          description: bits
+          example: ""
+          type: string
+        difficulty:
+          description: difficulty
+          example: ""
+          type: string
+        chainwork:
+          description: chainwork
+          example: ""
+          type: string
+        previousblockhash:
+          description: hash of previous block
+          example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+          type: string
+        nextblockhash:
+          description: hash of next block
+          example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+          type: string
+        flags:
+          description: flags
+          example: ""
+          type: string
+        reward:
+          description: reward
+          example: 0
+          type: number
+        isMainChain:
+          description: is mainnet
+          example: true
+          type: string
+        minedBy:
+          description: mined by address
+          example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+          type: string
+        poolInfo:
+          description: pool information
+          example: {}
+          type: object
+    QtumIRawTransactions:
+      properties:
+        pagesTotal:
+          type: number
+          description: number of pages
+          example: 150
+        txns:
+          type: array
+          items:
+            properties:
+              txid:
+                type: string
+                description: transaction ID
+                example: "53faa103e8217e1520f5149a4e8c84aeb58e55bdab11164a95e69a8ca50f8fcc"
+              version:
+                type: number
+                description: version number
+                example: 0
+              locktime:
+                type: number
+                description: locktime
+                example: 1626959613
+              receipt:
+                type: array
+                description: transaction receipts
+                items:
+                  properties:
+                    blockHash:
+                      description: block hash
+                      example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+                      type: string
+                    blockNumber:
+                      description: block number
+                      example: 0
+                      type: number
+                    transactionHash:
+                      description: transaction hash
+                      example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+                      type: string
+                    transactionIndex:
+                      description: transaction index
+                      example: 0
+                      type: number
+                    from:
+                      description: from address
+                      example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+                      type: string
+                    to:
+                      description: to address
+                      example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+                      type: string
+                    cumulativeGasUsed:
+                      description: cumulativeGasUsed
+                      example: ""
+                      type: string
+                    gasUsed:
+                      description: gas Used
+                      example: "0"
+                      type: string
+                    contractAddress:
+                      description: address of contract
+                      example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+                      type: string
+                    excepted:
+                      description: expected
+                      example: ""
+                      type: string
+                    log:
+                      description: logs
+                      example: [""]
+                      type: array
+              vin:
+                type: array
+                items:
+                  properties:
+                    value:
+                      description: value
+                      example: 0
+                      type: number
+                    script:
+                      description: buffer of script
+                      example: ""
+                      type: string
+              vout:
+                type: array
+                items:
+                  properties:
+                    value:
+                      description: value
+                      example: 0
+                      type: string
+                    address:
+                      description: address
+                      example: "qWpEineYmtc2Ea25GqDYhvuzCjTiu5hMYA"
+                      type: string
+                    script:
+                      description: script buffer
+                      example: ""
+                      type: string
+                    scriptPubKey:
+                      type: object
+                      properties:
+                        hex:
+                          type: string
+                          description: hex value
+                          example: ""
+                        asm:
+                          type: string
+                          description: asm value
+                          example: ""
+                        addresses:
+                          type: object
+                          example: ["qWpEineYmtc2Ea25GqDYhvuzCjTiu5hMYA"]
+                          description: array of addresses
+              confirmations:
+                type: number
+                description: confirmations
+                example: 6
+              time:
+                type: number
+                description: timestamp
+                example: 1626959613
+              valueOut:
+                type: number
+                description: valueOut
+                example: 0
+              valueIn:
+                type: number
+                description: value in
+                example: 1
+              fees:
+                type: number
+                description: fees
+                example: 1
+              blockhash:
+                type: string
+                description: hash of the block
+                example: "53faa103e8217e1520f5149a4e8c84aeb58e55bdab11164a95e69a8ca50f8fcc"
+              blockheight:
+                type: number
+                description: height of block
+                example: 100
+              isqrc20Transfer:
+                type: boolean
+                description: is qrc20 transfer?
+                example: true

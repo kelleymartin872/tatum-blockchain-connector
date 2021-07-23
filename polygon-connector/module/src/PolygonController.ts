@@ -1,4 +1,4 @@
-import {Body, Get, HttpCode, HttpStatus, Param, Post, Query,} from '@nestjs/common';
+import {BadRequestException, Body, Get, HttpCode, HttpStatus, Param, Post, Query,} from '@nestjs/common';
 import {PolygonService} from './PolygonService';
 import {
   BroadcastTx,
@@ -27,6 +27,12 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     try {
       return await this.service.web3Method(body);
     } catch (e) {
+      if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+        throw new BadRequestException(e);
+      }
+      if (e.constructor.name === 'TatumError' || e.constructor.name === PolygonError.name) {
+        throw e;
+      }
       throw new PolygonError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'polygon.error');
     }
   }
@@ -57,6 +63,12 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     try {
       return await this.service.sendMatic(body);
     } catch (e) {
+      if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+        throw new BadRequestException(e);
+      }
+      if (e.constructor.name === 'TatumError' || e.constructor.name === PolygonError.name) {
+        throw e;
+      }
       throw new PolygonError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'polygon.error');
     }
   }
@@ -67,6 +79,12 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     try {
       return await this.service.estimateGas(body);
     } catch (e) {
+      if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+        throw new BadRequestException(e);
+      }
+      if (e.constructor.name === 'TatumError' || e.constructor.name === PolygonError.name) {
+        throw e;
+      }
       throw new PolygonError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'polygon.error');
     }
   }
@@ -87,6 +105,12 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     try {
       return await this.service.invokeSmartContractMethod(body);
     } catch (e) {
+      if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+        throw new BadRequestException(e);
+      }
+      if (e.constructor.name === 'TatumError' || e.constructor.name === PolygonError.name) {
+        throw e;
+      }
       throw new PolygonError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'polygon.error');
     }
   }
@@ -97,6 +121,12 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     try {
       return await this.service.broadcast(body.txData, body.signatureId);
     } catch (e) {
+      if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+        throw new BadRequestException(e);
+      }
+      if (e.constructor.name === 'TatumError' || e.constructor.name === PolygonError.name) {
+        throw e;
+      }
       throw new PolygonError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'polygon.error');
     }
   }

@@ -85,7 +85,7 @@ export abstract class PolygonService {
     public async getFirstNodeUrl(testnet: boolean): Promise<string> {
         const nodes = await this.getNodesUrl(testnet);
         if (nodes.length === 0) {
-            new PolygonError('Nodes url array must have at least one element.', 'bsc.nodes.url');
+            new PolygonError('Nodes url array must have at least one element.', 'polygon.nodes.url');
         }
         return nodes[0];
     }
@@ -103,7 +103,7 @@ export abstract class PolygonService {
         const result: { txId: string } = await new Promise((async (resolve, reject) => {
             client.eth.sendSignedTransaction(txData)
                 .once('transactionHash', txId => resolve({txId}))
-                .on('error', e => reject(new PolygonError(`Unable to broadcast transaction due to ${e.message}.`, 'bsc.broadcast.failed')));
+                .on('error', e => reject(new PolygonError(`Unable to broadcast transaction due to ${e.message}.`, 'polygon.broadcast.failed')));
         }));
 
         if (signatureId) {

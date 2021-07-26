@@ -47,8 +47,8 @@ export abstract class QtumService {
     public async getCurrentBlock(): Promise<any> {
         try {
             const baseURL = await this.getFirstNodeUrl()
-            const res = await axios.post(baseURL + `/status?q=getLastBlockHash`)
-            return res['lastblockhash']
+            const res = await axios.get(baseURL + `/status?q=getLastBlockHash`)
+            return res.data['lastblockhash']
         } catch (e) {
             this.logger.error(e)
             throw new QtumError(`Error occurred. ${e}`, 'qtum.error');
@@ -58,7 +58,7 @@ export abstract class QtumService {
         try {
             const baseURL = await this.getFirstNodeUrl()
             const res = await axios.get(baseURL + `/block/${hash}`)
-            return res.data.result
+            return res.data
         } catch (e) {
             this.logger.error(e)
             throw new QtumError(`Error occurred. ${e}`, 'qtum.error');
@@ -82,7 +82,6 @@ export abstract class QtumService {
         try {
             const baseURL = await this.getFirstNodeUrl()
             const res = await axios.get(baseURL + `/utils/estimatefee?nbBlocks=${nblocks}`)
-
             const feeRate: number = res.data
             if (typeof feeRate !== "number" || feeRate < 0) {
                 return -1
@@ -128,7 +127,7 @@ export abstract class QtumService {
         try {
             const baseURL = await this.getFirstNodeUrl()
             const to = pageSize + offset
-            const result = await axios.get(baseURL + `addrs/${address}/txs?from=${offset}&to=${to}}`)
+            const result = await axios.get(baseURL + `/addrs/${address}/txs?from=${offset}&to=${to}`)
             return result.data as QtumIRawTransactions
         } catch (e) {
             this.logger.error(e)

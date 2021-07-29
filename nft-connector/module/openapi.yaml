@@ -451,6 +451,7 @@ paths:
               - CELO
               - TRON
               - FLOW
+              - MATIC
               - BSC
         - description: "Transaction hash"
           in: path
@@ -503,6 +504,7 @@ paths:
             type: string
             enum:
               - ETH
+              - MATIC
               - ONE
               - CELO
               - TRON
@@ -557,6 +559,7 @@ paths:
             type: string
             enum:
               - ETH
+              - MATIC
               - ONE
               - CELO
               - TRON
@@ -618,6 +621,7 @@ paths:
             type: string
             enum:
               - ETH
+              - MATIC
               - ONE
               - CELO
               - TRON
@@ -688,6 +692,7 @@ paths:
             type: string
             enum:
               - ETH
+              - MATIC
               - ONE
               - CELO
               - TRON

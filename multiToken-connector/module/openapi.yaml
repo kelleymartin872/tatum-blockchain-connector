@@ -462,6 +462,7 @@ paths:
             type: string
             enum:
               - ETH
+              - MATIC
               - ONE
               - CELO
               - BSC
@@ -516,6 +517,7 @@ paths:
             type: string
             enum:
               - ETH
+              - MATIC
               - ONE
               - CELO
               - BSC
@@ -567,6 +569,7 @@ paths:
             type: string
             enum:
               - ETH
+              - MATIC
               - ONE
               - CELO
               - BSC
@@ -633,6 +636,7 @@ paths:
             type: string
             enum:
               - ETH
+              - MATIC
               - ONE
               - CELO
               - BSC
@@ -699,6 +703,7 @@ paths:
             type: string
             enum:
               - ETH
+              - MATIC
               - ONE
               - CELO
               - BSC

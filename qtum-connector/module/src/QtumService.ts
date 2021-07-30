@@ -57,7 +57,11 @@ export abstract class QtumService {
     public async getBlock(hash: string): Promise<QtumBlock> {
         try {
             const baseURL = await this.getFirstNodeUrl()
-            const res = await axios.get(baseURL + `/block/${hash}`)
+            if(!isNaN(+hash)){
+                let newHash=await axios.get(baseURL + `/block-index/${hash}`)
+                hash=newHash.data.blockHash
+            }
+            const res=await axios.get(baseURL + `/block/${hash}`)
             return res.data
         } catch (e) {
             this.logger.error(e)

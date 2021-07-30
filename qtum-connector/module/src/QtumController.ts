@@ -7,7 +7,7 @@ import {
     generateAddressFromPrivatekey,
     generateAddressFromXPub,
     generatePrivateKeyFromMnemonic,
-    generateQtumWallet,
+    generateWallet,
     Currency,
 } from '@tatumio/tatum';
 import {GeneratePrivateKey, PathAddress, PathHash, PathXpub, Pagination} from '@tatumio/blockchain-connector-common';
@@ -28,7 +28,7 @@ export abstract class QtumController {
     @HttpCode(HttpStatus.OK)
     async generateWallet(@Query('mnemonic') mnemonic: string) {
         try {
-            return await generateQtumWallet(await this.service.isTestnet(), mnemonic);
+            return await generateWallet(Currency.QTUM,await this.service.isTestnet(), mnemonic);
         } catch (e) {
             throw new QtumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'qtum.error');
         }

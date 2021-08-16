@@ -1,14 +1,13 @@
-import {Body, Get, HttpCode, HttpStatus, Param, Post, Put, Redirect, Req, Query} from '@nestjs/common';
-import { Request } from 'express';
+import {BadRequestException, Body, Get, HttpCode, HttpStatus, Param, Post, Query} from '@nestjs/common';
 import {TronService} from './TronService';
 import {
     BroadcastTx,
-    TransferTron,
-    FreezeTron,
-    TransferTronTrc10,
-    TransferTronTrc20,
     CreateTronTrc10,
     CreateTronTrc20,
+    FreezeTron,
+    TransferTron,
+    TransferTronTrc10,
+    TransferTronTrc20,
 } from '@tatumio/tatum';
 import {PathAddress} from './dto/PathAddress';
 import {PathTxId} from './dto/PathTxId';
@@ -28,6 +27,12 @@ export abstract class TronController {
         try {
             return await this.service.broadcast(body.txData, body.signatureId);
         } catch (e) {
+            if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+                throw new BadRequestException(e);
+            }
+            if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
+                throw e;
+            }
             throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
         }
     }
@@ -37,6 +42,12 @@ export abstract class TronController {
         try {
             return await this.service.generateWallet(query.mnemonic);
         } catch (e) {
+            if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+                throw new BadRequestException(e);
+            }
+            if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
+                throw e;
+            }
             throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
         }
     }
@@ -46,6 +57,12 @@ export abstract class TronController {
         try {
             return await this.service.generatePrivateKey(body.mnemonic, body.index);
         } catch (e) {
+            if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+                throw new BadRequestException(e);
+            }
+            if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
+                throw e;
+            }
             throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
         }
     }
@@ -55,6 +72,12 @@ export abstract class TronController {
         try {
             return await this.service.generateAddress(params.xpub, params.i);
         } catch (e) {
+            if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+                throw new BadRequestException(e);
+            }
+            if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
+                throw e;
+            }
             throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
         }
     }
@@ -64,6 +87,12 @@ export abstract class TronController {
         try {
             return await this.service.getBlockChainInfo();
         } catch (e) {
+            if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+                throw new BadRequestException(e);
+            }
+            if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
+                throw e;
+            }
             throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
         }
     }
@@ -73,6 +102,12 @@ export abstract class TronController {
         try {
             return await this.service.getBlock(hashOrHeight);
         } catch (e) {
+            if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+                throw new BadRequestException(e);
+            }
+            if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
+                throw e;
+            }
             throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
         }
     }
@@ -82,6 +117,12 @@ export abstract class TronController {
         try {
             return await this.service.getAccount(path.address);
         } catch (e) {
+            if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+                throw new BadRequestException(e);
+            }
+            if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
+                throw e;
+            }
             throw new TronError(`Unexpected error occurred. Reason: ${e.message}` || e.response?.data, 'tron.error');
         }
     }
@@ -91,6 +132,12 @@ export abstract class TronController {
         try {
             return await this.service.getTransaction(path.txId);
         } catch (e) {
+            if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+                throw new BadRequestException(e);
+            }
+            if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
+                throw e;
+            }
             throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
         }
     }
@@ -100,6 +147,12 @@ export abstract class TronController {
         try {
             return await this.service.getTransactionsByAccount(path.address, next);
         } catch (e) {
+            if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+                throw new BadRequestException(e);
+            }
+            if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
+                throw e;
+            }
             throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
         }
     }
@@ -109,6 +162,12 @@ export abstract class TronController {
         try {
             return await this.service.getTrc20TransactionsByAccount(path.address, next);
         } catch (e) {
+            if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+                throw new BadRequestException(e);
+            }
+            if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
+                throw e;
+            }
             throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
         }
     }
@@ -119,6 +178,12 @@ export abstract class TronController {
         try {
             return await this.service.sendTransaction(body);
         } catch (e) {
+            if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+                throw new BadRequestException(e);
+            }
+            if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
+                throw e;
+            }
             throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
         }
     }
@@ -129,6 +194,12 @@ export abstract class TronController {
         try {
             return await this.service.freezeBalance(body);
         } catch (e) {
+            if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+                throw new BadRequestException(e);
+            }
+            if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
+                throw e;
+            }
             throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
         }
     }
@@ -138,6 +209,12 @@ export abstract class TronController {
         try {
             return await this.service.getTrc10Detail(path.id);
         } catch (e) {
+            if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+                throw new BadRequestException(e);
+            }
+            if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
+                throw e;
+            }
             throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
         }
     }
@@ -148,6 +225,12 @@ export abstract class TronController {
         try {
             return await this.service.sendTrc10Transaction(body);
         } catch (e) {
+            if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+                throw new BadRequestException(e);
+            }
+            if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
+                throw e;
+            }
             throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
         }
     }
@@ -158,6 +241,12 @@ export abstract class TronController {
         try {
             return await this.service.createTrc10Transaction(body);
         } catch (e) {
+            if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+                throw new BadRequestException(e);
+            }
+            if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
+                throw e;
+            }
             throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
         }
     }
@@ -168,6 +257,12 @@ export abstract class TronController {
         try {
             return await this.service.createTrc20Transaction(body);
         } catch (e) {
+            if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+                throw new BadRequestException(e);
+            }
+            if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
+                throw e;
+            }
             throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
         }
     }
@@ -178,6 +273,12 @@ export abstract class TronController {
         try {
             return await this.service.sendTrc20Transaction(body);
         } catch (e) {
+            if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+                throw new BadRequestException(e);
+            }
+            if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
+                throw e;
+            }
             throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
         }
     }

@@ -14,7 +14,8 @@ const class_validator_1 = require("class-validator");
 class PathI {
 }
 __decorate([
-    class_validator_1.Min(0),
-    __metadata("design:type", Number)
+    class_validator_1.IsNumberString(),
+    class_validator_1.Matches(/[0-9]+/),
+    __metadata("design:type", String)
 ], PathI.prototype, "i", void 0);
 exports.PathI = PathI;

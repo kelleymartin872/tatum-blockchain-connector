@@ -32,14 +32,14 @@ export abstract class ScryptaController {
 
   @Get('/address/:xpub/:i')
   async generateAddress(@Param() param: PathXpubI) {
-    return await this.scrypta.generateAddress(param.xpub, param.i);
+    return await this.scrypta.generateAddress(param.xpub, parseInt(param.i, 10));
   }
 
   // BLOCKCHAIN ENDPOINTS
 
   @Get('/block/hash/:i')
   async getBlockHash(@Param() param: PathI) {
-    return await this.scrypta.getBlockHash(param.i);
+    return await this.scrypta.getBlockHash(parseInt(param.i, 10));
   }
 
   @Get('/block/:hash')
@@ -73,7 +73,7 @@ export abstract class ScryptaController {
 
   @Get('/utxo/:hash/:i')
   async getUTXO(@Param() param: PathHashI) {
-    return await this.scrypta.getUTXO(param.hash, param.i);
+    return await this.scrypta.getUTXO(param.hash, parseInt(param.i, 10));
   }
 
   @Post('/broadcast')

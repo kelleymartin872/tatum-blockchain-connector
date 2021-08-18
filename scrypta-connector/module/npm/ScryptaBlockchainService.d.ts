@@ -1,6 +1,5 @@
 import { ScryptaBlock, ScryptaParsedTx, ScryptaUnspent } from './constants';
 import { PinoLogger } from 'nestjs-pino';
-import * as Tatum from '@tatumio/tatum';
 import { TransferBtcBasedBlockchain } from '@tatumio/tatum';
 export declare abstract class ScryptaBlockchainService {
     protected readonly logger: PinoLogger;
@@ -24,7 +23,9 @@ export declare abstract class ScryptaBlockchainService {
     getBlockHash(i: number): Promise<string>;
     getBlock(hash: string): Promise<ScryptaBlock>;
     generateAddress(xpub: string, derivationIndex: number): Promise<any>;
-    generateWallet(mnem?: string): Promise<Tatum.Wallet | {
+    generateWallet(mnem?: string): Promise<{
+        mnemonic: string;
+    } | {
         address: string;
         privateKey: string;
     } | {

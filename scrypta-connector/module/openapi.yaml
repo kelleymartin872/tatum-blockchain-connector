@@ -411,7 +411,7 @@ paths:
           style: simple
           schema:
             type: string
-            example: 0>
+            example: "0"
           description: Index of tx output to check if spent or not
       responses:
         200:
@@ -460,7 +460,7 @@ paths:
           style: simple
           schema:
             type: string
-            example: 0
+            example: "0"
           description: Derivation index of desired address to be generated.
       responses:
         200:
@@ -708,10 +708,8 @@ components:
                 maxLength: 64
               index:
                 description: Index of the UTXO to be spent.
-                type: number
-                example: 0
-                minimum: 0
-                maximum: 2147483647
+                type: string
+                example: "0"
               privateKey:
                 description: Private key of the UTXO to be spent.
                 type: string

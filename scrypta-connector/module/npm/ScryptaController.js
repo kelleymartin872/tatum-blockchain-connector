@@ -34,10 +34,10 @@ class ScryptaController {
         return await this.scrypta.generateAddressPrivateKey(body.index, body.mnemonic);
     }
     async generateAddress(param) {
-        return await this.scrypta.generateAddress(param.xpub, param.i);
+        return await this.scrypta.generateAddress(param.xpub, parseInt(param.i, 10));
     }
     async getBlockHash(param) {
-        return await this.scrypta.getBlockHash(param.i);
+        return await this.scrypta.getBlockHash(parseInt(param.i, 10));
     }
     async getBlock(param) {
         if (param.hash.length === 64) {
@@ -58,7 +58,7 @@ class ScryptaController {
         return await this.scrypta.getUnspentsByAddress(param.address);
     }
     async getUTXO(param) {
-        return await this.scrypta.getUTXO(param.hash, param.i);
+        return await this.scrypta.getUTXO(param.hash, parseInt(param.i, 10));
     }
     async broadcast(body) {
         if (body.txData !== undefined) {

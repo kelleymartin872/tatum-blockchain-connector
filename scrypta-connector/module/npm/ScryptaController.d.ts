@@ -9,7 +9,9 @@ export declare abstract class ScryptaController {
     protected readonly scrypta: ScryptaBlockchainService;
     protected constructor(scrypta: ScryptaBlockchainService);
     getInfo(): Promise<any>;
-    generateWallet(): Promise<import("@tatumio/tatum").Wallet | {
+    generateWallet(): Promise<{
+        mnemonic: string;
+    } | {
         address: string;
         privateKey: string;
     } | {

@@ -1,3 +1,3 @@
 export declare class PathI {
-    i: number;
+    i: string;
 }

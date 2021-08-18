@@ -1,7 +1,7 @@
-import { Transform } from 'class-transformer';
-import { Min } from 'class-validator';
+import { IsNumberString, Matches } from 'class-validator';
 
 export class PathI {
-  @Min(0)
-  public i: number;
+  @IsNumberString()
+  @Matches(/[0-9]+/)
+  public i: string;
 }

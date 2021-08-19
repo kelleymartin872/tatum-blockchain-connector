@@ -21,7 +21,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
   protected constructor(protected readonly service: PolygonService) {
   }
 
-  @Post('v3/polygon/web3/:xApiKey')
+  @Post('/web3/:xApiKey')
   @HttpCode(HttpStatus.OK)
   public async web3Driver(@Body() body: any) {
     try {
@@ -37,7 +37,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     }
   }
 
-  @Get('v3/polygon/wallet')
+  @Get('/wallet')
   @HttpCode(HttpStatus.OK)
   async generateWallet(@Query() { mnemonic }: QueryMnemonic) {
     try {
@@ -47,7 +47,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     }
   }
 
-  @Post('v3/polygon/wallet/priv')
+  @Post('/wallet/priv')
   @HttpCode(HttpStatus.OK)
   async generatePrivateKey(@Body() { mnemonic, index }: GeneratePrivateKey) {
     try {
@@ -57,7 +57,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     }
   }
 
-  @Post('v3/polygon/transaction')
+  @Post('/transaction')
   @HttpCode(HttpStatus.OK)
   public async sendTransaction(@Body() body: TransferEthErc20) {
     try {
@@ -73,7 +73,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     }
   }
 
-  @Post('v3/polygon/gas')
+  @Post('/gas')
   @HttpCode(HttpStatus.OK)
   public async estimateGas(@Body() body: EstimateGasEth) {
     try {
@@ -89,7 +89,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     }
   }
 
-  @Get('v3/polygon/transaction/count/:address')
+  @Get('/transaction/count/:address')
   @HttpCode(HttpStatus.OK)
   public async countTransactions(@Param() param: PathAddress) {
     try {
@@ -99,7 +99,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     }
   }
 
-  @Post('v3/polygon/smartcontract')
+  @Post('/smartcontract')
   @HttpCode(HttpStatus.OK)
   public async invokeSmartContractMethod(@Body() body: SmartContractMethodInvocation | SmartContractReadMethodInvocation) {
     try {
@@ -115,7 +115,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     }
   }
 
-  @Post('v3/polygon/broadcast')
+  @Post('/broadcast')
   @HttpCode(HttpStatus.OK)
   public async broadcast(@Body() body: BroadcastTx) {
     try {
@@ -131,7 +131,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     }
   }
 
-  @Get('v3/polygon/block/current')
+  @Get('/block/current')
   @HttpCode(HttpStatus.OK)
   public async getInfo() {
     try {
@@ -141,7 +141,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     }
   }
 
-  @Get('v3/polygon/block/:hash')
+  @Get('/block/:hash')
   @HttpCode(HttpStatus.OK)
   public async getBlock(@Param() path: PathHash) {
     try {
@@ -151,7 +151,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     }
   }
 
-  @Get('v3/polygon/account/balance/:address')
+  @Get('/account/balance/:address')
   @HttpCode(HttpStatus.OK)
   public async getAccountBalance(@Param() path: PathAddress) {
     try {
@@ -161,7 +161,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     }
   }
 
-  @Get('v3/polygon/address/:xpub/:i')
+  @Get('/address/:xpub/:i')
   @HttpCode(HttpStatus.OK)
   public async generateAddress(@Param() { xpub, i }: PathXpub) {
     try {
@@ -171,7 +171,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     }
   }
 
-  @Get('v3/polygon/transaction/:hash')
+  @Get('/transaction/:hash')
   public async getTransaction(@Param() path: PathHash) {
     try {
       return await this.service.getTransaction(path.hash);

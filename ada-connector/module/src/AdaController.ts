@@ -22,7 +22,7 @@ export abstract class AdaController implements BtcBasedBlockchainControllerInter
   protected constructor(protected readonly service: AdaService) {
   }
 
-  @Get('/v3/ada/info')
+  @Get('/info')
   async getInfo(): Promise<AdaBlockchainInfo> {
     try {
       return await this.service.getBlockChainInfo();
@@ -31,7 +31,7 @@ export abstract class AdaController implements BtcBasedBlockchainControllerInter
     }
   }
 
-  @Get('/v3/ada/wallet')
+  @Get('/wallet')
   async generateWallet(@Query() { mnemonic }: QueryMnemonic) {
     try {
       return await this.service.generateWallet(mnemonic);
@@ -40,7 +40,7 @@ export abstract class AdaController implements BtcBasedBlockchainControllerInter
     }
   }
 
-  @Get('/v3/ada/address/:xpub/:i')
+  @Get('/address/:xpub/:i')
   async generateAddress(@Param() { xpub, i }: PathXpub ): Promise<{ address: string }> {
     try {
       return await this.service.generateAddress(
@@ -52,7 +52,7 @@ export abstract class AdaController implements BtcBasedBlockchainControllerInter
     }
   }
 
-  @Post('/v3/ada/wallet/priv')
+  @Post('/wallet/priv')
   async generatePrivateKey(@Body() body: GeneratePrivateKey): Promise<{ key: string }> {
     try {
       return await this.service.generatePrivateKey(body.mnemonic, body.index);
@@ -61,7 +61,7 @@ export abstract class AdaController implements BtcBasedBlockchainControllerInter
     }
   }
 
-  @Get('/v3/ada/block/:hash')
+  @Get('/block/:hash')
   async getBlock(@Param() path: PathHash): Promise<Block> {
     try {
       return await this.service.getBlock(path.hash);
@@ -70,7 +70,7 @@ export abstract class AdaController implements BtcBasedBlockchainControllerInter
     }
   }
 
-  @Get('/v3/ada/transaction/:hash')
+  @Get('/transaction/:hash')
   async getTransaction(@Param() path: PathHash): Promise<Transaction> {
     try {
       return await this.service.getTransaction(path.hash);
@@ -79,7 +79,7 @@ export abstract class AdaController implements BtcBasedBlockchainControllerInter
     }
   }
 
-  @Get('/v3/ada/account/:address')
+  @Get('/account/:address')
   async getAccount(@Param() path: PathAddress): Promise<PaymentAddress> {
     try {
       return await this.service.getAccount(path.address);
@@ -88,7 +88,7 @@ export abstract class AdaController implements BtcBasedBlockchainControllerInter
     }
   }
 
-  @Get('/v3/ada/transaction/address/:address')
+  @Get('/transaction/address/:address')
   async getTransactionsByAccount(@Param() path: PathAddress, @Query() query: Pagination): Promise<Transaction[]> {
     try {
       return await this.service.getTransactionsByAccount(
@@ -102,7 +102,7 @@ export abstract class AdaController implements BtcBasedBlockchainControllerInter
   }
 
 
-  @Post('/v3/ada/broadcast')
+  @Post('/broadcast')
   async broadcast(
     @Body() txData : TxData
   ): Promise<{ txId: string }> {
@@ -113,7 +113,7 @@ export abstract class AdaController implements BtcBasedBlockchainControllerInter
     }
   }
 
-  @Get('/v3/ada/:address/utxos')
+  @Get('/:address/utxos')
   async getUTxosByAddress(@Param() path: PathAddress): Promise<AdaUtxo[]> {
     try {
       return await this.service.getUtxosByAddress(path.address);
@@ -122,7 +122,7 @@ export abstract class AdaController implements BtcBasedBlockchainControllerInter
     }
   }
 
-  @Post('/v3/ada/transaction')
+  @Post('/transaction')
   async sendTransaction(@Body() body: TransferBtcBasedBlockchain): Promise<TransactionResponse | TransactionKMSResponse> {
     try {
       return await this.service.sendTransaction(body);

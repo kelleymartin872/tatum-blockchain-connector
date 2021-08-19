@@ -10,7 +10,7 @@ export abstract class FabricController {
     protected constructor(protected readonly service: FabricService) {
     }
 
-    @Post('v3/fabric/data')
+    @Post('/data')
     async storeData(@Body() body: CreateRecord, @Headers() url: object) {
         try {
             if (body.chain === Currency.FABRIC) {
@@ -22,7 +22,7 @@ export abstract class FabricController {
         throw new FabricError(`Incompatible chain.`, 'fabric.error');
     }
 
-    @Get('/v3/fabric/data/:key')
+    @Get('/data/:key')
     async getData(@Param('key') key: string, @Headers() url: object) {
         try {
             return await this.service.getData(key, url[FABRIC_HEADER_ENDPOINT]);

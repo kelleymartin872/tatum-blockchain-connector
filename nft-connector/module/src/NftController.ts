@@ -34,7 +34,7 @@ export abstract class NftController {
     protected constructor(protected readonly service: NftService) {
     }
 
-    @Get('/v3/nft/balance/:chain/:contractAddress/:address')
+    @Get('/balance/:chain/:contractAddress/:address')
     public async getBalanceErc721(@Param() path: PathAddressContractAddressChain) {
         try {
             return await this.service.getTokensOfOwner(path.chain, path.address, path.contractAddress);
@@ -43,7 +43,7 @@ export abstract class NftController {
         }
     }
 
-    @Get('/v3/nft/transaction/:chain/:txId')
+    @Get('/transaction/:chain/:txId')
     public async getTransaction(@Param() path: PathChainTxId) {
         try {
             return await this.service.getTransaction(path.chain, path.txId);
@@ -52,7 +52,7 @@ export abstract class NftController {
         }
     }
 
-    @Get('/v3/nft/address/:chain/:txId')
+    @Get('/address/:chain/:txId')
     public async getContractAddress(@Param() path: PathChainTxId) {
         try {
             return await this.service.getContractAddress(path.chain, path.txId);
@@ -61,7 +61,7 @@ export abstract class NftController {
         }
     }
 
-    @Get('/v3/nft/metadata/:chain/:contractAddress/:tokenId')
+    @Get('/metadata/:chain/:contractAddress/:tokenId')
     public async getMetadataErc721(@Param() path: PathTokenIdContractAddressChain, @Query('account') account: string) {
         try {
             return await this.service.getMetadataErc721(path.chain, path.tokenId, path.contractAddress, account);
@@ -70,7 +70,7 @@ export abstract class NftController {
         }
     }
 
-    @Get('/v3/nft/royalty/:chain/:contractAddress/:tokenId')
+    @Get('/royalty/:chain/:contractAddress/:tokenId')
     public async getRoyaltyErc721(@Param() path: PathTokenIdContractAddressChain) {
         try {
             return await this.service.getRoyaltyErc721(path.chain, path.tokenId, path.contractAddress);
@@ -79,7 +79,7 @@ export abstract class NftController {
         }
     }
 
-    @Post('/v3/nft/transaction')
+    @Post('/transaction')
     @HttpCode(HttpStatus.OK)
     public async transactionErc721(@Body() body: CeloTransferErc721 | EthTransferErc721 | FlowTransferNft | TronTransferTrc721 | OneTransfer721) {
         try {
@@ -95,7 +95,7 @@ export abstract class NftController {
         }
     }
 
-    @Post('/v3/nft/mint')
+    @Post('/mint')
     @HttpCode(HttpStatus.OK)
     public async mintErc721(@Body() body: CeloMintErc721 | EthMintErc721 | FlowMintNft | TronMintTrc721 | OneMint721) {
         try {
@@ -111,7 +111,7 @@ export abstract class NftController {
         }
     }
 
-    @Put('/v3/nft/royalty')
+    @Put('/royalty')
     @HttpCode(HttpStatus.OK)
     public async updateRoyaltyErc721(@Body() body: CeloUpdateCashbackErc721 | TronUpdateCashbackTrc721 | UpdateCashbackErc721 | OneUpdateCashback721) {
         try {
@@ -127,7 +127,7 @@ export abstract class NftController {
         }
     }
 
-    @Post('/v3/nft/mint/batch')
+    @Post('/mint/batch')
     @HttpCode(HttpStatus.OK)
     public async mintMultipleErc721(@Body() body: CeloMintMultipleErc721 | TronMintMultipleTrc721 | EthMintMultipleErc721 | FlowMintMultipleNft | OneMintMultiple721) {
         try {
@@ -143,7 +143,7 @@ export abstract class NftController {
         }
     }
 
-    @Post('/v3/nft/burn')
+    @Post('/burn')
     @HttpCode(HttpStatus.OK)
     public async burnErc721(@Body() body: CeloBurnErc721 | TronBurnTrc721 | EthBurnErc721 | FlowBurnNft | OneBurn721) {
         try {
@@ -159,7 +159,7 @@ export abstract class NftController {
         }
     }
 
-    @Post('/v3/nft/deploy')
+    @Post('/deploy')
     @HttpCode(HttpStatus.OK)
     public async deployErc721(@Body() body: CeloDeployErc721 | TronDeployTrc721 | EthDeployErc721 | FlowDeployNft | OneDeploy721) {
         try {

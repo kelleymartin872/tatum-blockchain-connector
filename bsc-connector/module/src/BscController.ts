@@ -21,7 +21,7 @@ export abstract class BscController {
   protected constructor(protected readonly service: BscService) {
   }
 
-  @Post('v3/bsc/web3/:xApiKey')
+  @Post('/web3/:xApiKey')
   @HttpCode(HttpStatus.OK)
   public async web3Driver(@Body() body: any) {
     try {
@@ -37,7 +37,7 @@ export abstract class BscController {
     }
   }
 
-  @Get('v3/bsc/wallet')
+  @Get('/wallet')
   @HttpCode(HttpStatus.OK)
   async generateWallet(@Query() { mnemonic }: QueryMnemonic) {
     try {
@@ -47,7 +47,7 @@ export abstract class BscController {
     }
   }
 
-  @Post('v3/bsc/wallet/priv')
+  @Post('/wallet/priv')
   @HttpCode(HttpStatus.OK)
   async generatePrivateKey(@Body() { mnemonic, index }: GeneratePrivateKey) {
     try {
@@ -57,7 +57,7 @@ export abstract class BscController {
     }
   }
 
-  @Post('v3/bsc/transaction')
+  @Post('/transaction')
   @HttpCode(HttpStatus.OK)
   public async sendBscOrBep20Transaction(@Body() body: TransferBscBep20) {
     try {
@@ -73,7 +73,7 @@ export abstract class BscController {
     }
   }
 
-  @Post('v3/bsc/gas')
+  @Post('/gas')
   @HttpCode(HttpStatus.OK)
   public async estimateGas(@Body() body: EstimateGasEth) {
     try {
@@ -89,7 +89,7 @@ export abstract class BscController {
     }
   }
 
-  @Get('v3/bsc/transaction/count/:address')
+  @Get('/transaction/count/:address')
   @HttpCode(HttpStatus.OK)
   public async countTransactions(@Param() param: PathAddress) {
     try {
@@ -99,7 +99,7 @@ export abstract class BscController {
     }
   }
 
-  @Post('v3/bsc/smartcontract')
+  @Post('/smartcontract')
   @HttpCode(HttpStatus.OK)
   public async invokeSmartContractMethod(@Body() body: SmartContractMethodInvocation | SmartContractReadMethodInvocation) {
     try {
@@ -115,7 +115,7 @@ export abstract class BscController {
     }
   }
 
-  @Post('v3/bsc/bep20/transaction')
+  @Post('/bep20/transaction')
   @HttpCode(HttpStatus.OK)
   public async transferBep20Blockchain(@Body() body: TransferCustomErc20) {
     try {
@@ -131,7 +131,7 @@ export abstract class BscController {
     }
   }
 
-  @Post('v3/bsc/bep20/deploy')
+  @Post('/bep20/deploy')
   @HttpCode(HttpStatus.OK)
   public async deployBep20(@Body() body: DeployErc20) {
     try {
@@ -147,7 +147,7 @@ export abstract class BscController {
     }
   }
 
-  @Post('v3/bsc/broadcast')
+  @Post('/broadcast')
   @HttpCode(HttpStatus.OK)
   public async broadcast(@Body() body: BroadcastTx) {
     try {
@@ -163,7 +163,7 @@ export abstract class BscController {
     }
   }
 
-  @Get('v3/bsc/block/current')
+  @Get('/block/current')
   @HttpCode(HttpStatus.OK)
   public async getCurrentBlock() {
     try {
@@ -173,7 +173,7 @@ export abstract class BscController {
     }
   }
 
-  @Get('v3/bsc/block/:hash')
+  @Get('/block/:hash')
   @HttpCode(HttpStatus.OK)
   public async getBlock(@Param() path: PathHash) {
     try {
@@ -183,7 +183,7 @@ export abstract class BscController {
     }
   }
 
-  @Get('v3/bsc/account/balance/:address')
+  @Get('/account/balance/:address')
   @HttpCode(HttpStatus.OK)
   public async getAccountBalance(@Param() path: PathAddress) {
     try {
@@ -193,7 +193,7 @@ export abstract class BscController {
     }
   }
 
-  @Get('v3/bsc/account/balance/bep20/:address')
+  @Get('/account/balance/bep20/:address')
   @HttpCode(HttpStatus.OK)
   public async getBep20Balance(@Param() path: PathAddress, @Query() query: QueryCurrencyContractAddress) {
     try {
@@ -203,7 +203,7 @@ export abstract class BscController {
     }
   }
 
-  @Get('v3/bsc/address/:xpub/:i')
+  @Get('/address/:xpub/:i')
   @HttpCode(HttpStatus.OK)
   public async generateAddress(@Param() { xpub, i }: PathXpubI) {
     try {
@@ -213,7 +213,7 @@ export abstract class BscController {
     }
   }
 
-  @Get('v3/bsc/transaction/:hash')
+  @Get('/transaction/:hash')
   public async getTransaction(@Param() path: PathHash) {
     try {
       return await this.service.getTransaction(path.hash);

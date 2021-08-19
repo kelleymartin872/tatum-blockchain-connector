@@ -15,7 +15,7 @@ import { PathKey } from './dto/PathKey';
 export abstract class QtumController {
     protected constructor(protected readonly service: QtumService) {
     }
-    @Post('v3/qtum/wallet/priv')
+    @Post('/wallet/priv')
     @HttpCode(HttpStatus.OK)
     async generatePrivateKey(@Body() body: GeneratePrivateKey) {
         try {
@@ -24,7 +24,7 @@ export abstract class QtumController {
             throw new QtumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'qtum.error');
         }
     }
-    @Get('v3/qtum/wallet')
+    @Get('/wallet')
     @HttpCode(HttpStatus.OK)
     async generateWallet(@Query('mnemonic') mnemonic: string) {
         try {
@@ -34,7 +34,7 @@ export abstract class QtumController {
         }
     }
 
-    @Get('v3/qtum/address/:xpub/:i')
+    @Get('/address/:xpub/:i')
     @HttpCode(HttpStatus.OK)
     async generateAddress(@Param() {xpub, i}: PathXpub) {
         try {
@@ -43,7 +43,7 @@ export abstract class QtumController {
             throw new QtumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'qtum.error');
         }
     }
-    @Get('v3/qtum/block/current')
+    @Get('/block/current')
     @HttpCode(HttpStatus.OK)
     async getCurrentBlock() {
         try {
@@ -52,7 +52,7 @@ export abstract class QtumController {
             throw new QtumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'qtum.error');
         }
     }
-    @Get('v3/qtum/block/:hash')
+    @Get('/block/:hash')
     @HttpCode(HttpStatus.OK)
     async getBlock(@Param() { hash }: PathHash) {
         try {
@@ -61,7 +61,7 @@ export abstract class QtumController {
             throw new QtumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'qtum.error');
         }
     }
-    @Get('v3/qtum/address/:key')
+    @Get('/address/:key')
     @HttpCode(HttpStatus.OK)
     async generateAddressPrivatekey(@Param() { key }: PathKey) {
         try {
@@ -70,7 +70,7 @@ export abstract class QtumController {
             throw new QtumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'qtum.error');
         }
     }
-    @Post('v3/qtum/broadcast')
+    @Post('/broadcast')
     @HttpCode(HttpStatus.OK)
     async broadcast(@Body() body: { rawtx: string }) {
         try {
@@ -80,7 +80,7 @@ export abstract class QtumController {
         }
     }
 
-    @Get('v3/qtum/utxo/:address')
+    @Get('/utxo/:address')
     @HttpCode(HttpStatus.OK)
     async getQtumUTXOs(@Param() { address }: PathAddress) {
         try {
@@ -89,7 +89,7 @@ export abstract class QtumController {
             throw new QtumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'qtum.error');
         }
     }
-    @Get('v3/qtum/account/balance/:address')
+    @Get('/account/balance/:address')
     @HttpCode(HttpStatus.OK)
     async getInfo(@Param() { address }: PathAddress) {
         try {
@@ -98,7 +98,7 @@ export abstract class QtumController {
             throw new QtumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'qtum.error');
         }
     }
-    @Get('v3/qtum/transaction/:hash')
+    @Get('/transaction/:hash')
     @HttpCode(HttpStatus.OK)
     async getQtumTransaction(@Param() { hash }: PathHash): Promise<QtumIRawTransactionInfo> {
         try {
@@ -108,7 +108,7 @@ export abstract class QtumController {
         }
     }
 
-    @Get('/v3/qtum/transactions/address/:address')
+    @Get('/transactions/address/:address')
     @HttpCode(HttpStatus.OK)
     async getQtumTransactions(@Query() {pageSize, offset}: Pagination, @Param() {address}: PathAddress): Promise<QtumIRawTransactions> {
         try {
@@ -117,7 +117,7 @@ export abstract class QtumController {
             throw new QtumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'qtum.error');
         }
     }
-    @Get('v3/qtum/transactions/gas/:nblocks')
+    @Get('/transactions/gas/:nblocks')
     @HttpCode(HttpStatus.OK)
     async estimateFee(@Param('nblocks') nblocks: number): Promise<any> {
         try {
@@ -126,7 +126,7 @@ export abstract class QtumController {
             throw new QtumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'qtum.error');
         }
     }
-    @Get('v3/qtum/transactions/gasbytes/:nblocks')
+    @Get('/transactions/gasbytes/:nblocks')
     @HttpCode(HttpStatus.OK)
     async estimateFeePerByte(@Param('nblocks') nblocks: number): Promise<any> {
         try {

@@ -21,7 +21,7 @@ export abstract class TronController {
     protected constructor(protected readonly service: TronService) {
     }
 
-    @Post('/v3/tron/broadcast')
+    @Post('/broadcast')
     @HttpCode(HttpStatus.OK)
     async broadcast(@Body() body: BroadcastTx) {
         try {
@@ -37,7 +37,7 @@ export abstract class TronController {
         }
     }
 
-    @Get('v3/tron/wallet')
+    @Get('/wallet')
     async generateWallet(@Query() query: QueryMnemonic) {
         try {
             return await this.service.generateWallet(query.mnemonic);
@@ -52,7 +52,7 @@ export abstract class TronController {
         }
     }
 
-    @Post('v3/tron/wallet/priv')
+    @Post('/wallet/priv')
     async generatePrivKey(@Body() body: GeneratePrivateKey) {
         try {
             return await this.service.generatePrivateKey(body.mnemonic, body.index);
@@ -67,7 +67,7 @@ export abstract class TronController {
         }
     }
 
-    @Get('v3/tron/address/:xpub/:i')
+    @Get('/address/:xpub/:i')
     async generateAccount(@Param() params: PathXpubI) {
         try {
             return await this.service.generateAddress(params.xpub, params.i);
@@ -82,7 +82,7 @@ export abstract class TronController {
         }
     }
 
-    @Get('/v3/tron/info')
+    @Get('/info')
     async getInfo() {
         try {
             return await this.service.getBlockChainInfo();
@@ -97,7 +97,7 @@ export abstract class TronController {
         }
     }
 
-    @Get('/v3/tron/block/:hashOrHeight')
+    @Get('/block/:hashOrHeight')
     async getBlock(@Param('hashOrHeight') hashOrHeight: string) {
         try {
             return await this.service.getBlock(hashOrHeight);
@@ -112,7 +112,7 @@ export abstract class TronController {
         }
     }
 
-    @Get('/v3/tron/account/:address')
+    @Get('/account/:address')
     async getAccount(@Param() path: PathAddress) {
         try {
             return await this.service.getAccount(path.address);
@@ -127,7 +127,7 @@ export abstract class TronController {
         }
     }
 
-    @Get('/v3/tron/transaction/:txId')
+    @Get('/transaction/:txId')
     async getTransaction(@Param() path: PathTxId) {
         try {
             return await this.service.getTransaction(path.txId);
@@ -142,7 +142,7 @@ export abstract class TronController {
         }
     }
 
-    @Get('/v3/tron/transaction/account/:address')
+    @Get('/transaction/account/:address')
     async getTransactionsByAccount(@Param() path: PathAddress, @Query('next') next?: string) {
         try {
             return await this.service.getTransactionsByAccount(path.address, next);
@@ -157,7 +157,7 @@ export abstract class TronController {
         }
     }
 
-    @Get('/v3/tron/transaction/account/:address/trc20')
+    @Get('/transaction/account/:address/trc20')
     async getTransactions20ByAccount(@Param() path: PathAddress, @Query('next') next?: string) {
         try {
             return await this.service.getTrc20TransactionsByAccount(path.address, next);
@@ -172,7 +172,7 @@ export abstract class TronController {
         }
     }
 
-    @Post('/v3/tron/transaction')
+    @Post('/transaction')
     @HttpCode(HttpStatus.OK)
     async sendTransaction(@Body() body: TransferTron) {
         try {
@@ -188,7 +188,7 @@ export abstract class TronController {
         }
     }
 
-    @Post('/v3/tron/freezeBalance')
+    @Post('/freezeBalance')
     @HttpCode(HttpStatus.OK)
     async freezeBalance(@Body() body: FreezeTron) {
         try {
@@ -204,7 +204,7 @@ export abstract class TronController {
         }
     }
 
-    @Get('/v3/tron/trc10/detail/:id')
+    @Get('/trc10/detail/:id')
     async getTrc10Detail(@Param() path: PathTokenId) {
         try {
             return await this.service.getTrc10Detail(path.id);
@@ -219,7 +219,7 @@ export abstract class TronController {
         }
     }
 
-    @Post('/v3/tron/trc10/transaction')
+    @Post('/trc10/transaction')
     @HttpCode(HttpStatus.OK)
     async sendTrc10Transaction(@Body() body: TransferTronTrc10) {
         try {
@@ -235,7 +235,7 @@ export abstract class TronController {
         }
     }
 
-    @Post('/v3/tron/trc10/deploy')
+    @Post('/trc10/deploy')
     @HttpCode(HttpStatus.OK)
     async createTrc10(@Body() body: CreateTronTrc10) {
         try {
@@ -251,7 +251,7 @@ export abstract class TronController {
         }
     }
 
-    @Post('/v3/tron/trc20/deploy')
+    @Post('/trc20/deploy')
     @HttpCode(HttpStatus.OK)
     async createTrc20(@Body() body: CreateTronTrc20) {
         try {
@@ -267,7 +267,7 @@ export abstract class TronController {
         }
     }
 
-    @Post('/v3/tron/trc20/transaction')
+    @Post('/trc20/transaction')
     @HttpCode(HttpStatus.OK)
     async sendTrc20Transaction(@Body() body: TransferTronTrc20) {
         try {

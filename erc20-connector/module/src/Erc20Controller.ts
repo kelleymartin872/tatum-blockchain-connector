@@ -20,7 +20,7 @@ export abstract class Erc20Controller {
     protected constructor(protected readonly service: Erc20Service) {
     }
 
-    @Get('/v3/blockchain/token/balance/:chain/:contractAddress/:address')
+    @Get('/balance/:chain/:contractAddress/:address')
     public async getBalanceErc20(@Param() path: PathAddressContractAddressChain) {
         try {
             return await this.service.getErc20Balance(path.chain, path.address, path.contractAddress)
@@ -29,7 +29,7 @@ export abstract class Erc20Controller {
         }
     }
 
-    @Post('/v3/blockchain/token/transaction')
+    @Post('/transaction')
     @HttpCode(HttpStatus.OK)
     public async transactionErc20(
       @Body() body: ChainTransferEthErc20 | ChainTransferBscBep20 | ChainTransferCeloErc20Token | ChainTransferErc20 | ChainTransferHrm20 | ChainTransferPolygonErc20
@@ -47,7 +47,7 @@ export abstract class Erc20Controller {
         }
     }
 
-    @Post('/v3/blockchain/token/burn')
+    @Post('/burn')
     @HttpCode(HttpStatus.OK)
     public async burnErc20(@Body() body: ChainBurnErc20 | ChainBurnCeloErc20) {
         try {
@@ -63,7 +63,7 @@ export abstract class Erc20Controller {
         }
     }
 
-    @Post('/v3/blockchain/token/mint')
+    @Post('/mint')
     @HttpCode(HttpStatus.OK)
     public async mintErc20(@Body() body: ChainMintErc20 | ChainMintCeloErc20) {
         try {
@@ -79,7 +79,7 @@ export abstract class Erc20Controller {
         }
     }
 
-    @Post('/v3/blockchain/token/deploy')
+    @Post('/deploy')
     @HttpCode(HttpStatus.OK)
     public async deployErc20(@Body() body: ChainDeployErc20 | ChainDeployCeloErc20 ) {
         try {

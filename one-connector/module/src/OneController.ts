@@ -12,7 +12,7 @@ export abstract class OneController {
     protected constructor(protected readonly service: OneService) {
     }
 
-    @Post('v3/one/web3/:xApiKey')
+    @Post('/web3/:xApiKey')
     @HttpCode(HttpStatus.OK)
     public async web3Driver(@Body() body: any, @Query('shardID') shardID?: string) {
         try {
@@ -25,7 +25,7 @@ export abstract class OneController {
         }
     }
 
-    @Get('v3/one/wallet')
+    @Get('/wallet')
     @HttpCode(HttpStatus.OK)
     async generateWallet(@Query() {mnemonic}: QueryMnemonic) {
         try {
@@ -38,7 +38,7 @@ export abstract class OneController {
         }
     }
 
-    @Post('v3/one/wallet/priv')
+    @Post('/wallet/priv')
     @HttpCode(HttpStatus.OK)
     async generatePrivateKey(@Body() {mnemonic, index}: GeneratePrivateKey) {
         try {
@@ -51,7 +51,7 @@ export abstract class OneController {
         }
     }
 
-    @Post('v3/one/transaction')
+    @Post('/transaction')
     @HttpCode(HttpStatus.OK)
     public async sendOneTransaction(@Body() body: OneTransfer, @Query('shardID') shardID?: string) {
         try {
@@ -64,7 +64,7 @@ export abstract class OneController {
         }
     }
 
-    @Get('v3/one/transaction/count/:address')
+    @Get('/transaction/count/:address')
     @HttpCode(HttpStatus.OK)
     public async countTransactions(@Param() param: PathAddress, @Query('shardID') shardID?: string) {
         try {
@@ -77,7 +77,7 @@ export abstract class OneController {
         }
     }
 
-    @Post('v3/one/smartcontract')
+    @Post('/smartcontract')
     @HttpCode(HttpStatus.OK)
     public async invokeSmartContractMethod(@Body() body: SmartContractMethodInvocation | SmartContractReadMethodInvocation, @Query('shardID') shardID?: string) {
         try {
@@ -90,7 +90,7 @@ export abstract class OneController {
         }
     }
 
-    @Post('v3/one/broadcast')
+    @Post('/broadcast')
     @HttpCode(HttpStatus.OK)
     public async broadcast(@Body() body: BroadcastTx, @Query('shardID') shardID?: string) {
         try {
@@ -103,7 +103,7 @@ export abstract class OneController {
         }
     }
 
-    @Get('v3/one/block/current')
+    @Get('/block/current')
     @HttpCode(HttpStatus.OK)
     public async getCurrentBlock() {
         try {
@@ -116,7 +116,7 @@ export abstract class OneController {
         }
     }
 
-    @Get('v3/one/block/:hash')
+    @Get('/block/:hash')
     @HttpCode(HttpStatus.OK)
     public async getBlock(@Param() path: PathHash, @Query('shardID') shardID?: string) {
         try {
@@ -129,7 +129,7 @@ export abstract class OneController {
         }
     }
 
-    @Get('v3/one/account/balance/:address')
+    @Get('/account/balance/:address')
     @HttpCode(HttpStatus.OK)
     public async getAccountBalance(@Param() path: PathAddress, @Query('shardID') shardID?: string) {
         try {
@@ -142,7 +142,7 @@ export abstract class OneController {
         }
     }
 
-    @Get('v3/one/address/format/:address')
+    @Get('/address/format/:address')
     @HttpCode(HttpStatus.OK)
     public async formatAddress(@Param() {address}: PathAddress) {
         try {
@@ -155,7 +155,7 @@ export abstract class OneController {
         }
     }
 
-    @Get('v3/one/address/:xpub/:i')
+    @Get('/address/:xpub/:i')
     @HttpCode(HttpStatus.OK)
     public async generateAddress(@Param() {xpub, i}: PathXpubI) {
         try {
@@ -168,7 +168,7 @@ export abstract class OneController {
         }
     }
 
-    @Get('v3/one/transaction/:hash')
+    @Get('/transaction/:hash')
     public async getTransaction(@Param() path: PathHash, @Query('shardID') shardID?: string) {
         try {
             return await this.service.getTransaction(path.hash, shardID ? parseInt(shardID) : undefined);

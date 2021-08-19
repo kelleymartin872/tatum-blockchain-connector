@@ -51,6 +51,18 @@ paths:
         Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
         </p>
       operationId: NftDeployErc721
+      parameters:
+        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+          in: header
+          name: x-testnet-type
+          required: false
+          schema:
+            default: ropsten
+            type: string
+            enum:
+              - ropsten
+              - rinkeby
+            maxLength: 10
       requestBody:
         content:
           application/json:
@@ -131,6 +143,18 @@ paths:
         Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
         </p>
       operationId: NftMintErc721
+      parameters:
+        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+          in: header
+          name: x-testnet-type
+          required: false
+          schema:
+            default: ropsten
+            type: string
+            enum:
+              - ropsten
+              - rinkeby
+            maxLength: 10
       requestBody:
         content:
           application/json:
@@ -198,6 +222,18 @@ paths:
         Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
         </p>
       operationId: NftTransferErc721
+      parameters:
+        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+          in: header
+          name: x-testnet-type
+          required: false
+          schema:
+            default: ropsten
+            type: string
+            enum:
+              - ropsten
+              - rinkeby
+            maxLength: 10
       requestBody:
         content:
           application/json:
@@ -263,6 +299,18 @@ paths:
         Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
         </p>
       operationId: NftMintMultipleErc721
+      parameters:
+        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+          in: header
+          name: x-testnet-type
+          required: false
+          schema:
+            default: ropsten
+            type: string
+            enum:
+              - ropsten
+              - rinkeby
+            maxLength: 10
       requestBody:
         content:
           application/json:
@@ -329,6 +377,18 @@ paths:
         Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
         </p>
       operationId: NftBurnErc721
+      parameters:
+        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+          in: header
+          name: x-testnet-type
+          required: false
+          schema:
+            default: ropsten
+            type: string
+            enum:
+              - ropsten
+              - rinkeby
+            maxLength: 10
       requestBody:
         content:
           application/json:
@@ -394,6 +454,18 @@ paths:
         Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
         </p>
       operationId: NftUpdateCashbackErc721
+      parameters:
+        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+          in: header
+          name: x-testnet-type
+          required: false
+          schema:
+            default: ropsten
+            type: string
+            enum:
+              - ropsten
+              - rinkeby
+            maxLength: 10
       requestBody:
         content:
           application/json:
@@ -460,6 +532,17 @@ paths:
           schema:
             type: string
             example: "0xe6e7340394958674cdf8606936d292f565e4ecc476aaa8b258ec8a141f7c75d7"
+        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+          in: header
+          name: x-testnet-type
+          required: false
+          schema:
+            default: ropsten
+            type: string
+            enum:
+              - ropsten
+              - rinkeby
+            maxLength: 10
       responses:
         200:
           content:
@@ -517,6 +600,17 @@ paths:
           schema:
             type: string
             example: "0xe6e7340394958674cdf8606936d292f565e4ecc476aaa8b258ec8a141f7c75d7"
+        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+          in: header
+          name: x-testnet-type
+          required: false
+          schema:
+            default: ropsten
+            type: string
+            enum:
+              - ropsten
+              - rinkeby
+            maxLength: 10
       responses:
         200:
           content:
@@ -579,6 +673,17 @@ paths:
           schema:
             type: string
             example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+          in: header
+          name: x-testnet-type
+          required: false
+          schema:
+            default: ropsten
+            type: string
+            enum:
+              - ropsten
+              - rinkeby
+            maxLength: 10
       responses:
         200:
           content:
@@ -649,6 +754,17 @@ paths:
           schema:
             type: string
             example: "0xc1b45bc27b9c61c3"
+        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+          in: header
+          name: x-testnet-type
+          required: false
+          schema:
+            default: ropsten
+            type: string
+            enum:
+              - ropsten
+              - rinkeby
+            maxLength: 10
       responses:
         200:
           content:
@@ -712,6 +828,17 @@ paths:
           schema:
             type: string
             example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+          in: header
+          name: x-testnet-type
+          required: false
+          schema:
+            default: ropsten
+            type: string
+            enum:
+              - ropsten
+              - rinkeby
+            maxLength: 10
       responses:
         200:
           content:

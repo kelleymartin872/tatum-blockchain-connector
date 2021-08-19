@@ -34,6 +34,18 @@ paths:
         Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
         </p>
       operationId: Erc20Deploy
+      parameters:
+        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+          in: header
+          name: x-testnet-type
+          required: false
+          schema:
+            default: ropsten
+            type: string
+            enum:
+              - ropsten
+              - rinkeby
+            maxLength: 10
       requestBody:
         content:
           application/json:
@@ -99,6 +111,18 @@ paths:
         <a href="https://github.com/tatumio/tatum-kms" target="_blank">Tatum KMS</a> should be used for the highest security standards, and signatureId should be present in the request.
         Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
         </p>
+      parameters:
+        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+          in: header
+          name: x-testnet-type
+          required: false
+          schema:
+            default: ropsten
+            type: string
+            enum:
+              - ropsten
+              - rinkeby
+            maxLength: 10
       operationId: Erc20Mint
       requestBody:
         content:
@@ -150,6 +174,18 @@ paths:
         <a href="https://github.com/tatumio/tatum-kms" target="_blank">Tatum KMS</a> should be used for the highest security standards, and signatureId should be present in the request.
         Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
         </p>
+      parameters:
+        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+          in: header
+          name: x-testnet-type
+          required: false
+          schema:
+            default: ropsten
+            type: string
+            enum:
+              - ropsten
+              - rinkeby
+            maxLength: 10
       operationId: Erc20Burn
       requestBody:
         content:
@@ -201,6 +237,18 @@ paths:
         <a href="https://github.com/tatumio/tatum-kms" target="_blank">Tatum KMS</a> should be used for the highest security standards, and signatureId should be present in the request.
         Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
         </p>
+      parameters:
+        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+          in: header
+          name: x-testnet-type
+          required: false
+          schema:
+            default: ropsten
+            type: string
+            enum:
+              - ropsten
+              - rinkeby
+            maxLength: 10
       operationId: Erc20Transfer
       requestBody:
         content:
@@ -270,6 +318,17 @@ paths:
           schema:
             type: string
             example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+          in: header
+          name: x-testnet-type
+          required: false
+          schema:
+            default: ropsten
+            type: string
+            enum:
+              - ropsten
+              - rinkeby
+            maxLength: 10
       responses:
         200:
           content:
@@ -300,7 +359,6 @@ paths:
       summary: Get ERC20 Account balance
       tags:
         - Blockchain / Fungible Token
-
 components:
   securitySchemes:
     X-Api-Key:

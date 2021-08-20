@@ -55,8 +55,8 @@ paths:
             default: ropsten
             type: string
             enum:
-              - ropsten
-              - rinkeby
+              - ethereum-ropsten
+              - ethereum-rinkeby
             maxLength: 10
       requestBody:
         content:
@@ -140,8 +140,8 @@ paths:
             default: ropsten
             type: string
             enum:
-              - ropsten
-              - rinkeby
+              - ethereum-ropsten
+              - ethereum-rinkeby
             maxLength: 10
       requestBody:
         content:
@@ -210,8 +210,8 @@ paths:
             default: ropsten
             type: string
             enum:
-              - ropsten
-              - rinkeby
+              - ethereum-ropsten
+              - ethereum-rinkeby
             maxLength: 10
       requestBody:
         content:
@@ -280,8 +280,8 @@ paths:
             default: ropsten
             type: string
             enum:
-              - ropsten
-              - rinkeby
+              - ethereum-ropsten
+              - ethereum-rinkeby
             maxLength: 10
       requestBody:
         content:
@@ -350,8 +350,8 @@ paths:
             default: ropsten
             type: string
             enum:
-              - ropsten
-              - rinkeby
+              - ethereum-ropsten
+              - ethereum-rinkeby
             maxLength: 10
       requestBody:
         content:
@@ -421,8 +421,8 @@ paths:
             default: ropsten
             type: string
             enum:
-              - ropsten
-              - rinkeby
+              - ethereum-ropsten
+              - ethereum-rinkeby
             maxLength: 10
       requestBody:
         content:
@@ -492,8 +492,8 @@ paths:
             default: ropsten
             type: string
             enum:
-              - ropsten
-              - rinkeby
+              - ethereum-ropsten
+              - ethereum-rinkeby
             maxLength: 10
       requestBody:
         content:
@@ -565,8 +565,8 @@ paths:
             default: ropsten
             type: string
             enum:
-              - ropsten
-              - rinkeby
+              - ethereum-ropsten
+              - ethereum-rinkeby
             maxLength: 10
       responses:
         200:
@@ -631,8 +631,8 @@ paths:
             default: ropsten
             type: string
             enum:
-              - ropsten
-              - rinkeby
+              - ethereum-ropsten
+              - ethereum-rinkeby
             maxLength: 10
       responses:
         200:
@@ -708,8 +708,8 @@ paths:
             default: ropsten
             type: string
             enum:
-              - ropsten
-              - rinkeby
+              - ethereum-ropsten
+              - ethereum-rinkeby
             maxLength: 10
       responses:
         200:
@@ -786,8 +786,8 @@ paths:
             default: ropsten
             type: string
             enum:
-              - ropsten
-              - rinkeby
+              - ethereum-ropsten
+              - ethereum-rinkeby
             maxLength: 10
       responses:
         200:
@@ -858,8 +858,8 @@ paths:
             default: ropsten
             type: string
             enum:
-              - ropsten
-              - rinkeby
+              - ethereum-ropsten
+              - ethereum-rinkeby
             maxLength: 10
       responses:
         200:

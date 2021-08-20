@@ -230,7 +230,7 @@ export abstract class CeloController {
         }
     }
 
-    @Post('v3/celo/smartcontract')
+    @Post('/smartcontract')
     @HttpCode(HttpStatus.OK)
     public async invokeCeloSmartContractMethod(@Body() body: CeloSmartContractMethodInvocation | SmartContractReadMethodInvocation) {
       try {

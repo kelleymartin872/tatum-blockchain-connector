@@ -157,7 +157,7 @@ export abstract class EgldService {
         this.logger.info(`Broadcast tx for EGLD with data '${txData}'`);
 
         const t = await this.isTestnet();
-        let result;
+        let result = {txId: undefined};
         try {
             const {txHash} = (await axios.post(`${await this.getFirstNodeUrl(t)}/transaction/send`,
                 txData,

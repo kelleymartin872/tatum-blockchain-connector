@@ -11,7 +11,7 @@ tags:
       Tatum supports 2 chains:
       <ul><li>Mainnet - a regular live chain
       <li>Devnet - a chain used for testing purposes. Coins on the test chain have no value and can be obtained from
-      a faucet, e.g. <a target="_blank" href="https://r3d4.fr/elrond/testnet/index.php">https://r3d4.fr/elrond/testnet/</a></li></ul></p>
+      a faucet, e.g. <a target="_blank" href="https://r3d4.fr/elrond/devnet/index.php">https://r3d4.fr/elrond/devnet/</a></li></ul></p>
     name: Blockchain / Elrond Network (EGLD)
 paths:
   /v3/egld/wallet:
@@ -448,7 +448,7 @@ paths:
         <p>Send EGLD from account to account.<br/><br/>
         This operation needs the private key of the blockchain address. Every time the funds are transferred, the transaction must be signed with the corresponding private key.
         No one should ever send it's own private keys to the internet because there is a strong possibility of stealing keys and loss of funds. In this method, it is possible to enter privateKey
-        or signatureId. PrivateKey should be used only for quick development on testnet versions of blockchain when there is no risk of losing funds. In production,
+        or signatureId. PrivateKey should be used only for quick development on devnet versions of blockchain when there is no risk of losing funds. In production,
         <a href="https://github.com/tatumio/tatum-kms" target="_blank">Tatum KMS</a> should be used for the highest security standards, and signatureId should be present in the request.
         Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
         </p>
@@ -555,7 +555,7 @@ paths:
 
   #       This operation needs the private key of the blockchain address. Every time the funds are transferred, the transaction must be signed with the corresponding private key.
   #       No one should ever send it's own private keys to the internet because there is a strong possibility of stealing keys and loss of funds. In this method, it is possible to enter privateKey
-  #       or signatureId. PrivateKey should be used only for quick development on testnet versions of blockchain when there is no risk of losing funds. In production,
+  #       or signatureId. PrivateKey should be used only for quick development on devnet versions of blockchain when there is no risk of losing funds. In production,
   #       <a href="https://github.com/tatumio/tatum-kms" target="_blank">Tatum KMS</a> should be used for the highest security standards, and signatureId should be present in the request.
   #       Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.</p>
   #     operationId: EgldBlockchainEsdt
@@ -647,7 +647,7 @@ paths:
 
   #       This operation needs the private key of the blockchain address. Every time the funds are transferred, the transaction must be signed with the corresponding private key.
   #       No one should ever send it's own private keys to the internet because there is a strong possibility of stealing keys and loss of funds. In this method, it is possible to enter privateKey
-  #       or signatureId. PrivateKey should be used only for quick development on testnet versions of blockchain when there is no risk of losing funds. In production,
+  #       or signatureId. PrivateKey should be used only for quick development on devnet versions of blockchain when there is no risk of losing funds. In production,
   #       <a href="https://github.com/tatumio/tatum-kms" target="_blank">Tatum KMS</a> should be used for the highest security standards, and signatureId should be present in the request.
   #       Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.</p>
   #     operationId: EgldBlockchainNft

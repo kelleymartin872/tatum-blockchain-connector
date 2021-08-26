@@ -1,6 +1,6 @@
 {
   "name": "@tatumio/egld-connector",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "EGLD Connector for Tatum API",
   "license": "MIT",
   "files": [
@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@nestjs/common": "^7.6.1",
-    "@tatumio/tatum": "^1.22.5",
+    "@tatumio/tatum": "^1.22.11",
     "@types/express": "4.17.9",
     "@types/jest": "26.0.18",
     "@types/node": "14.14.12",

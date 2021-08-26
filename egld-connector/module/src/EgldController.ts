@@ -16,9 +16,9 @@ export abstract class EgldController {
 
   @Post('egld/node/:xApiKey/*')
   @HttpCode(HttpStatus.OK)
-  public async nodeMethodPost(@Req() req: Request, @Param() param: { key: string }) {
+  public async nodeMethodPost(@Req() req: Request, @Param() param: { xApiKey: string }) {
     try {
-      return await this.service.nodeMethod(req, param.key);
+      return await this.service.nodeMethod(req, param.xApiKey);
     } catch (e) {
       throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
     }
@@ -26,9 +26,9 @@ export abstract class EgldController {
 
   @Get('egld/node/:xApiKey/*')
   @HttpCode(HttpStatus.OK)
-  public async nodeMethodGet(@Req() req: Request, @Param() param: { key: string }) {
+  public async nodeMethodGet(@Req() req: Request, @Param() param: { xApiKey: string }) {
     try {
-      return await this.service.nodeMethod(req, param.key);
+      return await this.service.nodeMethod(req, param.xApiKey);
     } catch (e) {
       throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
     }

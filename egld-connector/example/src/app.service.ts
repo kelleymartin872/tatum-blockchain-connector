@@ -9,7 +9,7 @@ export class AppService extends EgldService {
     super(logger);
   }
   protected getNodesUrl(testnet: boolean): Promise<string[]> {
-    return Promise.resolve(['https://testnet-gateway.elrond.com/']);
+    return Promise.resolve(['https://devnet-gateway.elrond.com/']);
   }
 
   protected isTestnet(): Promise<boolean> {

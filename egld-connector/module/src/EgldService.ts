@@ -96,8 +96,8 @@ export abstract class EgldService {
             status: tx.status,
             hyperblockNonce: tx.hyperblockNonce,
             hyperblockHash: tx.hyperblockHash,
-            receipt: EgldService.mapReceipt(tx.receipt),
-            smartContractResults: tx.smartContractResults.map(EgldService.mapSmartContractResults)        
+            receipt: EgldService.mapReceipt(tx.receipt || []),
+            smartContractResults: (tx.smartContractResults || []).map(EgldService.mapSmartContractResults)        
         };
     };
 
@@ -123,6 +123,7 @@ export abstract class EgldService {
             gasLimit: sx.gasLimit,
             gasPrice: sx.gasPrice,
             callType: sx.callType,
+            logs: sx.logs || null,
         };
     }
 
@@ -160,7 +161,7 @@ export abstract class EgldService {
         try {
             const {txHash} = (await axios.post(`${await this.getFirstNodeUrl(t)}/transaction/send`,
                 txData,
-                {headers: {'content-type': 'text/plain'}})).data;
+                {headers: {'content-type': 'text/plain'}})).data.data;
             result.txId = txHash;
         } catch (e) {
             new EgldError(`Unable to broadcast transaction due to ${e.message}.`, 'egld.broadcast.failed');
@@ -183,7 +184,7 @@ export abstract class EgldService {
         const t = testnet === undefined ? await this.isTestnet() : testnet;
         try {
             const {status} = (await axios.get(`${await this.getFirstNodeUrl(t)}/network/status/4294967295`,
-                {headers: {'Content-Type': 'application/json'}})).data;
+                {headers: {'Content-Type': 'application/json'}})).data.data;
             return status?.erd_highest_final_nonce;
         } catch (e) {
             this.logger.error(e);
@@ -196,7 +197,7 @@ export abstract class EgldService {
         try {
             const isHash = typeof hash === 'string' && hash.length >= 64;
             const block = (await axios.get(`${await this.getFirstNodeUrl(t)}/hyperblock/${isHash ? 'by-hash' : 'by-nonce'}/${hash}`,
-                {headers: {'Content-Type': 'application/json'}})).data;
+                {headers: {'Content-Type': 'application/json'}})).data.data.hyperblock;
             return EgldService.mapBlock(block);
         } catch (e) {
             this.logger.error(e);
@@ -207,8 +208,8 @@ export abstract class EgldService {
     public async getTransaction(txId: string, testnet?: boolean) {
         const t = testnet === undefined ? await this.isTestnet() : testnet;
         try {
-            const transaction = (await axios.get(`${await this.getFirstNodeUrl(t)}/transaction/${txId}?withResults=true`,
-                {headers: {'Content-Type': 'application/json'}})).data;
+            const { transaction } = (await axios.get(`${await this.getFirstNodeUrl(t)}/transaction/${txId}?withResults=true`,
+                {headers: {'Content-Type': 'application/json'}})).data.data;
             return EgldService.mapTransaction({...transaction, hash: txId});
         } catch (e) {
             this.logger.error(e);
@@ -220,7 +221,7 @@ export abstract class EgldService {
         const t = await this.isTestnet();
         try {
             const {nonce} = (await axios.get(`${await this.getFirstNodeUrl(t)}/address/${address}/nonce`,
-                {headers: {'Content-Type': 'application/json'}})).data;
+                {headers: {'Content-Type': 'application/json'}})).data.data;
             return nonce;
         } catch (e) {
             this.logger.error(e);
@@ -232,7 +233,7 @@ export abstract class EgldService {
         const t = await this.isTestnet();
         try {
             const {transactions} = (await axios.get(`${await this.getFirstNodeUrl(t)}/address/${address}/transactions`,
-                {headers: {'Content-Type': 'application/json'}})).data;
+                {headers: {'Content-Type': 'application/json'}})).data.data;
             return transactions;
         } catch (e) {
             this.logger.error(e);
@@ -301,7 +302,7 @@ export abstract class EgldService {
         const t = await this.isTestnet();
         try {
             const {balance} = (await axios.get(`${await this.getFirstNodeUrl(t)}/address/${address}/balance`,
-                {headers: {'Content-Type': 'application/json'}})).data;
+                {headers: {'Content-Type': 'application/json'}})).data.data;
             return {balance: new BigNumber(balance).dividedBy(1e+18).toString()};
         } catch (e) {
             this.logger.error(e);
@@ -314,7 +315,7 @@ export abstract class EgldService {
         return this.broadcastOrStoreKMSTransaction({
             transactionData,
             signatureId: transfer.signatureId,
-            index: transfer.nonce
+            index: transfer.index
         });
     }
 

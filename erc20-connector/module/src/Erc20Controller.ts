@@ -11,10 +11,12 @@ import {
     ChainTransferBscBep20,
     ChainTransferCeloErc20Token,
     ChainTransferErc20,
-    ChainTransferEthErc20, ChainTransferHrm20, ChainTransferPolygonErc20,
+    ChainTransferEthErc20,
+    ChainTransferHrm20,
+    ChainTransferPolygonErc20,
 } from './Erc20Base';
+import {ApproveErc20} from '@tatumio/tatum';
 import {PathAddressContractAddressChain} from './dto/PathAddressContractAddressChain';
-import {TransferCustomErc20} from '@tatumio/tatum';
 
 export abstract class Erc20Controller {
     protected constructor(protected readonly service: Erc20Service) {
@@ -68,6 +70,22 @@ export abstract class Erc20Controller {
     public async mintErc20(@Body() body: ChainMintErc20 | ChainMintCeloErc20) {
         try {
             return await this.service.mintErc20(body);
+        } catch (e) {
+            if (e.constructor.name === 'Array' || e.constructor.name === 'ValidationError') {
+                throw new BadRequestException(e);
+            }
+            if (e.constructor.name === 'Erc20Error') {
+                throw new BadRequestException(e);
+            }
+            throw new Erc20Error(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'erc20.error');
+        }
+    }
+
+    @Post('/approve')
+    @HttpCode(HttpStatus.OK)
+    public async approveErc20(@Body() body: ApproveErc20) {
+        try {
+            return await this.service.approveErc20(body);
         } catch (e) {
             if (e.constructor.name === 'Array' || e.constructor.name === 'ValidationError') {
                 throw new BadRequestException(e);

@@ -17,6 +17,7 @@ import {
 } from './Erc20Base';
 import {HarmonyAddress} from '@harmony-js/crypto';
 import {
+    ApproveErc20,
     BurnCeloErc20,
     BurnErc20,
     Currency,
@@ -28,6 +29,7 @@ import {
     OneBurn20,
     OneMint20,
     OneTransfer20,
+    prepareAuctionApproveErc20Transfer,
     prepareBscOrBep20SignedTransaction,
     prepareBurnBep20SignedTransaction,
     prepareCeloBurnErc20SignedTransaction,
@@ -252,6 +254,16 @@ export abstract class Erc20Service {
             return {signatureId: await this.storeKMSTransaction(txData, chain, [body.signatureId], body.index)};
         } else {
             return this.broadcast(chain, txData);
+        }
+    }
+
+    public async approveErc20(body: ApproveErc20): Promise<TransactionHash | { signatureId: string }> {
+        const testnet = await this.isTestnet();
+        const txData = await prepareAuctionApproveErc20Transfer(testnet, body, await this.getFirstNodeUrl(body.chain, testnet));
+        if (body.signatureId) {
+            return {signatureId: await this.storeKMSTransaction(txData, body.chain, [body.signatureId], body.index)};
+        } else {
+            return this.broadcast(body.chain, txData);
         }
     }
 }

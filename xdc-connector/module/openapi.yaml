@@ -1041,6 +1041,11 @@ components:
           description: Address of ERC20 token
           example: "xdc687422eEA2cB73B5d3e242bA5456b782919AFc85"
           type: string
+        amount:
+          description: Amount of the assets to be sent.
+          example: "100000"
+          pattern: ^[+]?((\d+(\.\d*)?)|(\.\d+))$
+          type: string
         methodName:
           minLength: 1
           maxLength: 500

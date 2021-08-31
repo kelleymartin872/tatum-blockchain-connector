@@ -1614,6 +1614,11 @@ components:
           items:
             type: object
           description: Parameters of the method to be invoked.
+        amount:
+          description: Amount of the assets to be sent.
+          example: "100000"
+          pattern: ^[+]?((\d+(\.\d*)?)|(\.\d+))$
+          type: string
         fromPrivateKey:
           type: string
           maxLength: 66

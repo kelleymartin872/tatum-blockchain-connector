@@ -1,22 +1,22 @@
-import { Block, Transaction, PaymentAddress } from '@cardano-graphql/client-ts';
-import { Get, Post, Body, Param, Query } from '@nestjs/common';
-import { AdaUtxo, TransferBtcBasedBlockchain } from '@tatumio/tatum';
-import { AdaError } from './AdaError';
-import { AdaService } from './AdaService';
-import { AdaBlockchainInfo } from './constants';
+import {Block, PaymentAddress, Transaction} from '@cardano-graphql/client-ts';
+import {BadRequestException, Body, Get, Param, Post, Query} from '@nestjs/common';
+import {AdaUtxo, TransferBtcBasedBlockchain} from '@tatumio/tatum';
+import {AdaError} from './AdaError';
+import {AdaService} from './AdaService';
+import {AdaBlockchainInfo} from './constants';
 import {
   BlockchainError,
-  Pagination,
-  PathHash,
-  GeneratePrivateKey,
-  PathAddress,
-  QueryMnemonic,
-  PathXpub,
   BtcBasedBlockchainControllerInterface,
-  TxData,
-  TransactionResponse,
+  GeneratePrivateKey,
+  Pagination,
+  PathAddress,
+  PathHash,
+  PathXpub,
+  QueryMnemonic,
   TransactionKMSResponse,
-} from '@tatumio/blockchain-connector-common'
+  TransactionResponse,
+  TxData,
+} from '@tatumio/blockchain-connector-common';
 
 export abstract class AdaController implements BtcBasedBlockchainControllerInterface {
   protected constructor(protected readonly service: AdaService) {
@@ -132,6 +132,12 @@ export abstract class AdaController implements BtcBasedBlockchainControllerInter
   }
 
   throwError(e: BlockchainError): void {
+    if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+      throw new BadRequestException(e);
+    }
+    if (e.constructor.name === 'TatumError') {
+      throw e;
+    }
     throw new AdaError(
       `Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`,
       'ada.error',

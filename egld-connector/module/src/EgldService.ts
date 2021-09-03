@@ -6,6 +6,7 @@ import {
     Currency,
     SignatureId,
     EgldTransaction,
+    EgldBasicTransaction,
     egldGetGasPrice,
     egldGetGasLimit,
     generateAddressFromXPub,
@@ -291,9 +292,13 @@ export abstract class EgldService {
         return {address};
     }
 
-    public async estimateGas(body: EgldSendTransaction) {
+    public async estimateGas(body: EgldBasicTransaction) {
+        const tx: EgldBasicTransaction = {
+            ...body,
+            data: body.data ? Buffer.from(body.data as string).toString('base64') : undefined,
+        };
         return {
-            gasLimit: await egldGetGasLimit(body),
+            gasLimit: await egldGetGasLimit(tx),
             gasPrice: await egldGetGasPrice(),
         };
     }

@@ -14,7 +14,7 @@ export abstract class EgldController {
   protected constructor(protected readonly service: EgldService) {
   }
 
-  @Post('egld/node/:xApiKey/*')
+  @Post('node/:xApiKey/*')
   @HttpCode(HttpStatus.OK)
   public async nodeMethodPost(@Req() req: Request, @Param() param: { xApiKey: string }) {
     try {
@@ -24,7 +24,7 @@ export abstract class EgldController {
     }
   }
 
-  @Get('egld/node/:xApiKey/*')
+  @Get('node/:xApiKey/*')
   @HttpCode(HttpStatus.OK)
   public async nodeMethodGet(@Req() req: Request, @Param() param: { xApiKey: string }) {
     try {
@@ -34,7 +34,7 @@ export abstract class EgldController {
     }
   }
 
-  @Post('egld/transaction')
+  @Post('transaction')
   @HttpCode(HttpStatus.OK)
   public async sendEgldTransaction(@Body() body: EgldEsdtTransaction) {
     try {
@@ -44,7 +44,7 @@ export abstract class EgldController {
     }
   }
 
-  @Post('egld/gas')
+  @Post('gas')
   @HttpCode(HttpStatus.OK)
   public async estimateGas(@Body() body: EgldBasicTransaction) {
     try {
@@ -54,7 +54,7 @@ export abstract class EgldController {
     }
   }
 
-  @Get('egld/transaction/count/:address')
+  @Get('transaction/count/:address')
   @HttpCode(HttpStatus.OK)
   public async countTransactions(@Param() param: PathAddress) {
     try {
@@ -64,7 +64,7 @@ export abstract class EgldController {
     }
   }
 
-  @Post('egld/broadcast')
+  @Post('broadcast')
   @HttpCode(HttpStatus.OK)
   public async broadcast(@Body() body: BroadcastTx) {
     try {
@@ -74,7 +74,7 @@ export abstract class EgldController {
     }
   }
 
-  @Get('egld/block/current')
+  @Get('block/current')
   @HttpCode(HttpStatus.OK)
   public async getCurrentBlock() {
     try {
@@ -84,7 +84,7 @@ export abstract class EgldController {
     }
   }
 
-  @Get('egld/account/balance/:address')
+  @Get('account/balance/:address')
   @HttpCode(HttpStatus.OK)
   public async getAccountBalance(@Param() path: PathAddress) {
     try {
@@ -94,7 +94,7 @@ export abstract class EgldController {
     }
   }
 
-  @Get('egld/address/:mnem/:i')
+  @Get('address/:mnem/:i')
   @HttpCode(HttpStatus.OK)
   public async generateAddress(@Param() { mnem, i }: {mnem: string, i: string}) {
     try {
@@ -104,7 +104,7 @@ export abstract class EgldController {
     }
   }
 
-  @Get('egld/wallet')
+  @Get('wallet')
   @HttpCode(HttpStatus.OK)
   async generateWallet(@Query() { mnemonic }: QueryMnemonic) {
     try {
@@ -114,7 +114,7 @@ export abstract class EgldController {
     }
   }
 
-  @Post('egld/wallet/priv')
+  @Post('wallet/priv')
   @HttpCode(HttpStatus.OK)
   async generatePrivateKey(@Body() { mnemonic, index }: GeneratePrivateKey) {
     try {
@@ -124,7 +124,7 @@ export abstract class EgldController {
     }
   }
     
-  @Get('egld/block/:hash')
+  @Get('block/:hash')
   @HttpCode(HttpStatus.OK)
   public async getBlock(@Param() path: PathHash) {
     try {
@@ -134,7 +134,7 @@ export abstract class EgldController {
     }
   }
 
-  @Get('egld/transaction/:hash')
+  @Get('transaction/:hash')
   public async getTransaction(@Param() path: PathHash) {
     try {
       return await this.service.getTransaction(path.hash);
@@ -143,7 +143,7 @@ export abstract class EgldController {
     }
   }
 
-  @Get('egld/transaction/address/:address')
+  @Get('transaction/address/:address')
   async getTransactionsByAccount(@Param() path: PathAddress, @Query() query: Pagination): Promise<EgldTransaction[]> {
     try {
       return await this.service.getTransactionsByAccount(
@@ -157,7 +157,7 @@ export abstract class EgldController {
     }
   }
 
-  @Post('egld/esdt/deploy')
+  @Post('esdt/deploy')
   @HttpCode(HttpStatus.OK)
   public async deploySmartContract(@Body() body: EgldEsdtTransaction) {
     try {
@@ -167,7 +167,7 @@ export abstract class EgldController {
     }
   }
 
-  @Post('egld/esdt/mint')
+  @Post('esdt/mint')
   @HttpCode(HttpStatus.OK)
   public async mintSmartContract(@Body() body: EgldEsdtTransaction) {
     try {
@@ -177,7 +177,7 @@ export abstract class EgldController {
     }
   }
 
-  @Post('egld/esdt/burn')
+  @Post('esdt/burn')
   @HttpCode(HttpStatus.OK)
   public async burnSmartContract(@Body() body: EgldEsdtTransaction) {
     try {
@@ -187,7 +187,7 @@ export abstract class EgldController {
     }
   }
 
-  @Post('egld/esdt/pause')
+  @Post('esdt/pause')
   @HttpCode(HttpStatus.OK)
   public async pauseSmartContract(@Body() body: EgldEsdtTransaction) {
     try {
@@ -197,7 +197,7 @@ export abstract class EgldController {
     }
   }
 
-  @Post('egld/esdt/role')
+  @Post('esdt/role')
   @HttpCode(HttpStatus.OK)
   public async specialRoleSmartContract(@Body() body: EgldEsdtTransaction) {
     try {
@@ -207,7 +207,7 @@ export abstract class EgldController {
     }
   }
 
-  @Post('egld/esdt/freeze')
+  @Post('esdt/freeze')
   @HttpCode(HttpStatus.OK)
   public async freezeSmartContract(@Body() body: EgldEsdtTransaction) {
     try {
@@ -217,7 +217,7 @@ export abstract class EgldController {
     }
   }
 
-  @Post('egld/esdt/wipe')
+  @Post('esdt/wipe')
   @HttpCode(HttpStatus.OK)
   public async wipeSmartContract(@Body() body: EgldEsdtTransaction) {
     try {
@@ -227,7 +227,7 @@ export abstract class EgldController {
     }
   }
 
-  @Post('egld/esdt/owner')
+  @Post('esdt/owner')
   @HttpCode(HttpStatus.OK)
   public async ownerSmartContract(@Body() body: EgldEsdtTransaction) {
     try {
@@ -237,7 +237,7 @@ export abstract class EgldController {
     }
   }
   
-  @Post('egld/esdt/control')
+  @Post('esdt/control')
   @HttpCode(HttpStatus.OK)
   public async controlChangesSmartContract(@Body() body: EgldEsdtTransaction) {
     try {
@@ -247,7 +247,7 @@ export abstract class EgldController {
     }
   }
 
-  @Post('egld/esdt/transfer')
+  @Post('esdt/transfer')
   @HttpCode(HttpStatus.OK)
   public async invokeSmartContractMethod(@Body() body: EgldEsdtTransaction) {
     try {
@@ -257,7 +257,7 @@ export abstract class EgldController {
     }
   }
 
-  @Post('egld/nft/deploy')
+  @Post('nft/deploy')
   @HttpCode(HttpStatus.OK)
   public async deployNft(@Body() body: EgldEsdtTransaction) {
     try {
@@ -267,7 +267,7 @@ export abstract class EgldController {
     }
   }
 
-  @Post('egld/nft/create')
+  @Post('nft/create')
   @HttpCode(HttpStatus.OK)
   public async createNft(@Body() body: EgldEsdtTransaction) {
     try {
@@ -277,7 +277,7 @@ export abstract class EgldController {
     }
   }
 
-  @Post('egld/nft/role-transfer')
+  @Post('nft/role-transfer')
   @HttpCode(HttpStatus.OK)
   public async roleTransferNft(@Body() body: EgldEsdtTransaction) {
     try {
@@ -287,7 +287,7 @@ export abstract class EgldController {
     }
   }
   
-  @Post('egld/nft/stop-create')
+  @Post('nft/stop-create')
   @HttpCode(HttpStatus.OK)
   public async stopNftCreate(@Body() body: EgldEsdtTransaction) {
     try {
@@ -297,7 +297,7 @@ export abstract class EgldController {
     }
   }
   
-  @Post('egld/nft/add')
+  @Post('nft/add')
   @HttpCode(HttpStatus.OK)
   public async addNftQuantity(@Body() body: EgldEsdtTransaction) {
     try {
@@ -307,7 +307,7 @@ export abstract class EgldController {
     }
   }
   
-  @Post('egld/nft/burn')
+  @Post('nft/burn')
   @HttpCode(HttpStatus.OK)
   public async burnNftQuantity(@Body() body: EgldEsdtTransaction) {
     try {
@@ -317,7 +317,7 @@ export abstract class EgldController {
     }
   }
 
-  @Post('egld/nft/freeze')
+  @Post('nft/freeze')
   @HttpCode(HttpStatus.OK)
   public async freezeNft(@Body() body: EgldEsdtTransaction) {
     try {
@@ -327,7 +327,7 @@ export abstract class EgldController {
     }
   }
 
-  @Post('egld/nft/wipe')
+  @Post('nft/wipe')
   @HttpCode(HttpStatus.OK)
   public async wipeNft(@Body() body: EgldEsdtTransaction) {
     try {
@@ -337,7 +337,7 @@ export abstract class EgldController {
     }
   }
 
-  @Post('egld/nft/transfer')
+  @Post('nft/transfer')
   @HttpCode(HttpStatus.OK)
   public async transferNft(@Body() body: EgldEsdtTransaction) {
     try {

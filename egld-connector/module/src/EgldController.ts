@@ -5,7 +5,7 @@ import {
   BroadcastTx,
   EgldTransaction,
   EgldEsdtTransaction,
-  EgldSendTransaction,
+  EgldBasicTransaction,
 } from '@tatumio/tatum';
 import {EgldError} from './EgldError';
 import {EgldService} from './EgldService';
@@ -46,7 +46,7 @@ export abstract class EgldController {
 
   @Post('egld/gas')
   @HttpCode(HttpStatus.OK)
-  public async estimateGas(@Body() body: EgldSendTransaction) {
+  public async estimateGas(@Body() body: EgldBasicTransaction) {
     try {
       return await this.service.estimateGas(body);
     } catch (e) {

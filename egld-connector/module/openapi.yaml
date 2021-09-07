@@ -492,58 +492,58 @@ paths:
       summary: Send EGLD from account to account
       tags:
         - Blockchain / Elrond Network (EGLD)
-  /v3/egld/gas:
-    post:
-      description: |
-        <h4>2 credits per API call.</h4><br/>
-        <p>Estimate gasLimit and gasPrice of the EGLD transaction. Gas limit is obtained from <a href="https://gateway.elrond.com/transaction/cost" target="_blank">https://gateway.elrond.com/transaction/cost</a>.
-        Gas price is obtained from <a href="https://gateway.elrond.com/network/config" target="_blank">https://gateway.elrond.com/network/config</a>.
-        </p>
-      operationId: EgldEstimateGas
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/TransactionFeeEgldBlockchain"
-        required: true
-      responses:
-        200:
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - gasLimit
-                  - gasPrice
-                properties:
-                  gasLimit:
-                    type: string
-                    description: Gas limit for transaction in gas price.
-                    example: "77000"
-                  gasPrice:
-                    type: string
-                    description: Gas price.
-                    example: "1000000000"
-          description: OK
-        400:
-          <<: *API400
-        401:
-          <<: *API401
-        403:
-          description: Forbidden. The request is authenticated, but it is not possible to required perform operation due to logical error or invalid permissions.
-          content:
-            application/json:
-              schema:
-                oneOf:
-                  - $ref: "#/components/schemas/Error403EgldGasCalculation"
-        500:
-          <<: *API500
-      security:
-        - X-Api-Key: [ ]
-      x-code-samples:
-      summary: Estimate EGLD transaction fees
-      tags:
-        - Blockchain / Elrond Network (EGLD)
+  # /v3/egld/gas:
+  #   post:
+  #     description: |
+  #       <h4>2 credits per API call.</h4><br/>
+  #       <p>Estimate gasLimit and gasPrice of the EGLD transaction. Gas limit is obtained from <a href="https://gateway.elrond.com/transaction/cost" target="_blank">https://gateway.elrond.com/transaction/cost</a>.
+  #       Gas price is obtained from <a href="https://gateway.elrond.com/network/config" target="_blank">https://gateway.elrond.com/network/config</a>.
+  #       </p>
+  #     operationId: EgldEstimateGas
+  #     requestBody:
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: "#/components/schemas/TransactionFeeEgldBlockchain"
+  #       required: true
+  #     responses:
+  #       200:
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               required:
+  #                 - gasLimit
+  #                 - gasPrice
+  #               properties:
+  #                 gasLimit:
+  #                   type: string
+  #                   description: Gas limit for transaction in gas price.
+  #                   example: "77000"
+  #                 gasPrice:
+  #                   type: string
+  #                   description: Gas price.
+  #                   example: "1000000000"
+  #         description: OK
+  #       400:
+  #         <<: *API400
+  #       401:
+  #         <<: *API401
+  #       403:
+  #         description: Forbidden. The request is authenticated, but it is not possible to required perform operation due to logical error or invalid permissions.
+  #         content:
+  #           application/json:
+  #             schema:
+  #               oneOf:
+  #                 - $ref: "#/components/schemas/Error403EgldGasCalculation"
+  #       500:
+  #         <<: *API500
+  #     security:
+  #       - X-Api-Key: [ ]
+  #     x-code-samples:
+  #     summary: Estimate EGLD transaction fees
+  #     tags:
+  #       - Blockchain / Elrond Network (EGLD)
   # /v3/egld/esdt/{method}:
   #   post:
   #     description: |
@@ -990,47 +990,52 @@ components:
         - statusCode
       type: object
       
-    TransactionFeeEgldBlockchain:
-      type: object
-      properties:
-        sender:
-          description: Account address of the sender
-          example: erd17k95m339aqzxzyvjjjfa3lka0yyeqgcsda50tw5z9g73ycfe2caq9e6jq7
-          maxLength: 62
-          minLength: 62
-          type: string
-        receiver:
-          description: Account address of the receiver or smart contract
-          example: erd17k95m339aqzxzyvjjjfa3lka0yyeqgcsda50tw5z9g73ycfe2caq9e6jq6
-          maxLength: 62
-          minLength: 62
-          type: string
-        value:
-          type: number
-          description: Value to be sent.
-          example: 0
-        data:
-          type: string
-          description: Additinal data, that will be passed to blockchain transaction.
-          example: Hello world.
-        chainID:
-          type: string
-          description: Chain identifier (1 - mainnet, D - devnet).
-          example: D
-          enum:
-            - 1
-            - D
-            - T
-        version:
-          type: number
-          description: Version of transaction.
-          example: 1
-      required:
-        - sender
-        - receiver
-        - value
-        - chainID
-        - version
+    # TransactionFeeEgldBlockchain:
+    #   type: object
+    #   properties:
+    #     nonce:
+    #       type: number
+    #       description: Nonce of the transaction.
+    #       example: 2
+    #     sender:
+    #       description: Account address of the sender
+    #       example: erd17k95m339aqzxzyvjjjfa3lka0yyeqgcsda50tw5z9g73ycfe2caq9e6jq7
+    #       maxLength: 62
+    #       minLength: 62
+    #       type: string
+    #     receiver:
+    #       description: Account address of the receiver or smart contract
+    #       example: erd17k95m339aqzxzyvjjjfa3lka0yyeqgcsda50tw5z9g73ycfe2caq9e6jq6
+    #       maxLength: 62
+    #       minLength: 62
+    #       type: string
+    #     value:
+    #       type: number
+    #       description: Value to be sent.
+    #       example: 0
+    #     data:
+    #       type: string
+    #       description: Additinal data, that will be passed to blockchain transaction.
+    #       example: Hello world
+    #     chainID:
+    #       type: string
+    #       description: Chain identifier (1 - mainnet, D - devnet).
+    #       example: D
+    #       enum:
+    #         - 1
+    #         - D
+    #         - T
+    #     version:
+    #       type: number
+    #       description: Version of transaction.
+    #       example: 1
+    #   required:
+    #     - nonce
+    #     - sender
+    #     - receiver
+    #     - value
+    #     - chainID
+    #     - version
     TransferEgldBlockchain:
       type: object
       properties:
@@ -1047,9 +1052,9 @@ components:
           minLength: 62
           type: string
         amount:
-          type: number
+          type: string
           description: Value to be sent.
-          example: 0
+          example: "0"
         fee:
           description: Custom defined fee. If not present, it will be calculated automatically.
           type: object
@@ -1065,33 +1070,36 @@ components:
               example: "1000000000"
               pattern: ^[+]?\d+$
         data:
-          type: object
           description: Additinal data, that will be passed to blockchain transaction as data property.
-          required:
-            - service
-            - tokenId
-            - value
-          properties:
-            service:
-              type: string
-              description: Service name
-              example: ESDTTransfer
-            tokenId:
-              type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
-              example: ALC-6258d2
-            value:
-              type: number
-              description: Value to transfer
-              example: 5
-            methodName:
-              type: string
-              description: Name of method to call
-            arguments:
-              type: array
-              description: Arguments of the method
-              items:
-                type: string
+          type: string
+          example: Hello world
+          # ### This will be used for token transfer example
+          # type: object
+          # required:
+          #   - service
+          #   - tokenId
+          #   - value
+          # properties:
+          #   service:
+          #     type: string
+          #     description: Service name
+          #     example: ESDTTransfer
+          #   tokenId:
+          #     type: string
+          #     description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+          #     example: ALC-6258d2
+          #   value:
+          #     type: number
+          #     description: Value to transfer
+          #     example: 5
+          #   methodName:
+          #     type: string
+          #     description: Name of method to call
+          #   arguments:
+          #     type: array
+          #     description: Arguments of the method
+          #     items:
+          #       type: string
         fromPrivateKey:
           type: string
           maxLength: 64
@@ -1116,9 +1124,9 @@ components:
           minLength: 62
           type: string
         amount:
-          type: number
+          type: string
           description: Value to be sent.
-          example: 0
+          example: "0"
         fee:
           description: Custom defined fee. If not present, it will be calculated automatically.
           type: object
@@ -1134,33 +1142,36 @@ components:
               example: "1000000000"
               pattern: ^[+]?\d+$
         data:
-          type: object
           description: Additinal data, that will be passed to blockchain transaction as data property.
-          required:
-            - service
-            - tokenId
-            - value
-          properties:
-            service:
-              type: string
-              description: Service name
-              example: ESDTTransfer
-            tokenId:
-              type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
-              example: ALC-6258d2
-            value:
-              type: number
-              description: Value to transfer
-              example: 5
-            methodName:
-              type: string
-              description: Name of method to call
-            arguments:
-              type: array
-              description: Arguments of the method
-              items:
-                type: string
+          type: string
+          example: Hello world
+          # ### This will be used for token transfer example
+          # type: object
+          # required:
+          #   - service
+          #   - tokenId
+          #   - value
+          # properties:
+          #   service:
+          #     type: string
+          #     description: Service name
+          #     example: ESDTTransfer
+          #   tokenId:
+          #     type: string
+          #     description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+          #     example: ALC-6258d2
+          #   value:
+          #     type: number
+          #     description: Value to transfer
+          #     example: 5
+          #   methodName:
+          #     type: string
+          #     description: Name of method to call
+          #   arguments:
+          #     type: array
+          #     description: Arguments of the method
+          #     items:
+          #       type: string
         index:
           type: number
           minimum: 0

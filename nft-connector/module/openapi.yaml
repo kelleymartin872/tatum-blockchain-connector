@@ -136,11 +136,19 @@ paths:
         <li><b>Flow</b></li>
         <li><b>Binance Smart Chain</b></li>
         </ul>
-        This operation needs the private key of the blockchain address. Every time the funds are transferred, the transaction must be signed with the corresponding private key.
+        This operation works in two modes.
+
+        First mode works just like other NFT endpoints. Every time the funds are transferred, the transaction must be signed with the corresponding private key.
         No one should ever send it's own private keys to the internet because there is a strong possibility of stealing keys and loss of funds. In this method, it is possible to enter privateKey
         or signatureId. PrivateKey should be used only for quick development on testnet versions of blockchain when there is no risk of losing funds. In production,
         <a href="https://github.com/tatumio/tatum-kms" target="_blank">Tatum KMS</a> should be used for the highest security standards, and signatureId should be present in the request.
         Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
+
+        Second mode works without private key.
+        We use our built-in smart contract, private key and token id counter which are provided from Tatum.
+        You dont need to provide fromPrivateKey, contractAddress and tokenId fields to perform the request.
+        The blockchain fee of the performed transaction is payed from the address connected with built-in private key and is debitted in form of credits. We transform fee to the credits in accordance to the rates provided by the Tatum.
+
         </p>
       operationId: NftMintErc721
       parameters:
@@ -2708,9 +2716,6 @@ components:
         - to
         - url
         - feeCurrency
-        - contractAddress
-        - fromPrivateKey
-        - tokenId
     MintNftTron:
       type: object
       properties:
@@ -3270,8 +3275,6 @@ components:
         - to
         - chain
         - url
-        - contractAddress
-        - fromPrivateKey
         - tokenId
     MintNftKMS:
       type: object

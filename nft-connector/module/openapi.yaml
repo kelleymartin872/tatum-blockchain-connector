@@ -144,12 +144,115 @@ paths:
         <a href="https://github.com/tatumio/tatum-kms" target="_blank">Tatum KMS</a> should be used for the highest security standards, and signatureId should be present in the request.
         Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
 
-        Second mode works without private key.
-        We use our built-in smart contract, private key and token id counter which are provided from Tatum.
-        You dont need to provide fromPrivateKey, contractAddress and tokenId fields to perform the request.
-        The blockchain fee of the performed transaction is payed from the address connected with built-in private key and is debitted in form of credits. We transform fee to the credits in accordance to the rates provided by the Tatum.
+        Second mode works without private key or signature id.
+        Mint NFT requests use built-in smart contract, private key and token id which are provided by Tatum.
+        You dont need to provide fromPrivateKey (or signatureId), contractAddress and tokenId fields to perform the mint NFT request.
 
-        </p>
+        Performed request without fromPrivateKey or signatureId fields will be populated with following attributes:
+
+        <ul>
+          <li><b>fromPrivateKey</b> - a built-in private key connected to the address from which will be NFT transaction fees paid.</li>
+          <li><b>tokenId</b> - a counter which starts from 0 and is increased for each NFT mint request by 1. The tokenId is provided per each chain and mainnet/testnet version of network.</li>
+          <li><b>contractAddress</b> - represents Tatum built in smart contract address of the minted NFT.</li>
+        </ul>
+
+        The blockchain fee of the performed transaction is paid from the address connected with built-in private key and is debitted in form of credits. The credits are debitted only if NFT mint requests are performed with paid API key plan.
+        We transform fee to the credits in accordance to the rates provided by the Tatum.
+
+        It means if you perform mint NFT request with following body:
+
+        <pre>{
+          "chain": "CELO",
+          "to": "0xBC2eBA680EE50d685cc4Fe65f102AA70AfB27D3F",
+          "url": "https://www.seznam.cz"
+        }</pre>
+
+        The fields contractAddress, fromPrivateKey and tokenId will be internally filled in following way:
+
+        <pre>{
+          "chain": "CELO",
+          "to": "0xBC2eBA680EE50d685cc4Fe65f102AA70AfB27D3F",
+          "url": "https://www.seznam.cz",
+          "fromPrivateKey": "{tatumBuiltInPrivateKey}",
+          "tokenId": "{tatumBuiltInTokenId + 1}",
+          "contractAddress": "0x45871ED5F15203C0ce791eFE5f4B5044833aE10e"
+        }</pre>
+
+        Keep in mind that your credit amount will be debitted accordingly to the rate of the selected blockchain and cost of transaction fees.
+
+
+        We have prepared following smart contracts for minting without private key:
+        <table>
+          <tr>
+            <th>Chain</th>
+            <th>Testnet/Mainnet</th>
+            <th>Address</th>
+            <th>Smart contract address</th>
+          </tr>
+          <tr>
+            <td>MATIC</td>
+            <td>Testnet</td>
+            <td>0x542b9ac4945a3836fd12ad98acbc76a0c8b743f5</td>
+            <td>0xCd2AdA00c48A27FAa5Cc67F9A1ed55B89dDf7F77</td>
+          </tr>
+          <tr>
+            <td>BSC</td>
+            <td>Testnet</td>
+            <td>0xc16ae5e8c985b906935a0cadf4e24f0400531883</td>
+            <td>0xF73075aa67561791352fbEe8278115487Fd90ab6</td>
+          </tr>
+          <tr>
+            <td>ONE</td>
+            <td>Testnet</td>
+            <td>0x8906f62d40293ddca77fdf6714c3f63265deddf0</td>
+            <td>0x427ddbe3ad5e1e77e010c02e61e9bdef82dcaeea</td>
+          </tr>
+          <tr>
+            <td>ETH</td>
+            <td>Testnet</td>
+            <td>0x51abC4c9e7BFfaA99bBE4dDC33d75067EBD0384F</td>
+            <td>0xAe7D8842D0295B1f24a8842cBd5eB83Ae2fd0946</td>
+          </tr>
+          <tr>
+            <td>CELO</td>
+            <td>Testnet</td>
+            <td>0xBC2eBA680EE50d685cc4Fe65f102AA70AfB27D3F</td>
+            <td>0x45871ED5F15203C0ce791eFE5f4B5044833aE10e</td>
+          </tr>
+          <tr>
+            <td>MATIC</td>
+            <td>Mainnet</td>
+            <td>0xcf9e127455d28e7362380aec1b92ddee8200b295</td>
+            <td>0x6709bdda623af7eb152cb2fe2562ab7e031e564f</td>
+          </tr>
+          <tr>
+            <td>BSC</td>
+            <td>Mainnet</td>
+            <td>0xcf9e127455d28e7362380aec1b92ddee8200b295</td>
+            <td>0x6709bdda623af7eb152cb2fe2562ab7e031e564f</td>
+          </tr>
+          <tr>
+            <td>ETH</td>
+            <td>Mainnet</td>
+            <td>0xcf9e127455d28e7362380aec1b92ddee8200b295</td>
+            <td>0x6709bdda623af7eb152cb2fe2562ab7e031e564f</td>
+          </tr>
+          <tr>
+            <td>ONE</td>
+            <td>Mainnet</td>
+            <td>0xcf9e127455d28e7362380aec1b92ddee8200b295</td>
+            <td>0x6709bdda623af7eb152cb2fe2562ab7e031e564f</td>
+          </tr>
+          <tr>
+            <td>CELO</td>
+            <td>Mainnet</td>
+            <td>0xcf9e127455d28e7362380aec1b92ddee8200b295</td>
+            <td>0x6709bdda623af7eb152cb2fe2562ab7e031e564f</td>
+          </tr>
+
+        </table>
+        To add ETH mainnet smart contract contact sales@tatum.io.
+        If there will be a low amount of coins on any testnet address you are free to send coins to the address. In future we will provide also addresses and smart contracts for the mainnet version.        </p>
       operationId: NftMintErc721
       parameters:
         - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."

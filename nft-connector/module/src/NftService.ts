@@ -111,7 +111,7 @@ export abstract class NftService {
 
     protected abstract deployFlowNft(testnet: boolean, body: FlowDeployNft): Promise<TransactionHash>;
 
-    protected abstract setMintBuiltInData(body: CeloMintErc721 | EthMintErc721 | TronMintTrc721 | OneMint721): void;
+    protected abstract getMintBuiltInData(body: CeloMintErc721 | EthMintErc721 | TronMintTrc721 | OneMint721):  Promise<CeloMintErc721 | EthMintErc721 | TronMintTrc721 | OneMint721 | undefined>;
 
     public async getMetadataErc721(chain: Currency, token: string, contractAddress: string, account?: string): Promise<{ data: string }> {
         if (chain === Currency.FLOW) {
@@ -326,38 +326,42 @@ export abstract class NftService {
         const { chain } = body;
         const provider = (await this.getNodesUrl(chain, testnet))[0];
         switch (chain) {
-            case Currency.ETH:
-                await this.setMintBuiltInData(body as EthMintErc721)
+            case Currency.ETH: {
+                const builtInBody = await this.getMintBuiltInData(body as EthMintErc721)
                 if (!(body as EthMintErc721).authorAddresses) {
-                    txData = await prepareEthMintErc721SignedTransaction(body as EthMintErc721, provider);
+                    txData = await prepareEthMintErc721SignedTransaction((builtInBody || body) as EthMintErc721, provider);
                 } else {
-                    txData = await prepareEthMintCashbackErc721SignedTransaction(body as EthMintErc721, provider);
+                    txData = await prepareEthMintCashbackErc721SignedTransaction((builtInBody || body) as EthMintErc721, provider);
                 }
                 break;
-            case Currency.MATIC:
-                await this.setMintBuiltInData(body as EthMintErc721)
+            }
+            case Currency.MATIC: {
+                const builtInBody = await this.getMintBuiltInData(body as EthMintErc721)
                 if (!(body as EthMintErc721).authorAddresses) {
-                    txData = await preparePolygonMintErc721SignedTransaction(testnet, body as EthMintErc721, provider);
+                    txData = await preparePolygonMintErc721SignedTransaction(testnet, (builtInBody || body) as EthMintErc721, provider);
                 } else {
-                    txData = await preparePolygonMintCashbackErc721SignedTransaction(testnet, body as EthMintErc721, provider);
+                    txData = await preparePolygonMintCashbackErc721SignedTransaction(testnet, (builtInBody || body) as EthMintErc721, provider);
                 }
                 break;
-            case Currency.ONE:
-                await this.setMintBuiltInData(body as OneMint721)
+            }
+            case Currency.ONE: {
+                const builtInBody = await this.getMintBuiltInData(body as OneMint721)
                 if (!(body as OneMint721).authorAddresses) {
-                    txData = await prepareOneMint721SignedTransaction(testnet, body as OneMint721, provider);
+                    txData = await prepareOneMint721SignedTransaction(testnet, (builtInBody || body) as OneMint721, provider);
                 } else {
-                    txData = await prepareOneMintCashback721SignedTransaction(testnet, body as OneMint721, provider);
+                    txData = await prepareOneMintCashback721SignedTransaction(testnet, (builtInBody || body) as OneMint721, provider);
                 }
                 break;
-            case Currency.BSC:
-                await this.setMintBuiltInData(body as EthMintErc721)
+            }
+            case Currency.BSC: {
+                const builtInBody = await this.getMintBuiltInData(body as EthMintErc721)
                 if (!(body as EthMintErc721).authorAddresses) {
-                    txData = await prepareBscMintBep721SignedTransaction(body as EthMintErc721, provider);
+                    txData = await prepareBscMintBep721SignedTransaction((builtInBody || body) as EthMintErc721, provider);
                 } else {
-                    txData = await prepareBscMintBepCashback721SignedTransaction(body as EthMintErc721, provider);
+                    txData = await prepareBscMintBepCashback721SignedTransaction((builtInBody || body) as EthMintErc721, provider);
                 }
                 break;
+            }
             case Currency.TRON:
                 await this.getClient(chain, await this.isTestnet());
                 if (!(body as TronMintTrc721).authorAddresses) {
@@ -366,14 +370,15 @@ export abstract class NftService {
                     txData = await prepareTronMintCashbackTrc721SignedTransaction(testnet, body as TronMintTrc721);
                 }
                 break;
-            case Currency.CELO:
-                await this.setMintBuiltInData(body as CeloMintErc721)
+            case Currency.CELO: {
+                const builtInBody = await this.getMintBuiltInData(body as CeloMintErc721)
                 if (!(body as CeloMintErc721).authorAddresses) {
-                    txData = await prepareCeloMintErc721SignedTransaction(testnet, body as CeloMintErc721, provider);
+                    txData = await prepareCeloMintErc721SignedTransaction(testnet, (builtInBody || body) as CeloMintErc721, provider);
                 } else {
-                    txData = await prepareCeloMintCashbackErc721SignedTransaction(testnet, body as CeloMintErc721, provider);
+                    txData = await prepareCeloMintCashbackErc721SignedTransaction(testnet, (builtInBody || body) as CeloMintErc721, provider);
                 }
                 break;
+            }
             case Currency.FLOW:
                 if (body.signatureId) {
                     txData = JSON.stringify({ type: FlowTxType.MINT_NFT, body });

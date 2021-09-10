@@ -46,8 +46,8 @@ export abstract class EgldService {
             prevBlockHash: block.prevBlockHash,
             epoch: block.epoch,
             numTxs: block.numTxs,
-            shardBlocks: block.shardBlocks.map(EgldService.mapShardBlock),
-            transactions:  block.transactions.map(EgldService.mapInBlockTransaction),     
+            shardBlocks: (block.shardBlocks || []).map(EgldService.mapShardBlock),
+            transactions: (block.transactions || []).map(EgldService.mapInBlockTransaction),     
         };
     }
 

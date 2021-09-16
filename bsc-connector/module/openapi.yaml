@@ -1307,13 +1307,19 @@ components:
           enum:
             - BETH
             - BBTC
+            - RMD
+            - USDC_BSC
+            - B2U_BSC
             - BADA
             - WBNB
+            - GMC_BSC
             - BDOT
             - BXRP
             - BLTC
             - BBCH
-            - BSC
+            - HAG
+            - CAKE
+            - BUSD_BSC
           example: BSC
           type: string
         fee:

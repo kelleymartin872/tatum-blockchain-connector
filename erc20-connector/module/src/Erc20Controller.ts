@@ -39,11 +39,11 @@ export abstract class Erc20Controller {
         try {
             return await this.service.transferErc20(body);
         } catch (e) {
-            if (e.constructor.name === 'Array' || e.constructor.name === 'ValidationError') {
+            if (['Array', 'ValidationError'].includes(e.constructor.name)) {
                 throw new BadRequestException(e);
             }
-            if (e.constructor.name === 'Erc20Error') {
-                throw new BadRequestException(e);
+            if (e.constructor.name === 'TatumError' || e.constructor.name === Erc20Error.name) {
+                throw e;
             }
             throw new Erc20Error(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'erc20.error');
         }
@@ -55,11 +55,11 @@ export abstract class Erc20Controller {
         try {
             return await this.service.burnErc20(body);
         } catch (e) {
-            if (e.constructor.name === 'Array' || e.constructor.name === 'ValidationError') {
+            if (['Array', 'ValidationError'].includes(e.constructor.name)) {
                 throw new BadRequestException(e);
             }
-            if (e.constructor.name === 'Erc20Error') {
-                throw new BadRequestException(e);
+            if (e.constructor.name === 'TatumError' || e.constructor.name === Erc20Error.name) {
+                throw e;
             }
             throw new Erc20Error(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'erc20.error');
         }
@@ -71,11 +71,11 @@ export abstract class Erc20Controller {
         try {
             return await this.service.mintErc20(body);
         } catch (e) {
-            if (e.constructor.name === 'Array' || e.constructor.name === 'ValidationError') {
+            if (['Array', 'ValidationError'].includes(e.constructor.name)) {
                 throw new BadRequestException(e);
             }
-            if (e.constructor.name === 'Erc20Error') {
-                throw new BadRequestException(e);
+            if (e.constructor.name === 'TatumError' || e.constructor.name === Erc20Error.name) {
+                throw e;
             }
             throw new Erc20Error(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'erc20.error');
         }
@@ -87,11 +87,11 @@ export abstract class Erc20Controller {
         try {
             return await this.service.approveErc20(body);
         } catch (e) {
-            if (e.constructor.name === 'Array' || e.constructor.name === 'ValidationError') {
+            if (['Array', 'ValidationError'].includes(e.constructor.name)) {
                 throw new BadRequestException(e);
             }
-            if (e.constructor.name === 'Erc20Error') {
-                throw new BadRequestException(e);
+            if (e.constructor.name === 'TatumError' || e.constructor.name === Erc20Error.name) {
+                throw e;
             }
             throw new Erc20Error(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'erc20.error');
         }
@@ -103,11 +103,11 @@ export abstract class Erc20Controller {
         try {
             return await this.service.deployErc20(body);
         } catch (e) {
-            if (e.constructor.name === 'Array' || e.constructor.name === 'ValidationError') {
+            if (['Array', 'ValidationError'].includes(e.constructor.name)) {
                 throw new BadRequestException(e);
             }
-            if (e.constructor.name === 'Erc20Error') {
-                throw new BadRequestException(e);
+            if (e.constructor.name === 'TatumError' || e.constructor.name === Erc20Error.name) {
+                throw e;
             }
             throw new Erc20Error(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'erc20.error');
         }

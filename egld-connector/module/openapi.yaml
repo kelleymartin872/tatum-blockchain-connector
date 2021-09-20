@@ -159,7 +159,7 @@ paths:
       description: |
         <h4>2 credits per API call.</h4><br/>
         <p>Use this endpoint URL as a http-based driver to connect directly to the EGLD node provided by Tatum.
-        To learn more about EGLD, please visit <a href="https://docs.elrond.com/sdk-and-tools/rest-api/nodes/ target="_blank">EGLD developer's guide.</a></p>
+        To learn more about EGLD, please visit <a href="https://docs.elrond.com/sdk-and-tools/rest-api/nodes/" target="_blank">EGLD developer's guide.</a></p>
       operationId: EgldNodePost
       parameters:
         - description: "Tatum X-API-Key used for authorization."
@@ -200,7 +200,7 @@ paths:
       description: |
         <h4>2 credits per API call.</h4><br/>
         <p>Use this endpoint URL as a http-based driver to connect directly to the EGLD node provided by Tatum.
-        To learn more about EGLD, please visit <a href="https://docs.elrond.com/sdk-and-tools/rest-api/nodes/ target="_blank">EGLD developer's guide.</a></p>
+        To learn more about EGLD, please visit <a href="https://docs.elrond.com/sdk-and-tools/rest-api/nodes/" target="_blank">EGLD developer's guide.</a></p>
       operationId: EgldNodeGet
       parameters:
         - description: "Tatum X-API-Key used for authorization."
@@ -576,7 +576,7 @@ paths:
   #             - freeze
   #             - wipe
   #             - owner
-  #             - control              
+  #             - control
   #             - transfer
   #     requestBody:
   #       content:
@@ -668,7 +668,7 @@ paths:
   #             - freeze
   #             - wipe
   #             - burn
-  #             - control              
+  #             - control
   #             - transfer
   #     requestBody:
   #       content:
@@ -836,7 +836,7 @@ components:
         type:
           type: string
           description: Type of transaction.
-          example: 
+          example:
         nonce:
           type: number
           description: Nonce of the transaction.
@@ -989,7 +989,7 @@ components:
         - message
         - statusCode
       type: object
-      
+
     # TransactionFeeEgldBlockchain:
     #   type: object
     #   properties:
@@ -1086,7 +1086,7 @@ components:
           #     example: ESDTTransfer
           #   tokenId:
           #     type: string
-          #     description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+          #     description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
           #     example: ALC-6258d2
           #   value:
           #     type: number
@@ -1158,7 +1158,7 @@ components:
           #     example: ESDTTransfer
           #   tokenId:
           #     type: string
-          #     description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+          #     description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
           #     example: ALC-6258d2
           #   value:
           #     type: number
@@ -1426,7 +1426,7 @@ components:
               example: mint
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -1483,7 +1483,7 @@ components:
               example: mint
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -1545,7 +1545,7 @@ components:
               example: burn
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -1602,7 +1602,7 @@ components:
               example: burn
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -1666,7 +1666,7 @@ components:
                 - unPause
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -1721,7 +1721,7 @@ components:
                 - unPause
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -1782,7 +1782,7 @@ components:
                 - unFreeze
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -1844,7 +1844,7 @@ components:
                 - unFreeze
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -1908,7 +1908,7 @@ components:
               example: wipe
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -1967,7 +1967,7 @@ components:
               example: wipe
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -2035,7 +2035,7 @@ components:
                 - unSetSpecialRole
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -2109,7 +2109,7 @@ components:
                 - unSetSpecialRole
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -2185,7 +2185,7 @@ components:
               example: transferOwnership
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -2245,7 +2245,7 @@ components:
               example: transferOwnership
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -2309,7 +2309,7 @@ components:
               example: controlChanges
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -2370,7 +2370,7 @@ components:
               example: controlChanges
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -2444,7 +2444,7 @@ components:
               example: ESDTTransfer
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -2525,7 +2525,7 @@ components:
               example: ESDTTransfer
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -2775,7 +2775,7 @@ components:
               example: ESDTNFTCreate
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -2865,7 +2865,7 @@ components:
               example: ESDTNFTCreate
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -2951,7 +2951,7 @@ components:
               example: transferNFTCreateRole
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -3013,7 +3013,7 @@ components:
               example: transferNFTCreateRole
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -3078,7 +3078,7 @@ components:
               example: stopNFTCreate
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -3130,7 +3130,7 @@ components:
               example: stopNFTCreate
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -3195,7 +3195,7 @@ components:
               example: ESDTNFTAddQuantity
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -3263,7 +3263,7 @@ components:
               example: ESDTNFTAddQuantity
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -3336,7 +3336,7 @@ components:
               example: ESDTNFTBurn
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -3404,7 +3404,7 @@ components:
               example: ESDTNFTBurn
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -3471,7 +3471,7 @@ components:
               example: freezeSingleNFT
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -3533,7 +3533,7 @@ components:
               example: freezeSingleNFT
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -3600,7 +3600,7 @@ components:
               example: wipeSingleNFT
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -3664,7 +3664,7 @@ components:
               example: wipeSingleNFT
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -3740,7 +3740,7 @@ components:
               example: ESDTNFTTransfer
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10
@@ -3821,7 +3821,7 @@ components:
               example: ESDTNFTTransfer
             tokenId:
               type: string
-              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier. 
+              description:  While contract is issuing, the contract will add a random string to the ticker thus creating the token identifier.
               example: ALC-6258d2
               maxLength: 17
               minLength: 10

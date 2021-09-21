@@ -33,7 +33,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
       if (e.constructor.name === 'TatumError' || e.constructor.name === PolygonError.name) {
         throw e;
       }
-      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'polygon.error');
+      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'polygon.error');
     }
   }
 
@@ -43,7 +43,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     try {
       return await this.service.generateWallet(mnemonic)
     } catch (e) {
-      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'polygon.error');
+      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'polygon.error');
     }
   }
 
@@ -53,7 +53,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     try {
       return await this.service.generatePrivateKey(mnemonic, index)
     } catch (e) {
-      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'polygon.error');
+      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'polygon.error');
     }
   }
 
@@ -69,7 +69,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
       if (e.constructor.name === 'TatumError' || e.constructor.name === PolygonError.name) {
         throw e;
       }
-      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'polygon.error');
+      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'polygon.error');
     }
   }
 
@@ -85,7 +85,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
       if (e.constructor.name === 'TatumError' || e.constructor.name === PolygonError.name) {
         throw e;
       }
-      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'polygon.error');
+      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'polygon.error');
     }
   }
 
@@ -95,7 +95,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     try {
       return await this.service.getTransactionCount(param.address);
     } catch (e) {
-      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'polygon.error');
+      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'polygon.error');
     }
   }
 
@@ -111,7 +111,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
       if (e.constructor.name === 'TatumError' || e.constructor.name === PolygonError.name) {
         throw e;
       }
-      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'polygon.error');
+      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'polygon.error');
     }
   }
 
@@ -127,7 +127,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
       if (e.constructor.name === 'TatumError' || e.constructor.name === PolygonError.name) {
         throw e;
       }
-      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'polygon.error');
+      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'polygon.error');
     }
   }
 
@@ -137,7 +137,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     try {
       return await this.service.getCurrentBlock();
     } catch (e) {
-      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'polygon.error');
+      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'polygon.error');
     }
   }
 
@@ -147,7 +147,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     try {
       return await this.service.getBlock(path.hash);
     } catch (e) {
-      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'polygon.error');
+      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'polygon.error');
     }
   }
 
@@ -157,7 +157,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     try {
       return await this.service.getBalance(path.address);
     } catch (e) {
-      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'polygon.error');
+      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'polygon.error');
     }
   }
 
@@ -167,7 +167,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     try {
       return await this.service.generateAddress(xpub, i);
     } catch (e) {
-      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'polygon.error');
+      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'polygon.error');
     }
   }
 
@@ -176,7 +176,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
     try {
       return await this.service.getTransaction(path.hash);
     } catch (e) {
-      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'polygon.error');
+      throw new PolygonError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'polygon.error');
     }
   }
 }

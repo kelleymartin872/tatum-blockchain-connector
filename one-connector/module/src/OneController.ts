@@ -21,7 +21,7 @@ export abstract class OneController {
             if (e.constructor.name === 'OneError') {
                 throw e;
             }
-            throw new OneError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'one.error');
+            throw new OneError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'one.error');
         }
     }
 
@@ -34,7 +34,7 @@ export abstract class OneController {
             if (e.constructor.name === 'OneError') {
                 throw e;
             }
-            throw new OneError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'one.error');
+            throw new OneError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'one.error');
         }
     }
 
@@ -47,7 +47,7 @@ export abstract class OneController {
             if (e.constructor.name === 'OneError') {
                 throw e;
             }
-            throw new OneError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'one.error');
+            throw new OneError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'one.error');
         }
     }
 
@@ -60,7 +60,7 @@ export abstract class OneController {
             if (e.constructor.name === 'OneError') {
                 throw e;
             }
-            throw new OneError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'one.error');
+            throw new OneError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'one.error');
         }
     }
 
@@ -73,7 +73,7 @@ export abstract class OneController {
             if (e.constructor.name === 'OneError') {
                 throw e;
             }
-            throw new OneError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'one.error');
+            throw new OneError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'one.error');
         }
     }
 
@@ -86,7 +86,7 @@ export abstract class OneController {
             if (e.constructor.name === 'OneError') {
                 throw e;
             }
-            throw new OneError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'one.error');
+            throw new OneError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'one.error');
         }
     }
 
@@ -99,7 +99,7 @@ export abstract class OneController {
             if (e.constructor.name === 'OneError') {
                 throw e;
             }
-            throw new OneError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'one.error');
+            throw new OneError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'one.error');
         }
     }
 
@@ -112,7 +112,7 @@ export abstract class OneController {
             if (e.constructor.name === 'OneError') {
                 throw e;
             }
-            throw new OneError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'one.error');
+            throw new OneError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'one.error');
         }
     }
 
@@ -125,7 +125,7 @@ export abstract class OneController {
             if (e.constructor.name === 'OneError') {
                 throw e;
             }
-            throw new OneError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'one.error');
+            throw new OneError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'one.error');
         }
     }
 
@@ -138,7 +138,7 @@ export abstract class OneController {
             if (e.constructor.name === 'OneError') {
                 throw e;
             }
-            throw new OneError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'one.error');
+            throw new OneError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'one.error');
         }
     }
 
@@ -151,7 +151,7 @@ export abstract class OneController {
             if (e.constructor.name === 'OneError') {
                 throw e;
             }
-            throw new OneError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'one.error');
+            throw new OneError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'one.error');
         }
     }
 
@@ -164,7 +164,7 @@ export abstract class OneController {
             if (e.constructor.name === 'OneError') {
                 throw e;
             }
-            throw new OneError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'one.error');
+            throw new OneError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'one.error');
         }
     }
 
@@ -176,7 +176,7 @@ export abstract class OneController {
             if (e.constructor.name === 'OneError') {
                 throw e;
             }
-            throw new OneError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'one.error');
+            throw new OneError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'one.error');
         }
     }
 }

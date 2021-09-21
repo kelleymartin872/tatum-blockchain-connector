@@ -30,7 +30,7 @@ export abstract class XdcController {
       if (e.constructor.name === 'TatumError' || e.constructor.name === XdcError.name) {
         throw e;
       }
-      throw new XdcError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'xdc.error');
+      throw new XdcError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'xdc.error');
     }
   }
 
@@ -46,7 +46,7 @@ export abstract class XdcController {
       if (e.constructor.name === 'TatumError' || e.constructor.name === XdcError.name) {
         throw e;
       }
-      throw new XdcError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'xdc.error');
+      throw new XdcError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'xdc.error');
     }
   }
 
@@ -62,7 +62,7 @@ export abstract class XdcController {
       if (e.constructor.name === 'TatumError' || e.constructor.name === XdcError.name) {
         throw e;
       }
-      throw new XdcError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'xdc.error');
+      throw new XdcError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'xdc.error');
     }
   }
 
@@ -78,7 +78,7 @@ export abstract class XdcController {
       if (e.constructor.name === 'TatumError' || e.constructor.name === XdcError.name) {
         throw e;
       }
-      throw new XdcError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'xdc.error');
+      throw new XdcError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'xdc.error');
     }
   }
 
@@ -94,7 +94,7 @@ export abstract class XdcController {
       if (e.constructor.name === 'TatumError' || e.constructor.name === XdcError.name) {
         throw e;
       }
-      throw new XdcError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'xdc.error');
+      throw new XdcError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'xdc.error');
     }
   }
 
@@ -110,7 +110,7 @@ export abstract class XdcController {
       if (e.constructor.name === 'TatumError' || e.constructor.name === XdcError.name) {
         throw e;
       }
-      throw new XdcError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'xdc.error');
+      throw new XdcError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'xdc.error');
     }
   }
 
@@ -126,7 +126,7 @@ export abstract class XdcController {
       if (e.constructor.name === 'TatumError' || e.constructor.name === XdcError.name) {
         throw e;
       }
-      throw new XdcError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'xdc.error');
+      throw new XdcError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'xdc.error');
     }
   }
 
@@ -142,7 +142,7 @@ export abstract class XdcController {
       if (e.constructor.name === 'TatumError' || e.constructor.name === XdcError.name) {
         throw e;
       }
-      throw new XdcError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'xdc.error');
+      throw new XdcError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'xdc.error');
     }
   }
 
@@ -158,7 +158,7 @@ export abstract class XdcController {
       if (e.constructor.name === 'TatumError' || e.constructor.name === XdcError.name) {
         throw e;
       }
-      throw new XdcError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'xdc.error');
+      throw new XdcError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'xdc.error');
     }
   }
 
@@ -174,7 +174,7 @@ export abstract class XdcController {
       if (e.constructor.name === 'TatumError' || e.constructor.name === XdcError.name) {
         throw e;
       }
-      throw new XdcError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'xdc.error');
+      throw new XdcError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'xdc.error');
     }
   }
 
@@ -190,7 +190,7 @@ export abstract class XdcController {
       if (e.constructor.name === 'TatumError' || e.constructor.name === XdcError.name) {
         throw e;
       }
-      throw new XdcError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'xdc.error');
+      throw new XdcError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'xdc.error');
     }
   }
 
@@ -206,7 +206,7 @@ export abstract class XdcController {
       if (e.constructor.name === 'TatumError' || e.constructor.name === XdcError.name) {
         throw e;
       }
-      throw new XdcError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'xdc.error');
+      throw new XdcError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'xdc.error');
     }
   }
 
@@ -221,7 +221,7 @@ export abstract class XdcController {
       if (e.constructor.name === 'TatumError' || e.constructor.name === XdcError.name) {
         throw e;
       }
-      throw new XdcError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'xdc.error');
+      throw new XdcError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'xdc.error');
     }
   }
 }

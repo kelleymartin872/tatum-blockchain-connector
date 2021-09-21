@@ -20,7 +20,7 @@ export abstract class EgldController {
     try {
       return await this.service.nodeMethod(req, param.xApiKey);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -30,7 +30,7 @@ export abstract class EgldController {
     try {
       return await this.service.nodeMethod(req, param.xApiKey);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -40,7 +40,7 @@ export abstract class EgldController {
     try {
       return await this.service.sendEgldTransaction(body);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -50,7 +50,7 @@ export abstract class EgldController {
     try {
       return await this.service.estimateGas(body);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -60,7 +60,7 @@ export abstract class EgldController {
     try {
       return await this.service.getTransactionCount(param.address);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -70,7 +70,7 @@ export abstract class EgldController {
     try {
       return await this.service.broadcast(body.txData, body.signatureId);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -80,7 +80,7 @@ export abstract class EgldController {
     try {
       return await this.service.getCurrentBlock();
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -90,7 +90,7 @@ export abstract class EgldController {
     try {
       return await this.service.getBalance(path.address);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -100,7 +100,7 @@ export abstract class EgldController {
     try {
       return await this.service.generateAddress(mnem, i);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -110,7 +110,7 @@ export abstract class EgldController {
     try {
       return await this.service.generateWallet(mnemonic)
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -120,7 +120,7 @@ export abstract class EgldController {
     try {
       return await this.service.generatePrivateKey(mnemonic, index)
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
     
@@ -130,7 +130,7 @@ export abstract class EgldController {
     try {
       return await this.service.getBlock(path.hash);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -139,7 +139,7 @@ export abstract class EgldController {
     try {
       return await this.service.getTransaction(path.hash);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -153,7 +153,7 @@ export abstract class EgldController {
         query?.count,
       );
     } catch (e) {
-        throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+        throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -163,7 +163,7 @@ export abstract class EgldController {
     try {
       return await this.service.deploySmartContract(body);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -173,7 +173,7 @@ export abstract class EgldController {
     try {
       return await this.service.mintSmartContract(body);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -183,7 +183,7 @@ export abstract class EgldController {
     try {
       return await this.service.burnSmartContract(body);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -193,7 +193,7 @@ export abstract class EgldController {
     try {
       return await this.service.pauseSmartContract(body);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -203,7 +203,7 @@ export abstract class EgldController {
     try {
       return await this.service.specialRoleSmartContract(body);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -213,7 +213,7 @@ export abstract class EgldController {
     try {
       return await this.service.freezeOrWipeOrOwvershipSmartContract(body);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -223,7 +223,7 @@ export abstract class EgldController {
     try {
       return await this.service.freezeOrWipeOrOwvershipSmartContract(body);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -233,7 +233,7 @@ export abstract class EgldController {
     try {
       return await this.service.freezeOrWipeOrOwvershipSmartContract(body);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
   
@@ -243,7 +243,7 @@ export abstract class EgldController {
     try {
       return await this.service.controlChangesSmartContract(body);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -253,7 +253,7 @@ export abstract class EgldController {
     try {
       return await this.service.invokeSmartContractMethod(body);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -263,7 +263,7 @@ export abstract class EgldController {
     try {
       return await this.service.deployNft(body);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -273,7 +273,7 @@ export abstract class EgldController {
     try {
       return await this.service.createNft(body);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -283,7 +283,7 @@ export abstract class EgldController {
     try {
       return await this.service.roleTransferNft(body);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
   
@@ -293,7 +293,7 @@ export abstract class EgldController {
     try {
       return await this.service.stopNftCreate(body);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
   
@@ -303,7 +303,7 @@ export abstract class EgldController {
     try {
       return await this.service.addOrBurnNftQuantity(body);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
   
@@ -313,7 +313,7 @@ export abstract class EgldController {
     try {
       return await this.service.addOrBurnNftQuantity(body);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -323,7 +323,7 @@ export abstract class EgldController {
     try {
       return await this.service.freezeNft(body);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -333,7 +333,7 @@ export abstract class EgldController {
     try {
       return await this.service.wipeNft(body);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 
@@ -343,7 +343,7 @@ export abstract class EgldController {
     try {
       return await this.service.transferNft(body);
     } catch (e) {
-      throw new EgldError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'egld.error');
+      throw new EgldError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'egld.error');
     }
   }
 }

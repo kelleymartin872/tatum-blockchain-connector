@@ -35,7 +35,7 @@ export abstract class EthereumController {
     try {
       return await this.service.web3Method(body);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -45,7 +45,7 @@ export abstract class EthereumController {
     try {
       return await this.service.generateWallet(mnemonic)
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -55,7 +55,7 @@ export abstract class EthereumController {
     try {
       return await this.service.generatePrivateKey(mnemonic, index)
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -65,7 +65,7 @@ export abstract class EthereumController {
     try {
       return await this.service.sendEthOrErc20Transaction(body);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -75,7 +75,7 @@ export abstract class EthereumController {
     try {
       return await this.service.estimateGas(body);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -85,7 +85,7 @@ export abstract class EthereumController {
     try {
       return await this.service.getTransactionCount(param.address);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -95,7 +95,7 @@ export abstract class EthereumController {
     try {
       return await this.service.invokeSmartContractMethod(body);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -105,7 +105,7 @@ export abstract class EthereumController {
     try {
       return await this.service.sendCustomErc20Transaction(body);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -115,7 +115,7 @@ export abstract class EthereumController {
     try {
       return await await this.service.deployErc20Blockchain(body);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -125,7 +125,7 @@ export abstract class EthereumController {
     try {
       return await this.service.getBalanceErc721(path.address, path.contractAddress);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -135,7 +135,7 @@ export abstract class EthereumController {
     try {
       return await this.service.getOwnerErc721(path.token, path.contractAddress);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -145,7 +145,7 @@ export abstract class EthereumController {
     try {
       return await this.service.getTokensOfOwner(path.address, path.contractAddress);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -155,7 +155,7 @@ export abstract class EthereumController {
     try {
       return await this.service.getMetadataErc721(path.token, path.contractAddress);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -165,7 +165,7 @@ export abstract class EthereumController {
     try {
       return await this.service.getTokenErc721(path.address, path.i, path.contractAddress);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -175,7 +175,7 @@ export abstract class EthereumController {
     try {
       return await this.service.transferErc721(body);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -185,7 +185,7 @@ export abstract class EthereumController {
     try {
       return await this.service.mintErc721(body);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -195,7 +195,7 @@ export abstract class EthereumController {
     try {
       return await this.service.mintMultipleErc721(body);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -205,7 +205,7 @@ export abstract class EthereumController {
     try {
       return await this.service.burnErc721(body);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -215,7 +215,7 @@ export abstract class EthereumController {
     try {
       return await this.service.deployErc721(body);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -225,7 +225,7 @@ export abstract class EthereumController {
     try {
       return await this.service.broadcast(body.txData, body.signatureId);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -235,7 +235,7 @@ export abstract class EthereumController {
     try {
       return await this.service.getCurrentBlock();
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -245,7 +245,7 @@ export abstract class EthereumController {
     try {
       return await this.service.getBlock(path.hash);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -255,7 +255,7 @@ export abstract class EthereumController {
     try {
       return await this.service.getBalance(path.address);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -265,7 +265,7 @@ export abstract class EthereumController {
     try {
       return await this.service.getTransactionsByAddress(path.address, query);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -275,7 +275,7 @@ export abstract class EthereumController {
     try {
       return await this.service.getErc20InternalTransactionsByAddress(path.address, query);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -285,7 +285,7 @@ export abstract class EthereumController {
     try {
       return await this.service.getErc20Balance(path.address, query.currency, query.contractAddress);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -295,7 +295,7 @@ export abstract class EthereumController {
     try {
       return await this.service.generateAddress(xpub, i);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 
@@ -304,7 +304,7 @@ export abstract class EthereumController {
     try {
       return await this.service.getTransaction(path.hash);
     } catch (e) {
-      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'ethereum.error');
+      throw new EthereumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'ethereum.error');
     }
   }
 }

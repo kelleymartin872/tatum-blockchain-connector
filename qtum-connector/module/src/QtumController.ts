@@ -21,7 +21,7 @@ export abstract class QtumController {
         try {
             return await generatePrivateKeyFromMnemonic(Currency.QTUM, await this.service.isTestnet(), body.mnemonic, body.index);
         } catch (e) {
-            throw new QtumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'qtum.error');
+            throw new QtumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'qtum.error');
         }
     }
     @Get('/wallet')
@@ -30,7 +30,7 @@ export abstract class QtumController {
         try {
             return await generateWallet(Currency.QTUM,await this.service.isTestnet(), mnemonic);
         } catch (e) {
-            throw new QtumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'qtum.error');
+            throw new QtumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'qtum.error');
         }
     }
 
@@ -40,7 +40,7 @@ export abstract class QtumController {
         try {
             return {address: await generateAddressFromXPub(Currency.QTUM, await this.service.isTestnet(), xpub, Number(i))};
         } catch (e) {
-            throw new QtumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'qtum.error');
+            throw new QtumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'qtum.error');
         }
     }
     @Get('/block/current')
@@ -49,7 +49,7 @@ export abstract class QtumController {
         try {
             return await this.service.getCurrentBlock();
         } catch (e) {
-            throw new QtumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'qtum.error');
+            throw new QtumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'qtum.error');
         }
     }
     @Get('/block/:hash')
@@ -58,7 +58,7 @@ export abstract class QtumController {
         try {
             return await this.service.getBlock(hash);
         } catch (e) {
-            throw new QtumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'qtum.error');
+            throw new QtumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'qtum.error');
         }
     }
     @Get('/address/:key')
@@ -67,7 +67,7 @@ export abstract class QtumController {
         try {
             return await generateAddressFromPrivatekey(Currency.QTUM,  await this.service.isTestnet(), key);
         } catch (e) {
-            throw new QtumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'qtum.error');
+            throw new QtumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'qtum.error');
         }
     }
     @Post('/broadcast')
@@ -76,7 +76,7 @@ export abstract class QtumController {
         try {
             return await this.service.broadcast(body.rawtx);
         } catch (e) {
-            throw new QtumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'qtum.error');
+            throw new QtumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'qtum.error');
         }
     }
 
@@ -86,7 +86,7 @@ export abstract class QtumController {
         try {
             return await this.service.getQtumUTXOs(address);
         } catch (e) {
-            throw new QtumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'qtum.error');
+            throw new QtumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'qtum.error');
         }
     }
     @Get('/account/balance/:address')
@@ -95,7 +95,7 @@ export abstract class QtumController {
         try {
             return await this.service.getInfo(address);
         } catch (e) {
-            throw new QtumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'qtum.error');
+            throw new QtumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'qtum.error');
         }
     }
     @Get('/transaction/:hash')
@@ -104,7 +104,7 @@ export abstract class QtumController {
         try {
             return await this.service.getQtumTransaction(hash);
         } catch (e) {
-            throw new QtumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'qtum.error');
+            throw new QtumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'qtum.error');
         }
     }
 
@@ -114,7 +114,7 @@ export abstract class QtumController {
         try {
             return await this.service.getQtumTransactions(address, parseInt(pageSize), offset ? parseInt(offset) : undefined);
         } catch (e) {
-            throw new QtumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'qtum.error');
+            throw new QtumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'qtum.error');
         }
     }
     @Get('/transactions/gas/:nblocks')
@@ -123,7 +123,7 @@ export abstract class QtumController {
         try {
             return await this.service.estimateFee(nblocks);
         } catch (e) {
-            throw new QtumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'qtum.error');
+            throw new QtumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'qtum.error');
         }
     }
     @Get('/transactions/gasbytes/:nblocks')
@@ -132,7 +132,7 @@ export abstract class QtumController {
         try {
             return await this.service.estimateFeePerByte(nblocks);
         } catch (e) {
-            throw new QtumError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'qtum.error');
+            throw new QtumError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'qtum.error');
         }
     }
 

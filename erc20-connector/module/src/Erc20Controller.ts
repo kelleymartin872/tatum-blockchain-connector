@@ -27,7 +27,7 @@ export abstract class Erc20Controller {
         try {
             return await this.service.getErc20Balance(path.chain, path.address, path.contractAddress)
         } catch (e) {
-            throw new Erc20Error(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'erc20.error');
+            throw new Erc20Error(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'erc20.error');
         }
     }
 
@@ -45,7 +45,7 @@ export abstract class Erc20Controller {
             if (e.constructor.name === 'TatumError' || e.constructor.name === Erc20Error.name) {
                 throw e;
             }
-            throw new Erc20Error(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'erc20.error');
+            throw new Erc20Error(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'erc20.error');
         }
     }
 
@@ -61,7 +61,7 @@ export abstract class Erc20Controller {
             if (e.constructor.name === 'TatumError' || e.constructor.name === Erc20Error.name) {
                 throw e;
             }
-            throw new Erc20Error(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'erc20.error');
+            throw new Erc20Error(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'erc20.error');
         }
     }
 
@@ -77,7 +77,7 @@ export abstract class Erc20Controller {
             if (e.constructor.name === 'TatumError' || e.constructor.name === Erc20Error.name) {
                 throw e;
             }
-            throw new Erc20Error(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'erc20.error');
+            throw new Erc20Error(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'erc20.error');
         }
     }
 
@@ -93,7 +93,7 @@ export abstract class Erc20Controller {
             if (e.constructor.name === 'TatumError' || e.constructor.name === Erc20Error.name) {
                 throw e;
             }
-            throw new Erc20Error(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'erc20.error');
+            throw new Erc20Error(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'erc20.error');
         }
     }
 
@@ -109,7 +109,7 @@ export abstract class Erc20Controller {
             if (e.constructor.name === 'TatumError' || e.constructor.name === Erc20Error.name) {
                 throw e;
             }
-            throw new Erc20Error(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'erc20.error');
+            throw new Erc20Error(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'erc20.error');
         }
     }
 }

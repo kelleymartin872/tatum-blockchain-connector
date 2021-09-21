@@ -17,7 +17,7 @@ export abstract class FabricController {
                 return await this.service.storeData(body.key, body.data, url[FABRIC_HEADER_ENDPOINT]);
             }
         } catch (e) {
-            throw new FabricError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'fabric.error');
+            throw new FabricError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'fabric.error');
         }
         throw new FabricError(`Incompatible chain.`, 'fabric.error');
     }
@@ -27,7 +27,7 @@ export abstract class FabricController {
         try {
             return await this.service.getData(key, url[FABRIC_HEADER_ENDPOINT]);
         } catch (e) {
-            throw new FabricError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'fabric.error');
+            throw new FabricError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'fabric.error');
         }
     }
 }

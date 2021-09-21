@@ -36,7 +36,7 @@ export abstract class CeloController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === CeloError.name) {
                 throw e;
             }
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -45,7 +45,7 @@ export abstract class CeloController {
         try {
             return await this.service.generateWallet(query.mnemonic);
         } catch (e) {
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -55,7 +55,7 @@ export abstract class CeloController {
         try {
             return await this.service.generateAddressPrivateKey(body.index, body.mnemonic);
         } catch (e) {
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -71,7 +71,7 @@ export abstract class CeloController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === CeloError.name) {
                 throw e;
             }
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -80,7 +80,7 @@ export abstract class CeloController {
         try {
             return await this.service.getTransactionCount(param.address);
         } catch (e) {
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -89,7 +89,7 @@ export abstract class CeloController {
         try {
             return await this.service.getBalanceErc721(path.address, path.contractAddress);
         } catch (e) {
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -98,7 +98,7 @@ export abstract class CeloController {
         try {
             return await this.service.getOwnerErc721(path.token, path.contractAddress);
         } catch (e) {
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -107,7 +107,7 @@ export abstract class CeloController {
         try {
             return await this.service.getMetadataErc721(path.token, path.contractAddress);
         } catch (e) {
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -116,7 +116,7 @@ export abstract class CeloController {
         try {
             return await this.service.getTokenErc721(path.address, parseInt(path.i), path.contractAddress);
         } catch (e) {
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -125,7 +125,7 @@ export abstract class CeloController {
         try {
             return await this.service.getTokensOfOwner(path.address, path.contractAddress);
         } catch (e) {
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -142,7 +142,7 @@ export abstract class CeloController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === CeloError.name) {
                 throw e;
             }
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -159,7 +159,7 @@ export abstract class CeloController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === CeloError.name) {
                 throw e;
             }
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -176,7 +176,7 @@ export abstract class CeloController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === CeloError.name) {
                 throw e;
             }
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -193,7 +193,7 @@ export abstract class CeloController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === CeloError.name) {
                 throw e;
             }
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -210,7 +210,7 @@ export abstract class CeloController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === CeloError.name) {
                 throw e;
             }
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -226,7 +226,7 @@ export abstract class CeloController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === CeloError.name) {
                 throw e;
             }
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -242,7 +242,7 @@ export abstract class CeloController {
           if (e.constructor.name === 'TatumError' || e.constructor.name === CeloError.name) {
               throw e;
           }
-        throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+        throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
       }
     }
 
@@ -258,7 +258,7 @@ export abstract class CeloController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === CeloError.name) {
                 throw e;
             }
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -274,7 +274,7 @@ export abstract class CeloController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === CeloError.name) {
                 throw e;
             }
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -290,7 +290,7 @@ export abstract class CeloController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === CeloError.name) {
                 throw e;
             }
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -311,7 +311,7 @@ export abstract class CeloController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === CeloError.name) {
                 throw e;
             }
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -320,7 +320,7 @@ export abstract class CeloController {
         try {
             return await this.service.getCurrentBlock();
         } catch (e) {
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -329,7 +329,7 @@ export abstract class CeloController {
         try {
             return await this.service.getBlock(path.hash);
         } catch (e) {
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -338,7 +338,7 @@ export abstract class CeloController {
         try {
             return await this.service.getBalance(path.address);
         } catch (e) {
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -347,7 +347,7 @@ export abstract class CeloController {
         try {
             return await this.service.getTransaction(path.hash);
         } catch (e) {
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 
@@ -356,7 +356,7 @@ export abstract class CeloController {
         try {
             return await this.service.generateAddress(path.xpub, parseInt(path.i));
         } catch (e) {
-            throw new CeloError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'celo.error');
+            throw new CeloError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'celo.error');
         }
     }
 }

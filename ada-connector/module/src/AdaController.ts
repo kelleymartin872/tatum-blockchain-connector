@@ -5,143 +5,145 @@ import {AdaError} from './AdaError';
 import {AdaService} from './AdaService';
 import {AdaBlockchainInfo} from './constants';
 import {
-  BlockchainError,
-  BtcBasedBlockchainControllerInterface,
-  GeneratePrivateKey,
-  Pagination,
-  PathAddress,
-  PathHash,
-  PathXpub,
-  QueryMnemonic,
-  TransactionKMSResponse,
-  TransactionResponse,
-  TxData,
+    BlockchainError,
+    BtcBasedBlockchainControllerInterface,
+    GeneratePrivateKey,
+    Pagination,
+    PathAddress,
+    PathHash,
+    PathXpub,
+    QueryMnemonic,
+    TransactionKMSResponse,
+    TransactionResponse,
+    TxData,
 } from '@tatumio/blockchain-connector-common';
 
 export abstract class AdaController implements BtcBasedBlockchainControllerInterface {
-  protected constructor(protected readonly service: AdaService) {
-  }
-
-  @Get('/info')
-  async getInfo(): Promise<AdaBlockchainInfo> {
-    try {
-      return await this.service.getBlockChainInfo();
-    } catch (e) {
-      this.throwError(e);
+    protected constructor(protected readonly service: AdaService) {
     }
-  }
 
-  @Get('/wallet')
-  async generateWallet(@Query() { mnemonic }: QueryMnemonic) {
-    try {
-      return await this.service.generateWallet(mnemonic);
-    } catch (e) {
-      this.throwError(e);
+    @Get('/info')
+    async getInfo(): Promise<AdaBlockchainInfo> {
+        try {
+            return await this.service.getBlockChainInfo();
+        } catch (e) {
+            this.throwError(e);
+        }
     }
-  }
 
-  @Get('/address/:xpub/:i')
-  async generateAddress(@Param() { xpub, i }: PathXpub ): Promise<{ address: string }> {
-    try {
-      return await this.service.generateAddress(
-        xpub,
-        Number(i),
-      );
-    } catch (e) {
-      this.throwError(e);
+    @Get('/wallet')
+    async generateWallet(@Query() {mnemonic}: QueryMnemonic) {
+        try {
+            return await this.service.generateWallet(mnemonic);
+        } catch (e) {
+            this.throwError(e);
+        }
     }
-  }
 
-  @Post('/wallet/priv')
-  async generatePrivateKey(@Body() body: GeneratePrivateKey): Promise<{ key: string }> {
-    try {
-      return await this.service.generatePrivateKey(body.mnemonic, body.index);
-    } catch (e) {
-      this.throwError(e);
+    @Get('/address/:xpub/:i')
+    async generateAddress(@Param() {xpub, i}: PathXpub): Promise<{ address: string }> {
+        try {
+            return await this.service.generateAddress(
+                xpub,
+                Number(i),
+            );
+        } catch (e) {
+            this.throwError(e);
+        }
     }
-  }
 
-  @Get('/block/:hash')
-  async getBlock(@Param() path: PathHash): Promise<Block> {
-    try {
-      return await this.service.getBlock(path.hash);
-    } catch (e) {
-      this.throwError(e);
+    @Post('/wallet/priv')
+    async generatePrivateKey(@Body() body: GeneratePrivateKey): Promise<{ key: string }> {
+        try {
+            return await this.service.generatePrivateKey(body.mnemonic, body.index);
+        } catch (e) {
+            this.throwError(e);
+        }
     }
-  }
 
-  @Get('/transaction/:hash')
-  async getTransaction(@Param() path: PathHash): Promise<Transaction> {
-    try {
-      return await this.service.getTransaction(path.hash);
-    } catch (e) {
-      this.throwError(e);
+    @Get('/block/:hash')
+    async getBlock(@Param() path: PathHash): Promise<Block> {
+        try {
+            return await this.service.getBlock(path.hash);
+        } catch (e) {
+            this.throwError(e);
+        }
     }
-  }
 
-  @Get('/account/:address')
-  async getAccount(@Param() path: PathAddress): Promise<PaymentAddress> {
-    try {
-      return await this.service.getAccount(path.address);
-    } catch (e) {
-      this.throwError(e);
+    @Get('/transaction/:hash')
+    async getTransaction(@Param() path: PathHash): Promise<Transaction> {
+        try {
+            return await this.service.getTransaction(path.hash);
+        } catch (e) {
+            this.throwError(e);
+        }
     }
-  }
 
-  @Get('/transaction/address/:address')
-  async getTransactionsByAccount(@Param() path: PathAddress, @Query() query: Pagination): Promise<Transaction[]> {
-    try {
-      return await this.service.getTransactionsByAccount(
-        path.address,
-        query.pageSize,
-        query.offset,
-      );
-    } catch (e) {
-      this.throwError(e);
+    @Get('/account/:address')
+    async getAccount(@Param() path: PathAddress): Promise<PaymentAddress> {
+        try {
+            return await this.service.getAccount(path.address);
+        } catch (e) {
+            this.throwError(e);
+        }
     }
-  }
+
+    @Get('/transaction/address/:address')
+    async getTransactionsByAccount(@Param() path: PathAddress, @Query() query: Pagination): Promise<Transaction[]> {
+        try {
+            return await this.service.getTransactionsByAccount(
+                path.address,
+                query.pageSize,
+                query.offset,
+            );
+        } catch (e) {
+            this.throwError(e);
+        }
+    }
 
 
-  @Post('/broadcast')
-  async broadcast(
-    @Body() txData : TxData
-  ): Promise<{ txId: string }> {
-    try {
-      return await this.service.broadcast(txData);
-    } catch (e) {
-      this.throwError(e);
+    @Post('/broadcast')
+    async broadcast(
+        @Body() txData: TxData
+    ): Promise<{ txId: string }> {
+        try {
+            return await this.service.broadcast(txData);
+        } catch (e) {
+            this.throwError(e);
+        }
     }
-  }
 
-  @Get('/:address/utxos')
-  async getUTxosByAddress(@Param() path: PathAddress): Promise<AdaUtxo[]> {
-    try {
-      return await this.service.getUtxosByAddress(path.address);
-    } catch (e) {
-      this.throwError(e);
+    @Get('/:address/utxos')
+    async getUTxosByAddress(@Param() path: PathAddress): Promise<AdaUtxo[]> {
+        try {
+            return await this.service.getUtxosByAddress(path.address);
+        } catch (e) {
+            this.throwError(e);
+        }
     }
-  }
 
-  @Post('/transaction')
-  async sendTransaction(@Body() body: TransferBtcBasedBlockchain): Promise<TransactionResponse | TransactionKMSResponse> {
-    try {
-      return await this.service.sendTransaction(body);
-    } catch (e) {
-      this.throwError(e);
+    @Post('/transaction')
+    async sendTransaction(@Body() body: TransferBtcBasedBlockchain): Promise<TransactionResponse | TransactionKMSResponse> {
+        try {
+            return await this.service.sendTransaction(body);
+        } catch (e) {
+            this.throwError(e);
+        }
     }
-  }
 
-  throwError(e: BlockchainError): void {
-    if (['Array', 'ValidationError'].includes(e.constructor.name)) {
-      throw new BadRequestException(e);
+    throwError(e: BlockchainError): void {
+        if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+            throw new BadRequestException(e);
+        }
+        if (e.constructor.name === 'TatumError') {
+            throw e;
+        }
+        throw new AdaError(
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            `Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`,
+            'ada.error',
+        );
     }
-    if (e.constructor.name === 'TatumError') {
-      throw e;
-    }
-    throw new AdaError(
-      `Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`,
-      'ada.error',
-    );
-  }
 
 }

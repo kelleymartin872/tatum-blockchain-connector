@@ -33,7 +33,7 @@ export abstract class TronController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
                 throw e;
             }
-            throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
+            throw new TronError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'tron.error');
         }
     }
 
@@ -48,7 +48,7 @@ export abstract class TronController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
                 throw e;
             }
-            throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
+            throw new TronError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'tron.error');
         }
     }
 
@@ -63,7 +63,7 @@ export abstract class TronController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
                 throw e;
             }
-            throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
+            throw new TronError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'tron.error');
         }
     }
 
@@ -78,7 +78,7 @@ export abstract class TronController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
                 throw e;
             }
-            throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
+            throw new TronError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'tron.error');
         }
     }
 
@@ -93,7 +93,7 @@ export abstract class TronController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
                 throw e;
             }
-            throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
+            throw new TronError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'tron.error');
         }
     }
 
@@ -108,7 +108,7 @@ export abstract class TronController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
                 throw e;
             }
-            throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
+            throw new TronError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'tron.error');
         }
     }
 
@@ -138,7 +138,7 @@ export abstract class TronController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
                 throw e;
             }
-            throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
+            throw new TronError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'tron.error');
         }
     }
 
@@ -153,7 +153,7 @@ export abstract class TronController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
                 throw e;
             }
-            throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
+            throw new TronError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'tron.error');
         }
     }
 
@@ -168,7 +168,7 @@ export abstract class TronController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
                 throw e;
             }
-            throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
+            throw new TronError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'tron.error');
         }
     }
 
@@ -184,7 +184,7 @@ export abstract class TronController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
                 throw e;
             }
-            throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
+            throw new TronError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'tron.error');
         }
     }
 
@@ -200,7 +200,7 @@ export abstract class TronController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
                 throw e;
             }
-            throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
+            throw new TronError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'tron.error');
         }
     }
 
@@ -215,7 +215,7 @@ export abstract class TronController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
                 throw e;
             }
-            throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
+            throw new TronError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'tron.error');
         }
     }
 
@@ -231,7 +231,7 @@ export abstract class TronController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
                 throw e;
             }
-            throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
+            throw new TronError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'tron.error');
         }
     }
 
@@ -247,7 +247,7 @@ export abstract class TronController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
                 throw e;
             }
-            throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
+            throw new TronError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'tron.error');
         }
     }
 
@@ -263,7 +263,7 @@ export abstract class TronController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
                 throw e;
             }
-            throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
+            throw new TronError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'tron.error');
         }
     }
 
@@ -279,7 +279,7 @@ export abstract class TronController {
             if (e.constructor.name === 'TatumError' || e.constructor.name === TronError.name) {
                 throw e;
             }
-            throw new TronError(`Unexpected error occurred. Reason: ${e.message || e.response?.data || e}`, 'tron.error');
+            throw new TronError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'tron.error');
         }
     }
 }

@@ -146,14 +146,18 @@ export abstract class PolygonService {
     public async getTransaction(txId: string, testnet?: boolean) {
         const t = testnet === undefined ? await this.isTestnet() : testnet;
         try {
-            const {r, s, v, hash, ...transaction} = (await axios.post(await this.getFirstNodeUrl(t), {
+            const data = (await axios.post(await this.getFirstNodeUrl(t), {
                 jsonrpc: '2.0',
                 id: 0,
                 method: 'eth_getTransactionByHash',
                 params: [
                     txId
                 ]
-            }, {headers: {'Content-Type': 'application/json'}})).data?.result;
+            }, {headers: {'Content-Type': 'application/json'}})).data;
+            if (!data?.result) {
+                throw new PolygonError('Transaction not found. Possible not exists or is still pending.', 'tx.not.found');
+            }
+            const {r, s, v, hash, ...transaction} = data.result;
             let receipt = {};
             try {
                 receipt = (await axios.post(await this.getFirstNodeUrl(t), {

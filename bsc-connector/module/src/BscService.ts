@@ -17,7 +17,7 @@ import {
     SmartContractMethodInvocation, SmartContractReadMethodInvocation,
     TransactionHash,
     TransferBscBep20,
-    TransferCustomErc20,
+    TransferErc20,
 } from '@tatumio/tatum';
 import Web3 from 'web3';
 import {fromWei} from 'web3-utils';
@@ -254,7 +254,7 @@ export abstract class BscService {
         });
     }
 
-    public async sendCustomBep20Transaction(transferCustomErc20: TransferCustomErc20): Promise<TransactionHash | SignatureId> {
+    public async sendCustomBep20Transaction(transferCustomErc20: TransferErc20): Promise<TransactionHash | SignatureId> {
         const transactionData = await prepareCustomBep20SignedTransaction(transferCustomErc20, await this.getFirstNodeUrl(await this.isTestnet()));
         return this.broadcastOrStoreKMSTransaction({
             transactionData, signatureId: transferCustomErc20.signatureId,

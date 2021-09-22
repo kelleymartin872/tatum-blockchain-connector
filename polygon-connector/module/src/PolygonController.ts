@@ -5,7 +5,7 @@ import {
   EstimateGasEth,
   SmartContractMethodInvocation,
   SmartContractReadMethodInvocation,
-  TransferEthErc20,
+  TransferErc20,
 } from '@tatumio/tatum';
 import {PolygonError} from './PolygonError';
 import {
@@ -59,7 +59,7 @@ export abstract class PolygonController implements EthBasedBlockchainControllerI
 
   @Post('/transaction')
   @HttpCode(HttpStatus.OK)
-  public async sendTransaction(@Body() body: TransferEthErc20) {
+  public async sendTransaction(@Body() body: TransferErc20) {
     try {
       return await this.service.sendMatic(body);
     } catch (e) {

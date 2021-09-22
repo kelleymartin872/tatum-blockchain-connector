@@ -13,7 +13,7 @@ import {
     SmartContractMethodInvocation,
     SmartContractReadMethodInvocation,
     TransactionHash,
-    TransferEthErc20,
+    TransferErc20,
 } from '@tatumio/tatum';
 import {BroadcastOrStoreKMSTransaction} from '@tatumio/blockchain-connector-common';
 import Web3 from 'web3';
@@ -237,7 +237,7 @@ export abstract class PolygonService {
         return {balance: fromWei(await client.eth.getBalance(address), 'ether')};
     }
 
-    public async sendMatic(transfer: TransferEthErc20): Promise<TransactionHash | SignatureId> {
+    public async sendMatic(transfer: TransferErc20): Promise<TransactionHash | SignatureId> {
         const transactionData = await preparePolygonSignedTransaction(await this.isTestnet(), transfer, await this.getFirstNodeUrl(await this.isTestnet()));
         return this.broadcastOrStoreKMSTransaction({
             transactionData, signatureId: transfer.signatureId,

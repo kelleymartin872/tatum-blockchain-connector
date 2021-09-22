@@ -10,7 +10,7 @@ import {
   SmartContractMethodInvocation,
   SmartContractReadMethodInvocation,
   TransferBscBep20,
-  TransferCustomErc20,
+  TransferErc20,
 } from '@tatumio/tatum';
 import {PathAddress} from './dto/PathAddress';
 import {QueryCurrencyContractAddress} from './dto/QueryCurrencyContractAddress';
@@ -117,7 +117,7 @@ export abstract class BscController {
 
   @Post('/bep20/transaction')
   @HttpCode(HttpStatus.OK)
-  public async transferBep20Blockchain(@Body() body: TransferCustomErc20) {
+  public async transferBep20Blockchain(@Body() body: TransferErc20) {
     try {
       return await this.service.sendCustomBep20Transaction(body);
     } catch (e) {

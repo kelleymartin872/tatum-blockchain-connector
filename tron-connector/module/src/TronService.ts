@@ -116,7 +116,12 @@ export abstract class TronService {
             }
             return {txId: broadcast.txid};
         }
-        throw new TronError(`Broadcast failed due to ${broadcast.message}`, 'tron.error');
+        let msg = broadcast.message;
+        try {
+            msg = Buffer.from(msg, 'hex').toString();
+        } catch (e) {
+        }
+        throw new TronError(`Broadcast failed due to ${msg}`, 'tron.error');
     }
 
     public async getBlockChainInfo(testnet?: boolean): Promise<{ testnet: boolean, hash: string, blockNumber: number }> {

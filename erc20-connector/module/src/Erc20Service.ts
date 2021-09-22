@@ -35,7 +35,7 @@ import {
     prepareCeloBurnErc20SignedTransaction,
     prepareCeloDeployErc20SignedTransaction,
     prepareCeloMintErc20SignedTransaction,
-    prepareCeloTransferErc20SignedTransaction,
+    prepareCeloTransferErc20SignedTransaction, prepareCustomErc20SignedTransaction,
     prepareDeployBep20SignedTransaction,
     prepareDeployErc20SignedTransaction,
     prepareEthBurnErc20SignedTransaction,
@@ -57,9 +57,7 @@ import {
     TransactionHash,
     TransferBscBep20,
     TransferCeloOrCeloErc20Token,
-    TransferCustomErc20,
     TransferErc20,
-    TransferEthErc20,
 } from '@tatumio/tatum';
 import erc20_abi from '@tatumio/tatum/dist/src/contracts/erc20/token_abi';
 
@@ -126,13 +124,17 @@ export abstract class Erc20Service {
         let txData;
         switch (chain) {
             case Currency.ETH:
-                txData = await prepareEthOrErc20SignedTransaction(_body as TransferEthErc20, (await this.getFirstNodeUrl(chain, testnet)));
+                if (body.currency) {
+                    txData = await prepareEthOrErc20SignedTransaction(_body as TransferErc20, (await this.getFirstNodeUrl(chain, testnet)));
+                } else {
+                    txData = await prepareCustomErc20SignedTransaction(_body as TransferErc20, (await this.getFirstNodeUrl(chain, testnet)));
+                }
                 break;
             case Currency.ONE:
                 txData = await prepareOneTransfer20SignedTransaction(testnet, _body as OneTransfer20, (await this.getFirstNodeUrl(chain, testnet)));
                 break;
             case Currency.MATIC:
-                txData = await preparePolygonTransferErc20SignedTransaction(testnet, _body as TransferCustomErc20, (await this.getFirstNodeUrl(chain, testnet)));
+                txData = await preparePolygonTransferErc20SignedTransaction(testnet, _body as TransferErc20, (await this.getFirstNodeUrl(chain, testnet)));
                 break;
             case Currency.BSC:
                 txData = await prepareBscOrBep20SignedTransaction(_body as TransferBscBep20, (await this.getFirstNodeUrl(chain, testnet)));

@@ -288,7 +288,7 @@ paths:
         - Blockchain / Celo
   /v3/celo/transaction/{hash}:
     get:
-      description: "<h4>1 credit per API call.</h4><br/><p>Get Celo transaction by transaction hash.</p>"
+      description: "<h4>2 credit per API call.</h4><br/><p>Get Celo transaction by transaction hash.</p>"
       operationId: CeloGetTransaction
       parameters:
         - description: "Transaction hash"

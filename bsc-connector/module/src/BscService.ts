@@ -100,23 +100,37 @@ export abstract class BscService {
         failed?: boolean,
     }> {
         this.logger.info(`Broadcast tx for BSC with data '${txData}'`);
-        const client = await this.getClient(await this.isTestnet());
-        const result: { txId: string } = await new Promise((async (resolve, reject) => {
-            client.eth.sendSignedTransaction(txData)
-                .once('transactionHash', txId => resolve({txId}))
-                .on('error', e => reject(new BscError(`Unable to broadcast transaction due to ${e.message}.`, 'bsc.broadcast.failed')));
-        }));
+        let txId;
+        try {
+            const url = (await this.getNodesUrl(await this.isTestnet()))[0];
+            const {result, error} = (await axios.post(url, {
+                jsonrpc: '2.0',
+                id: 0,
+                method: 'eth_sendRawTransaction',
+                params: [txData]
+            }, {headers: {'Content-Type': 'application/json'}})).data;
+            if (error) {
+                throw new BscError(`Unable to broadcast transaction due to ${error.message}.`, 'bsc.broadcast.failed');
+            }
+            txId = result;
+        } catch (e) {
+            if (e.constructor.name === BscError.name) {
+                throw e;
+            }
+            this.logger.error(e);
+            throw new BscError(`Unable to broadcast transaction due to ${e.message}.`, 'bsc.broadcast.failed');
+        }
 
         if (signatureId) {
             try {
-                await this.completeKMSTransaction(result.txId, signatureId);
+                await this.completeKMSTransaction(txId, signatureId);
             } catch (e) {
                 this.logger.error(e);
-                return {txId: result.txId, failed: true};
+                return {txId, failed: true};
             }
         }
 
-        return result;
+        return {txId};
     }
 
     public async getCurrentBlock(testnet?: boolean): Promise<number> {

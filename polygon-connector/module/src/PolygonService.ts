@@ -99,23 +99,37 @@ export abstract class PolygonService {
         failed?: boolean,
     }> {
         this.logger.info(`Broadcast tx for MATIC with data '${txData}'`);
-        const client = await this.getClient(await this.isTestnet());
-        const result: { txId: string } = await new Promise((async (resolve, reject) => {
-            client.eth.sendSignedTransaction(txData)
-                .once('transactionHash', txId => resolve({txId}))
-                .on('error', e => reject(new PolygonError(`Unable to broadcast transaction due to ${e.message}.`, 'polygon.broadcast.failed')));
-        }));
+        let txId;
+        try {
+            const url = await this.getFirstNodeUrl(await this.isTestnet());
+            const {result, error} = (await axios.post(url, {
+                jsonrpc: '2.0',
+                id: 0,
+                method: 'eth_sendRawTransaction',
+                params: [txData]
+            }, {headers: {'Content-Type': 'application/json'}})).data;
+            if (error) {
+                throw new PolygonError(`Unable to broadcast transaction due to ${error.message}.`, 'polygon.broadcast.failed');
+            }
+            txId = result;
+        } catch (e) {
+            if (e.constructor.name === PolygonError.name) {
+                throw e;
+            }
+            this.logger.error(e);
+            throw new PolygonError(`Unable to broadcast transaction due to ${e.message}.`, 'polygon.broadcast.failed');
+        }
 
         if (signatureId) {
             try {
-                await this.completeKMSTransaction(result.txId, signatureId);
+                await this.completeKMSTransaction(txId, signatureId);
             } catch (e) {
                 this.logger.error(e);
-                return {txId: result.txId, failed: true};
+                return {txId, failed: true};
             }
         }
 
-        return result;
+        return {txId};
     }
 
     public async getCurrentBlock(testnet?: boolean): Promise<number> {

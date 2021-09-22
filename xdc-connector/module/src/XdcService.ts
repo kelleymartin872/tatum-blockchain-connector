@@ -90,28 +90,42 @@ export abstract class XdcService {
         return new Web3(await this.getFirstNodeUrl(testnet));
     }
 
-    public async broadcast(txData: string, signatureId?: string, withdrawalId?: string): Promise<{
+    public async broadcast(txData: string, signatureId?: string): Promise<{
         txId: string,
         failed?: boolean,
     }> {
         this.logger.info(`Broadcast tx for XDC with data '${txData}'`);
-        const client = await this.getClient(await this.isTestnet());
-        const result: { txId: string } = await new Promise((async (resolve, reject) => {
-            client.eth.sendSignedTransaction(txData)
-                .once('transactionHash', txId => resolve({txId}))
-                .on('error', e => reject(new XdcError(`Unable to broadcast transaction due to ${e.message}.`, 'xdc.broadcast.failed')));
-        }));
+        let txId;
+        try {
+            const url = (await this.getNodesUrl(await this.isTestnet()))[0];
+            const {result, error} = (await axios.post(url, {
+                jsonrpc: '2.0',
+                id: 0,
+                method: 'eth_sendRawTransaction',
+                params: [txData]
+            }, {headers: {'Content-Type': 'application/json'}})).data;
+            if (error) {
+                throw new XdcError(`Unable to broadcast transaction due to ${error.message}.`, 'xdc.broadcast.failed');
+            }
+            txId = result;
+        } catch (e) {
+            if (e.constructor.name === XdcError.name) {
+                throw e;
+            }
+            this.logger.error(e);
+            throw new XdcError(`Unable to broadcast transaction due to ${e.message}.`, 'xdc.broadcast.failed');
+        }
 
         if (signatureId) {
             try {
-                await this.completeKMSTransaction(result.txId, signatureId);
+                await this.completeKMSTransaction(txId, signatureId);
             } catch (e) {
                 this.logger.error(e);
-                return {txId: result.txId, failed: true};
+                return {txId, failed: true};
             }
         }
 
-        return result;
+        return {txId};
     }
 
     public async getCurrentBlock(testnet?: boolean): Promise<number> {

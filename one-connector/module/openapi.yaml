@@ -343,7 +343,7 @@ paths:
         - Blockchain / Harmony.ONE
   /v3/one/transaction/{hash}:
     get:
-      description: "<h4>1 credit per API call.</h4><br/><p>Get ONE transaction by transaction hash.</p>"
+      description: "<h4>2 credit per API call.</h4><br/><p>Get ONE transaction by transaction hash.</p>"
       operationId: OneGetTransaction
       parameters:
         - description: "Transaction hash"

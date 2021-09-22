@@ -272,7 +272,7 @@ paths:
         - Blockchain / Polygon (Matic)
   /v3/polygon/transaction/{hash}:
     get:
-      description: "<h4>1 credit per API call.</h4><br/><p>Get Polygon transaction by transaction hash.</p>"
+      description: "<h4>2 credit per API call.</h4><br/><p>Get Polygon transaction by transaction hash.</p>"
       operationId: PolygonGetTransaction
       parameters:
         - description: "Transaction hash"

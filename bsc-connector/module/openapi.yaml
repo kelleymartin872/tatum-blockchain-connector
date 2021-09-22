@@ -272,7 +272,7 @@ paths:
         - Blockchain / BSC
   /v3/bsc/transaction/{hash}:
     get:
-      description: "<h4>1 credit per API call.</h4><br/><p>Get BSC transaction by transaction hash.</p>"
+      description: "<h4>2 credit per API call.</h4><br/><p>Get BSC transaction by transaction hash.</p>"
       operationId: BscGetTransaction
       parameters:
         - description: "Transaction hash"

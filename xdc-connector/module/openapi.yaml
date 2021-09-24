@@ -1218,6 +1218,12 @@ components:
           maxLength: 50000
           description: Additinal data, that can be passed to blockchain transaction as data property. Only for ETH transactions.
           example: My note to recipient.
+        currency:
+          type: string
+          description: Currency of the transfer.
+          example: XDC
+          enum:
+            - XDC
         nonce:
           type: number
           minimum: 0
@@ -1258,6 +1264,7 @@ components:
           description: Private key of sender address. Private key, or signature Id must be present.
       required:
         - to
+        - currency
         - amount
         - fromPrivateKey
     XdcEstimateGas:
@@ -1302,6 +1309,12 @@ components:
           type: number
           minimum: 0
           description: Nonce to be set to XDC transaction. If not present, last known nonce will be used.
+        currency:
+          type: string
+          description: Currency of the transfer.
+          example: XDC
+          enum:
+            - XDC
         to:
           description: Blockchain address to send assets
           example: "xdc687422eEA2cB73B5d3e242bA5456b782919AFc85"
@@ -1345,6 +1358,7 @@ components:
         - to
         - amount
         - signatureId
+        - currency
     DeployErc20:
       type: object
       properties:

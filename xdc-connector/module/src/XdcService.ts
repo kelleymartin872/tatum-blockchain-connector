@@ -235,7 +235,7 @@ export abstract class XdcService {
     }
 
     public async sendXdcOrErc20Transaction(transfer: TransferErc20): Promise<TransactionHash | SignatureId> {
-        const transactionData = await prepareXdcOrErc20SignedTransaction(transfer, await this.getFirstNodeUrl(await this.isTestnet()));
+        const transactionData = await prepareXdcOrErc20SignedTransaction({...transfer, currency: Currency.XDC}, await this.getFirstNodeUrl(await this.isTestnet()));
         return this.broadcastOrStoreKMSTransaction({
             transactionData,
             signatureId: transfer.signatureId,

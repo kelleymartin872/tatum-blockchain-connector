@@ -1356,6 +1356,12 @@ components:
           maxLength: 50000
           description: Additinal data, that can be passed to blockchain transaction as data property.
           example: My note to recipient.
+        currency:
+          type: string
+          description: Currency of the transfer.
+          example: ONE
+          enum:
+            - ONE
         nonce:
           type: number
           minimum: 0
@@ -1437,6 +1443,12 @@ components:
           maxLength: 50000
           description: Additinal data, that can be passed to blockchain transaction as data property.
           example: My note to recipient.
+        currency:
+          type: string
+          description: Currency of the transfer.
+          example: ONE
+          enum:
+            - ONE
         nonce:
           type: number
           minimum: 0

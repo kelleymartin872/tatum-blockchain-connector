@@ -229,7 +229,7 @@ export abstract class OneService {
 
     public async sendTransaction(transfer: OneTransfer, shardID?: number): Promise<TransactionHash | SignatureId> {
         const testnet = await this.isTestnet();
-        const transactionData = await prepareOneSignedTransaction(testnet, transfer, await this.getFirstNodeUrl(testnet, shardID));
+        const transactionData = await prepareOneSignedTransaction(testnet, {...transfer, currency: Currency.ONE}, await this.getFirstNodeUrl(testnet, shardID));
         return this.broadcastOrStoreKMSTransaction({
             transactionData, signatureId: transfer.signatureId,
             index: transfer.index

@@ -236,7 +236,7 @@ paths:
         - Blockchain / Polygon (Matic)
   /v3/polygon/account/balance/{address}:
     get:
-      description: "<h4>1 credit per API call.</h4><br/><p>Get Polygon account balance in MATIC. This method does not prints any balance of the BEP20 or BEP721 tokens on the account.</p>"
+      description: "<h4>1 credit per API call.</h4><br/><p>Get Polygon account balance in MATIC. This method does not prints any balance of the ERC20 or ERC721 tokens on the account.</p>"
       operationId: PolygonGetBalance
       parameters:
         - description: "Account address"
@@ -762,8 +762,8 @@ components:
           example: erc20.token.notFound
           type: string
         message:
-          description: No such BEP20 currency ${name}.
-          example: No such BEP20 currency ${name}.
+          description: No such ERC20 currency ${name}.
+          example: No such ERC20 currency ${name}.
           type: string
         statusCode:
           description: "403"
@@ -800,8 +800,8 @@ components:
           example: erc20.address.set
           type: string
         message:
-          description: BEP20 address was already set.
-          example: BEP20 address was already set.
+          description: ERC20 address was already set.
+          example: ERC20 address was already set.
           type: string
         statusCode:
           description: "403"
@@ -838,8 +838,8 @@ components:
           example: polygon.bep20.unsupported
           type: string
         message:
-          description: Unsupported ETH BEP20 blockchain.
-          example: Unsupported ETH BEP20 blockchain.
+          description: Unsupported ETH ERC20 blockchain.
+          example: Unsupported ETH ERC20 blockchain.
           type: string
         statusCode:
           description: "403"
@@ -989,7 +989,7 @@ components:
         to:
           maxLength: 50
           minLength: 1
-          description: Blockchain address to send BEP20 token to
+          description: Blockchain address to send ERC20 token to
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
           type: string
         amount:
@@ -1000,11 +1000,11 @@ components:
         contractAddress:
           maxLength: 42
           minLength: 42
-          description: Address of BEP20 token
+          description: Address of ERC20 token
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
           type: string
         digits:
-          description: Number of decimal points that BEP20 token has.
+          description: Number of decimal points that ERC20 token has.
           example: 18
           maximum: 30
           minimum: 1
@@ -1048,7 +1048,7 @@ components:
         to:
           maxLength: 50
           minLength: 1
-          description: Blockchain address to send BEP20 token to
+          description: Blockchain address to send ERC20 token to
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
           type: string
         amount:
@@ -1059,11 +1059,11 @@ components:
         contractAddress:
           maxLength: 42
           minLength: 42
-          description: Address of BEP20 token
+          description: Address of ERC20 token
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
           type: string
         digits:
-          description: Number of decimal points that BEP20 token has.
+          description: Number of decimal points that ERC20 token has.
           example: 18
           maximum: 30
           minimum: 1
@@ -1112,7 +1112,7 @@ components:
         contractAddress:
           maxLength: 42
           minLength: 42
-          description: Address of BEP20 token
+          description: Address of ERC20 token
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
           type: string
         amount:
@@ -1187,7 +1187,7 @@ components:
         contractAddress:
           maxLength: 42
           minLength: 42
-          description: Address of BEP20 token
+          description: Address of ERC20 token
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
           type: string
         methodName:
@@ -1229,7 +1229,7 @@ components:
         contractAddress:
           maxLength: 42
           minLength: 42
-          description: Address of BEP20 token
+          description: Address of ERC20 token
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
           type: string
         methodName:
@@ -1303,10 +1303,11 @@ components:
           minLength: 42
           type: string
         currency:
-          description: Currency to transfer from Polygon Blockchain Account. BEP20 tokens BETH, BBTC, BADA, WMATIC, BDOT, BXRP, BLTC, BBCH are available only for mainnet use.
+          description: Currency to transfer from Polygon Blockchain Account. ERC20 tokens USDC and USDT are available only for mainnet use.
           enum:
             - MATIC
             - USDC_MATIC
+            - USDT_MATIC
           example: MATIC
           type: string
         fee:
@@ -1391,7 +1392,7 @@ components:
           minLength: 42
           type: string
         currency:
-          description: Currency to transfer from Polygon Blockchain Account. BEP20 tokens BETH, BBTC, BADA, WMATIC, BDOT, BXRP, BLTC, BBCH are available only for mainnet use.
+          description: Currency to transfer from Polygon Blockchain Account. ERC20 tokens BETH, BBTC, BADA, WMATIC, BDOT, BXRP, BLTC, BBCH are available only for mainnet use.
           enum:
             - BETH
             - BBTC
@@ -1446,14 +1447,14 @@ components:
       type: object
       properties:
         symbol:
-          description: Symbol of the BEP20 token
+          description: Symbol of the ERC20 token
           example: ERC_SYMBOL
           maxLength: 30
           minLength: 1
           type: string
         name:
-          description: Name of the BEP20 token
-          example: My BEP20
+          description: Name of the ERC20 token
+          example: My ERC20
           maxLength: 100
           minLength: 1
           pattern: ^[a-zA-Z0-9_]+$
@@ -1465,7 +1466,7 @@ components:
           pattern: ^[+]?((\d+(\.\d*)?)|(\.\d+))$
           type: string
         supply:
-          description: Max supply of BEP20 token.
+          description: Max supply of ERC20 token.
           maxLength: 38
           example: "10000000"
           pattern: ^[+]?((\d+(\.\d*)?)|(\.\d+))$
@@ -1477,13 +1478,13 @@ components:
           minimum: 1
           type: number
         address:
-          description: Address on Polygon blockchain, where all created BEP20 tokens will be transferred.
+          description: Address on Polygon blockchain, where all created ERC20 tokens will be transferred.
           maxLength: 42
           minLength: 42
           example: "0xa0Ca9FF38Bad06eBe64f0fDfF279cAE35129F5C6"
           type: string
         fromPrivateKey:
-          description: Private key of Polygon account address, from which the fee for the deployment of BEP20 will be paid. Private key, or signature Id must be present.
+          description: Private key of Polygon account address, from which the fee for the deployment of ERC20 will be paid. Private key, or signature Id must be present.
           type: string
           example: "0x05e150c73f1920ec14caa1e0b6aa09940899678051a78542840c2668ce5080c2"
           maxLength: 66
@@ -1520,14 +1521,14 @@ components:
       type: object
       properties:
         symbol:
-          description: Symbol of the BEP20 token
+          description: Symbol of the ERC20 token
           example: ERC_SYMBOL
           maxLength: 30
           minLength: 1
           type: string
         name:
-          description: Name of the BEP20 token
-          example: My BEP20
+          description: Name of the ERC20 token
+          example: My ERC20
           maxLength: 100
           minLength: 1
           pattern: ^[a-zA-Z0-9_]+$
@@ -1539,7 +1540,7 @@ components:
           pattern: ^[+]?((\d+(\.\d*)?)|(\.\d+))$
           type: string
         supply:
-          description: Max supply of BEP20 token.
+          description: Max supply of ERC20 token.
           maxLength: 38
           example: "10000000"
           pattern: ^[+]?((\d+(\.\d*)?)|(\.\d+))$
@@ -1551,7 +1552,7 @@ components:
           minimum: 1
           type: number
         address:
-          description: Address on Polygon blockchain, where all created BEP20 tokens will be transferred.
+          description: Address on Polygon blockchain, where all created ERC20 tokens will be transferred.
           maxLength: 42
           minLength: 42
           example: "0xa0Ca9FF38Bad06eBe64f0fDfF279cAE35129F5C6"

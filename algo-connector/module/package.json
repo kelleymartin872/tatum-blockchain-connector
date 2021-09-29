@@ -1,8 +1,9 @@
 {
   "name": "@tatumio/algo-connector",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ALGO Connector for Tatum API",
   "license": "MIT",
+  "main": "npm/index.js",
   "files": [
     "npm/**/*",
     "src/**/*",

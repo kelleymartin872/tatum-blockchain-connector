@@ -35,7 +35,7 @@ import {
     prepareCeloBurnErc20SignedTransaction,
     prepareCeloDeployErc20SignedTransaction,
     prepareCeloMintErc20SignedTransaction,
-    prepareCeloTransferErc20SignedTransaction, prepareCustomErc20SignedTransaction,
+    prepareCeloTransferErc20SignedTransaction, prepareCustomBep20SignedTransaction, prepareCustomErc20SignedTransaction,
     prepareDeployBep20SignedTransaction,
     prepareDeployErc20SignedTransaction,
     prepareEthBurnErc20SignedTransaction,
@@ -137,7 +137,7 @@ export abstract class Erc20Service {
                 txData = await preparePolygonTransferErc20SignedTransaction(testnet, _body as TransferErc20, (await this.getFirstNodeUrl(chain, testnet)));
                 break;
             case Currency.BSC:
-                txData = await prepareBscOrBep20SignedTransaction(_body as TransferBscBep20, (await this.getFirstNodeUrl(chain, testnet)));
+                txData = await prepareCustomBep20SignedTransaction(_body as TransferErc20, (await this.getFirstNodeUrl(chain, testnet)));
                 break;
             case Currency.CELO:
                 txData = await prepareCeloTransferErc20SignedTransaction(testnet, _body as TransferCeloOrCeloErc20Token, (await this.getFirstNodeUrl(chain, testnet)));

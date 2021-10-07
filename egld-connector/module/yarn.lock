@@ -1346,6 +1346,21 @@
     "@onflow/util-template" "0.0.1"
     deepmerge "^4.2.2"
 
+"@onflow/sdk@^0.0.54":
+  version "0.0.54"
+  resolved "https://registry.yarnpkg.com/@onflow/sdk/-/sdk-0.0.54.tgz#e5aae23c0a1f3707e47ddab1ca2c1d78e5e75d7a"
+  integrity sha512-4kC1kpxUvWUvWs7kymWX6bJjmch155XmNc3GRT3ZLeCQPIYbEYGVagH9AJzdmBRvxgFiiNpPJaNAjD3NusgCLQ==
+  dependencies:
+    "@improbable-eng/grpc-web" "^0.14.0"
+    "@improbable-eng/grpc-web-node-http-transport" "^0.14.0"
+    "@onflow/protobuf" "^0.1.8"
+    "@onflow/rlp" "^0.0.3"
+    "@onflow/util-actor" "0.0.2"
+    "@onflow/util-address" "^0.0.0"
+    "@onflow/util-invariant" "^0.0.0"
+    "@onflow/util-template" "0.0.1"
+    deepmerge "^4.2.2"
+
 "@onflow/types@^0.0.4":
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/@onflow/types/-/types-0.0.4.tgz#d4a9c3e301d23182dd256b73d3679c952fe653f0"
@@ -1515,10 +1530,10 @@
   dependencies:
     "@tatumio/bitcoincash-ops" "2.0.0"
 
-"@tatumio/tatum@^1.24.7":
-  version "1.24.7"
-  resolved "https://registry.yarnpkg.com/@tatumio/tatum/-/tatum-1.24.7.tgz#58a280ccf595c7f4b88ba8d5f4f17c1d4831413d"
-  integrity sha512-t2Q5EiaxQSmSSxWr48lziC6k+zdcmEglwkEudkGFlgy17UdZSqIuIzBYZxRbYxkLuB8MU/kFPew6Z/9unWu1sg==
+"@tatumio/tatum@^1.27.2":
+  version "1.27.2"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum/-/tatum-1.27.2.tgz#69f5c06ce071ad432bf29a885b160b9353dce89c"
+  integrity sha512-JCgPHt+LsumYOxbSxQxZVmQ3pBVC2VcOWGvlEdGRegGeoEUjCBUXAG+QJ5nlg3TwuwMkDCcnWf/1BPwVIJjQPw==
   dependencies:
     "@binance-chain/javascript-sdk" "^4.1.1"
     "@celo-tools/celo-ethers-wrapper" "0.0.5"
@@ -1528,6 +1543,7 @@
     "@harmony-js/crypto" "^0.1.56"
     "@onflow/config" "^0.0.2"
     "@onflow/fcl" "^0.0.73"
+    "@onflow/sdk" "^0.0.54"
     "@onflow/types" "^0.0.4"
     "@onflow/util-encode-key" "^0.0.2"
     "@tatumio/bitcoincashjs2-lib" "4.1.2"

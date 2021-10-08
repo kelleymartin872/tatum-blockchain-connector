@@ -258,7 +258,6 @@ export abstract class EgldService {
     public async nodeMethod(req: Request, key: string) {
         const node = await this.getFirstNodeUrl(await this.isTestnet());
         const path = req.url;
-        const testnet = await this.isTestnet();
         const baseURL = node;
         const [_, url] = path.split(`/${key}/`);
         const config = {

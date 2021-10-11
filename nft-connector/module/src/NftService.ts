@@ -103,6 +103,8 @@ export abstract class NftService {
 
     protected abstract isTestnet(): Promise<boolean>;
 
+    protected abstract wrapFlowCall(operation: (proposer: any, payer: any) => Promise<any>): Promise<any>;
+
     protected abstract getTronClient(testnet: boolean): Promise<any>;
 
     protected abstract getNodesUrl(chain: Currency, testnet: boolean): Promise<string[]>;
@@ -304,7 +306,8 @@ export abstract class NftService {
                 if (body.signatureId) {
                     txData = JSON.stringify({type: FlowTxType.TRANSFER_NFT, body});
                 } else {
-                    return await sendFlowNftTransferToken(testnet, body as FlowTransferNft);
+                    return this.wrapFlowCall(async (proposer, payer) =>
+                        await sendFlowNftTransferToken(testnet, body as FlowTransferNft, proposer, payer));
                 }
                 break;
             // case Currency.XDC:
@@ -383,7 +386,7 @@ export abstract class NftService {
                 if (body.signatureId) {
                     txData = JSON.stringify({ type: FlowTxType.MINT_NFT, body });
                 } else {
-                    return await sendFlowNftMintToken(testnet, body as FlowMintNft);
+                    return this.wrapFlowCall(async (proposer, payer) => await sendFlowNftMintToken(testnet, body as FlowMintNft, proposer, payer));
                 }
             // case Currency.XDC:
             //     if (!(body as EthMintErc721).authorAddresses) {
@@ -456,7 +459,7 @@ export abstract class NftService {
                 if (body.signatureId) {
                     txData = JSON.stringify({type: FlowTxType.MINT_MULTIPLE_NFT, body});
                 } else {
-                    return await sendFlowNftMintMultipleToken(testnet, body as FlowMintMultipleNft);
+                    return this.wrapFlowCall(async (proposer, payer) => await sendFlowNftMintMultipleToken(testnet, body as FlowMintMultipleNft, proposer, payer));
                 }
             // case Currency.XDC:
             //     if (!(body as EthMintMultipleErc721).authorAddresses) {
@@ -541,7 +544,7 @@ export abstract class NftService {
                 if (body.signatureId) {
                     txData = JSON.stringify({type: FlowTxType.BURN_NFT, body});
                 } else {
-                    return await sendFlowNftBurnToken(testnet, body as FlowBurnNft);
+                    return this.wrapFlowCall(async (proposer, payer) => await sendFlowNftBurnToken(testnet, body as FlowBurnNft, proposer, payer));
                 }
                 break;
             // case Currency.XDC:

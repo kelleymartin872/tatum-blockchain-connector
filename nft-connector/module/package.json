@@ -1,6 +1,6 @@
 {
   "name": "@tatumio/nft-connector",
-  "version": "1.5.12",
+  "version": "1.5.13",
   "description": "NFT Connector for Tatum API",
   "license": "MIT",
   "files": [
@@ -45,7 +45,7 @@
   },
   "devDependencies": {
     "@nestjs/common": "^7.6.1",
-    "@tatumio/tatum": "^1.24.9",
+    "@tatumio/tatum": "^1.27.5",
     "@types/express": "4.17.9",
     "@types/jest": "26.0.18",
     "@types/node": "14.14.12",

@@ -30,6 +30,7 @@ paths:
   /v3/nft/deploy:
     post:
       description: |
+        <h4>100 credits per API call on FLOW, 2 credits on another chains. Tatum covers the fee connected to the transaction costs in subscription credits for FLOW. This operation can be done on mainnet only for paid plans.</h4><br/>
         <p>Deploy NFT Smart Contract. This method creates new ERC721 Smart Contract (Non-Fungible Tokens) on the blockchain. Smart contract is standardized and audited.
         It is possible to mint, burn and transfer tokens. It is also possible to mint multiple tokens at once.<br/>
         Tatum now supports NFT these blockchains:<br/>
@@ -123,7 +124,7 @@ paths:
   /v3/nft/mint:
     post:
       description: |
-        <h4>2 credits per API call.</h4><br/>
+        <h4>100 credits per API call on FLOW, 2 credits on another chains. Tatum covers the fee connected to the transaction costs in subscription credits for FLOW. This operation can be done on mainnet only for paid plans.</h4><br/>
         <p>Create one NFT Token and transfer it to destination account. Create and transfer any NFT token from smart contract defined in contractAddress.
         It is possible to add URL to the created token with a more detailed information about it.<br/><br/>
         Tatum now supports NFT these blockchains:<br/>
@@ -313,7 +314,7 @@ paths:
   /v3/nft/transaction:
     post:
       description: |
-        <h4>2 credits per API call.</h4><br/>
+        <h4>100 credits per API call on FLOW, 2 credits on another chains. Tatum covers the fee connected to the transaction costs in subscription credits for FLOW. This operation can be done on mainnet only for paid plans.</h4><br/>
         <p>Transfer NFT Tokens from account to account. Transfer any NFT token from smart contract defined in contractAddress.
         Only 1 specific token with specified tokenId can be transfered. This method invokes ERC721 method safeTransfer() to transfer the token in case of ETH, Celo and BSC.<br/><br/>
         Tatum now supports NFT these blockchains:<br/>
@@ -391,7 +392,7 @@ paths:
   /v3/nft/mint/batch:
     post:
       description: |
-        <h4>2 credits per API call.</h4><br/>
+        <h4>100 credits per API call on FLOW, 2 credits on another chains. Tatum covers the fee connected to the transaction costs in subscription credits for FLOW. This operation can be done on mainnet only for paid plans.</h4><br/>
         <p>Create multiple NFT Tokens and transfer them to destination account. Create and transfer any NFT tokens from smart contract defined in contractAddress.<br/><br/>
         Tatum now supports NFT these blockchains:<br/>
         <ul>
@@ -469,7 +470,7 @@ paths:
   /v3/nft/burn:
     post:
       description: |
-        <h4>2 credits per API call.</h4><br/>
+        <h4>100 credits per API call on FLOW, 2 credits on another chains. Tatum covers the fee connected to the transaction costs in subscription credits for FLOW. This operation can be done on mainnet only for paid plans.</h4><br/>
         <p>Burn one NFT Token. This method destroys any NFT token from smart contract defined in contractAddress.<br/><br/>
         Tatum now supports NFT these blockchains:<br/>
         <ul>

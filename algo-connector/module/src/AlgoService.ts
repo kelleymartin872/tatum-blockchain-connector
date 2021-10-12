@@ -38,7 +38,7 @@ export abstract class AlgoService {
       confirmedRound: tx['confirmed-round'],
       fee: tx.fee,
       firstValid: tx['first-valid'],
-      genisisHash: tx['genesis-hash'],
+      genesisHash: tx['genesis-hash'],
       genesisId: tx['genesis-id'],
       id: tx.id,
       intraRoundOffset: tx['intra-round-offset'],

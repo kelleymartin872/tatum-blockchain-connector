@@ -34,9 +34,9 @@ export abstract class AlgoService {
   private static mapTransaction(tx: any) {
     return {
       closeRewards: tx['close-rewards'],
-      closingAmount: tx['closing-amount'],
+      closingAmount: tx['closing-amount'] ? tx['closing-amount'] / 1000000 : tx['closing-amount'],
       confirmedRound: tx['confirmed-round'],
-      fee: tx.fee,
+      fee: tx.fee / 1000000,
       firstValid: tx['first-valid'],
       genesisHash: tx['genesis-hash'],
       genesisId: tx['genesis-id'],
@@ -44,7 +44,7 @@ export abstract class AlgoService {
       intraRoundOffset: tx['intra-round-offset'],
       lastValid: tx['last-valid'],
       note: tx.note,
-      paymentTransaction: tx['payment-transaction'],
+      paymentTransaction: tx['payment-transaction'] ? {...tx['payment-transaction'], amount: tx['payment-transaction'].amount / 1000000} : tx['payment-transaction'],
       receiverRewards: tx['receiver-rewards'],
       roundTime: tx['round-time'],
       sender: tx.sender,
@@ -90,7 +90,7 @@ export abstract class AlgoService {
   public async getBalance(address: string){
     const client = await this.getClient();
     const accountInfo = await client.accountInformation(address).do();
-    return accountInfo.amount;
+    return accountInfo.amount / 1000000;
   }
 
   private async broadcastOrStoreKMSTransaction({

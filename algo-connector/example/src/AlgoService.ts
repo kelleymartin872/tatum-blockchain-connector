@@ -68,11 +68,11 @@ export abstract class AlgoService {
   protected abstract completeKMSTransaction(txId: string, signatureId: string): Promise<void>;
 
   public async getClient() {
-    return getAlgoClient((await this.getNodesUrl(AlgoNodeType.ALGOD))[0]);
+    return getAlgoClient(await this.isTestnet(), (await this.getNodesUrl(AlgoNodeType.ALGOD))[0]);
   }
 
   public async getIndexerClient() {
-    return getAlgoIndexerClient((await this.getNodesUrl(AlgoNodeType.INDEXER))[0]);
+    return getAlgoIndexerClient(await this.isTestnet(), (await this.getNodesUrl(AlgoNodeType.INDEXER))[0]);
   }
 
   public async generateWallet(mnem: string) {
@@ -176,16 +176,15 @@ export abstract class AlgoService {
   }
 
   public async getPayTransactions(from: string, to: string, limit?:string, next?: string, testnet?: boolean) {
-    const params = (await this.getNodesUrl(AlgoNodeType.ALGOD))[0].split(',');
-    const baseurl = params[0];
+    const istestnet = testnet || (await this.isTestnet());
+    const baseurl = (await this.getNodesUrl(AlgoNodeType.ALGOD))[0];
     const apiurl = `${baseurl}/v2/transactions?tx-type=pay&after-time=${from}&before-time=${to}` + (limit ? `&limit=${limit}`: '') + (next ? `&next=${next}` : '');
     try {
       const res = (await axios({
         method: 'get',
         url: apiurl,
-        headers: {
-          'X-API-Key': params[2]
-        }
+        headers: istestnet ? (process.env.TATUM_ALGORAND_TESTNET_THIRD_API_KEY ? {} : {'X-API-Key': `${process.env.TATUM_ALGORAND_TESTNET_THIRD_API_KEY}`}) :
+          (process.env.TATUM_ALGORAND_MAINNET_THIRD_API_KEY ? {} : {'X-API-Key': `${process.env.TATUM_ALGORAND_MAINNET_THIRD_API_KEY}`})
       })).data;
       const transactions = res.transactions.map(AlgoService.mapTransaction);
       return {nextToken: res['next-token'], transactions: transactions}

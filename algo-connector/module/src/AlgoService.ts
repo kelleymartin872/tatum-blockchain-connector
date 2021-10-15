@@ -12,6 +12,8 @@ import {
 
 import {BroadcastOrStoreKMSTransaction} from '@tatumio/blockchain-connector-common';
 import {AlgoError} from './AlgoError';
+import {AlgoNodeType} from './AlgoNodeType';
+
 export abstract class AlgoService {
 
   private static mapBlock(block: any) {
@@ -54,24 +56,23 @@ export abstract class AlgoService {
     };
   };
 
-
   protected constructor(protected readonly logger: PinoLogger) {
   }
 
   protected abstract isTestnet(): Promise<boolean>;
 
-  protected abstract getNodesUrl(testnet?: boolean): Promise<string[]>;
+  protected abstract getNodesUrl(nodeType: AlgoNodeType): Promise<string[]>;
 
   protected abstract storeKMSTransaction(txData: string, currency: string, signatureId: string[], index?: number): Promise<string>;
 
   protected abstract completeKMSTransaction(txId: string, signatureId: string): Promise<void>;
 
   public async getClient() {
-    return getAlgoClient(await this.isTestnet(), (await this.getNodesUrl(await this.isTestnet()))[0] + '/ps2');
+    return getAlgoClient((await this.getNodesUrl(AlgoNodeType.ALGOD))[0]);
   }
 
   public async getIndexerClient() {
-    return getAlgoIndexerClient(await this.isTestnet(), (await this.getNodesUrl(await this.isTestnet()))[0] + '/idx2');
+    return getAlgoIndexerClient((await this.getNodesUrl(AlgoNodeType.INDEXER))[0]);
   }
 
   public async generateWallet(mnem: string) {
@@ -83,7 +84,7 @@ export abstract class AlgoService {
   }
 
   public async sendTransaction(tx: AlgoTransaction) {
-    const txData = await prepareAlgoSignedTransaction(await this.isTestnet(), tx, (await this.getNodesUrl())[0]);
+    const txData = await prepareAlgoSignedTransaction(await this.isTestnet(), tx, (await this.getNodesUrl(AlgoNodeType.ALGOD))[0]);
     return this.broadcastOrStoreKMSTransaction({transactionData: txData, signatureId: tx.signatureId, index: tx.index})
   }
 
@@ -175,7 +176,7 @@ export abstract class AlgoService {
   }
 
   public async getPayTransactions(from: string, to: string, limit?:string, next?: string, testnet?: boolean) {
-    const baseurl = (await this.getNodesUrl(testnet === undefined ? (await this.isTestnet()) : testnet))[0] + '/idx2';
+    const baseurl = (await this.getNodesUrl(AlgoNodeType.ALGOD))[0];
     const apiurl = `${baseurl}/v2/transactions?tx-type=pay&after-time=${from}&before-time=${to}` + (limit ? `&limit=${limit}`: '') + (next ? `&next=${next}` : '');
     try {
       const res = (await axios({

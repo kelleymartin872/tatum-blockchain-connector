@@ -5,7 +5,7 @@ import { AlgoError } from './AlgoError';
 import { GeneratePrivateKey } from './dto/GeneratePrivateKey';
 import { AlgoTransaction, BroadcastTx } from '@tatumio/tatum';
 import { PathFromTo } from './PathFromTo';
-import { Pagenation } from './Pagenation'
+import { Pagination } from './Pagination';
 export abstract class AlgoController {
   protected constructor(protected readonly service: AlgoService) {}
 
@@ -130,7 +130,7 @@ export abstract class AlgoController {
     }
   }
   @Get('/transactions/:from/:to')
-  public async getPayTransactions(@Param() {from, to}: PathFromTo, @Query() {limit, next}: Pagenation) {
+  public async getPayTransactions(@Param() {from, to}: PathFromTo, @Query() {limit, next}: Pagination) {
     try {
       return await this.service.getPayTransactions(from, to, limit, next);
     } catch (e) {

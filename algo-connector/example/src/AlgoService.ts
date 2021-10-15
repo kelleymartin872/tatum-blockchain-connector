@@ -2,8 +2,8 @@ import {PinoLogger} from 'nestjs-pino';
 const axios = require('axios');
 import {
   Currency,
-  generateAlgoWallet, 
-  generateAlgodAddressFromPrivatetKey, 
+  generateAlgoWallet,
+  generateAlgodAddressFromPrivatetKey,
   getAlgoClient,
   getAlgoIndexerClient,
   AlgoTransaction,
@@ -12,6 +12,8 @@ import {
 
 import {BroadcastOrStoreKMSTransaction} from '@tatumio/blockchain-connector-common';
 import {AlgoError} from './AlgoError';
+import {AlgoNodeType} from './AlgoNodeType';
+
 export abstract class AlgoService {
 
   private static mapBlock(block: any) {
@@ -34,9 +36,9 @@ export abstract class AlgoService {
   private static mapTransaction(tx: any) {
     return {
       closeRewards: tx['close-rewards'],
-      closingAmount: tx['closing-amount'],
+      closingAmount: tx['closing-amount'] ? tx['closing-amount'] / 1000000 : tx['closing-amount'],
       confirmedRound: tx['confirmed-round'],
-      fee: tx.fee,
+      fee: tx.fee / 1000000,
       firstValid: tx['first-valid'],
       genesisHash: tx['genesis-hash'],
       genesisId: tx['genesis-id'],
@@ -44,7 +46,7 @@ export abstract class AlgoService {
       intraRoundOffset: tx['intra-round-offset'],
       lastValid: tx['last-valid'],
       note: tx.note,
-      paymentTransaction: tx['payment-transaction'],
+      paymentTransaction: tx['payment-transaction'] ? {...tx['payment-transaction'], amount: tx['payment-transaction'].amount / 1000000} : tx['payment-transaction'],
       receiverRewards: tx['receiver-rewards'],
       roundTime: tx['round-time'],
       sender: tx.sender,
@@ -54,24 +56,23 @@ export abstract class AlgoService {
     };
   };
 
-
   protected constructor(protected readonly logger: PinoLogger) {
   }
 
   protected abstract isTestnet(): Promise<boolean>;
 
-  protected abstract getNodesUrl(): Promise<string[]>;
+  protected abstract getNodesUrl(nodeType: AlgoNodeType): Promise<string[]>;
 
   protected abstract storeKMSTransaction(txData: string, currency: string, signatureId: string[], index?: number): Promise<string>;
 
   protected abstract completeKMSTransaction(txId: string, signatureId: string): Promise<void>;
 
-  private async getClient() {
-    return getAlgoClient(await this.isTestnet(), (await this.getNodesUrl())[0]);
+  public async getClient() {
+    return getAlgoClient((await this.getNodesUrl(AlgoNodeType.ALGOD))[0]);
   }
 
-  private async getIndexerClient() {
-    return getAlgoIndexerClient(await this.isTestnet(), (await this.getNodesUrl())[0]);
+  public async getIndexerClient() {
+    return getAlgoIndexerClient((await this.getNodesUrl(AlgoNodeType.INDEXER))[0]);
   }
 
   public async generateWallet(mnem: string) {
@@ -83,14 +84,14 @@ export abstract class AlgoService {
   }
 
   public async sendTransaction(tx: AlgoTransaction) {
-    const txData = await prepareAlgoSignedTransaction(await this.isTestnet(), tx, (await this.getNodesUrl())[0]);
+    const txData = await prepareAlgoSignedTransaction(await this.isTestnet(), tx, (await this.getNodesUrl(AlgoNodeType.ALGOD))[0]);
     return this.broadcastOrStoreKMSTransaction({transactionData: txData, signatureId: tx.signatureId, index: tx.index})
   }
 
   public async getBalance(address: string){
     const client = await this.getClient();
     const accountInfo = await client.accountInformation(address).do();
-    return accountInfo.amount;
+    return accountInfo.amount / 1000000;
   }
 
   private async broadcastOrStoreKMSTransaction({
@@ -106,7 +107,7 @@ export abstract class AlgoService {
   }
 
   /**
-   * 
+   *
    * @param algodClient algorand Client
    * @param txId transaction id
    * @returns confirmed result
@@ -118,7 +119,7 @@ export abstract class AlgoService {
         const pendingInfo = await algodClient.pendingTransactionInformation(txId).do();
         if (pendingInfo['confirmed-round']) {
             return true;
-        } else if (pendingInfo["pool-error"]) {
+        } else if (pendingInfo['pool-error']) {
             return false;
         }
         lastround++;
@@ -143,9 +144,9 @@ export abstract class AlgoService {
             return {txId: sendTx.txId, failed: true};
         }
       }
-      return sendTx.txId; 
+      return sendTx.txId;
     } else {
-      throw new AlgoError("Failed Algo Transaction Signing", 'algo.error');
+      throw new AlgoError(`Failed Algo Transaction Signing`, 'algo.error');
     }
   }
 
@@ -174,15 +175,16 @@ export abstract class AlgoService {
     }
   }
 
-  public async getPayTransactions(from: string, to: string, limit?:string, next?: string) {
-    const baseurl = (await this.isTestnet()) ? 'https://testnet-algorand.api.purestake.io/idx2' : 'https://algorand.api.purestake.io/idx2';
-    const apiurl = `${baseurl}/v2/transactions?tx-type=pay&after-time=${from}&before-time=${to}` + (limit ? `&limit=${limit}`: "") + (next ? `&next=${next}` : "");
+  public async getPayTransactions(from: string, to: string, limit?:string, next?: string, testnet?: boolean) {
+    const params = (await this.getNodesUrl(AlgoNodeType.ALGOD))[0].split(',');
+    const baseurl = params[0];
+    const apiurl = `${baseurl}/v2/transactions?tx-type=pay&after-time=${from}&before-time=${to}` + (limit ? `&limit=${limit}`: '') + (next ? `&next=${next}` : '');
     try {
       const res = (await axios({
         method: 'get',
         url: apiurl,
         headers: {
-          'X-API-Key': `${process.env.ALGO_API_KEY}`
+          'X-API-Key': params[2]
         }
       })).data;
       const transactions = res.transactions.map(AlgoService.mapTransaction);

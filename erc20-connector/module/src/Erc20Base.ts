@@ -10,6 +10,7 @@ import {
   MintErc20, OneTransfer20,
   TransferCeloOrCeloErc20Token,
   TransferErc20,
+  EgldEsdtTransaction,
 } from '@tatumio/tatum';
 
 export class ChainBurnErc20 extends BurnErc20 {
@@ -81,5 +82,11 @@ export class ChainMintCeloErc20 extends MintCeloErc20 {
 export class ChainTransferCeloErc20Token extends TransferCeloOrCeloErc20Token {
   @IsNotEmpty()
   @IsIn([Currency.CELO])
+  public chain: Currency;
+}
+
+export class ChainEgldEsdtTransaction extends EgldEsdtTransaction {
+  @IsNotEmpty()
+  @IsIn([Currency.EGLD])
   public chain: Currency;
 }

@@ -60,7 +60,7 @@
     "typescript": "4.1.2",
     "@nestjs/common": "^8.0.6",
     "@tatumio/blockchain-connector-common": "^1.1.4",
-    "@tatumio/tatum": "^1.25.10",
+    "@tatumio/tatum": "^1.28.4",
     "axios": "^0.21.1",
     "bignumber.js": "^9.0.0",
     "class-transformer": "^0.2.3",

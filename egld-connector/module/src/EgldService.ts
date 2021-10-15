@@ -5,7 +5,6 @@ import {Request} from 'express';
 import {
     Currency,
     SignatureId,
-    EgldTransaction,
     EgldBasicTransaction,
     egldGetGasPrice,
     egldGetGasLimit,
@@ -35,6 +34,9 @@ import {
 } from '@tatumio/tatum';
 import {BroadcastOrStoreKMSTransaction} from '@tatumio/blockchain-connector-common'
 import {EgldError} from './EgldError';
+
+// EGLD docs:
+// https://docs.elrond.com/developers/esdt-tokens/#issuance-of-fungible-esdt-tokens
 
 export abstract class EgldService {
 
@@ -314,6 +316,18 @@ export abstract class EgldService {
         }
     }
 
+    public async getBalanceErc20(address: string, tokenId: string): Promise<{ balance: string }> {
+        const t = await this.isTestnet();
+        try {
+            const {balance} = (await axios.get(`${await this.getFirstNodeUrl(t)}/address/${address}/esdt/${tokenId}`,
+                {headers: {'Content-Type': 'application/json'}})).data.data.tokenData;
+            return {balance: new BigNumber(balance).dividedBy(1e+18).toString()};
+        } catch (e) {
+            this.logger.error(e);
+            throw new EgldError('Erc20 balance for account not found.', 'accountBalanceErc20.not.found');
+        }
+    }
+
     public async sendEgldTransaction(transfer: EgldEsdtTransaction): Promise<TransactionHash | SignatureId> {
         const transactionData = await prepareEgldSignedTransaction(transfer, await this.getFirstNodeUrl(await this.isTestnet()));
         return this.broadcastOrStoreKMSTransaction({
@@ -322,70 +336,35 @@ export abstract class EgldService {
             index: transfer.index
         });
     }
+    
+    // these methods are not implemented:
+    // public async pauseSmartContract(tx: EgldEsdtTransaction) {
+    //     const transactionData = await prepareEgldPauseEsdtSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
+    //     return this.broadcastOrStoreKMSTransaction({
+    //         transactionData,
+    //         signatureId: tx.signatureId,
+    //         index: tx.index
+    //     });
+    // }
 
-    public async deploySmartContract(tx: EgldEsdtTransaction) {
-        const transactionData = await prepareEgldDeployEsdtSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
-        return this.broadcastOrStoreKMSTransaction({
-            transactionData,
-            signatureId: tx.signatureId,
-            index: tx.index
-        });
-    }
+    // public async specialRoleSmartContract(tx: EgldEsdtTransaction) {
+    //     const transactionData = await prepareEgldSpecialRoleEsdtOrNftSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
+    //     return this.broadcastOrStoreKMSTransaction({
+    //         transactionData,
+    //         signatureId: tx.signatureId,
+    //         index: tx.index
+    //     });
+    // }
     
-    public async mintSmartContract(tx: EgldEsdtTransaction) {
-        const transactionData = await prepareEgldMintEsdtSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
-        return this.broadcastOrStoreKMSTransaction({
-            transactionData,
-            signatureId: tx.signatureId,
-            index: tx.index
-        });
-    }
+    // public async freezeOrWipeOrOwvershipSmartContract(tx: EgldEsdtTransaction) {
+    //     const transactionData = await prepareEgldFreezeOrWipeOrOwvershipEsdtSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
+    //     return this.broadcastOrStoreKMSTransaction({
+    //         transactionData,
+    //         signatureId: tx.signatureId,
+    //         index: tx.index
+    //     });
+    // }
     
-    public async burnSmartContract(tx: EgldEsdtTransaction) {
-        const transactionData = await prepareEgldBurnEsdtSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
-        return this.broadcastOrStoreKMSTransaction({
-            transactionData,
-            signatureId: tx.signatureId,
-            index: tx.index
-        });
-    }
-    
-    public async pauseSmartContract(tx: EgldEsdtTransaction) {
-        const transactionData = await prepareEgldPauseEsdtSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
-        return this.broadcastOrStoreKMSTransaction({
-            transactionData,
-            signatureId: tx.signatureId,
-            index: tx.index
-        });
-    }
-
-    public async specialRoleSmartContract(tx: EgldEsdtTransaction) {
-        const transactionData = await prepareEgldSpecialRoleEsdtOrNftSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
-        return this.broadcastOrStoreKMSTransaction({
-            transactionData,
-            signatureId: tx.signatureId,
-            index: tx.index
-        });
-    }
-    
-    public async freezeOrWipeOrOwvershipSmartContract(tx: EgldEsdtTransaction) {
-        const transactionData = await prepareEgldFreezeOrWipeOrOwvershipEsdtSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
-        return this.broadcastOrStoreKMSTransaction({
-            transactionData,
-            signatureId: tx.signatureId,
-            index: tx.index
-        });
-    }
-    
-    public async controlChangesSmartContract(tx: EgldEsdtTransaction) {
-        const transactionData = await prepareEgldControlChangesEsdtSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
-        return this.broadcastOrStoreKMSTransaction({
-            transactionData,
-            signatureId: tx.signatureId,
-            index: tx.index
-        });
-    }
-
     public async invokeSmartContractMethod(tx: EgldEsdtTransaction) {
         const transactionData = await prepareEgldTransferEsdtSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
         return this.broadcastOrStoreKMSTransaction({
@@ -395,75 +374,78 @@ export abstract class EgldService {
         });
     }
 
-    public async deployNft(tx: EgldEsdtTransaction) {
-        const transactionData = await prepareEgldDeployNftOrSftSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
-        return this.broadcastOrStoreKMSTransaction({
-            transactionData,
-            signatureId: tx.signatureId,
-            index: tx.index
-        });
-    }
+    // these methods are moveded:
+    // public async deployNft(tx: EgldEsdtTransaction) {
+    //     const transactionData = await prepareEgldDeployNftOrSftSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
+    //     return this.broadcastOrStoreKMSTransaction({
+    //         transactionData,
+    //         signatureId: tx.signatureId,
+    //         index: tx.index
+    //     });
+    // }
 
-    public async createNft(tx: EgldEsdtTransaction) {
-        const transactionData = await prepareEgldCreateNftOrSftSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
-        return this.broadcastOrStoreKMSTransaction({
-            transactionData,
-            signatureId: tx.signatureId,
-            index: tx.index
-        });
-    }
+    // public async createNft(tx: EgldEsdtTransaction) {
+    //     const transactionData = await prepareEgldCreateNftOrSftSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
+    //     return this.broadcastOrStoreKMSTransaction({
+    //         transactionData,
+    //         signatureId: tx.signatureId,
+    //         index: tx.index
+    //     });
+    // }
 
-    public async roleTransferNft(tx: EgldEsdtTransaction) {
-        const transactionData = await prepareEgldTransferNftCreateRoleSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
-        return this.broadcastOrStoreKMSTransaction({
-            transactionData,
-            signatureId: tx.signatureId,
-            index: tx.index
-        });
-    }
+    // these methods are not implemented:
+    // public async roleTransferNft(tx: EgldEsdtTransaction) {
+    //     const transactionData = await prepareEgldTransferNftCreateRoleSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
+    //     return this.broadcastOrStoreKMSTransaction({
+    //         transactionData,
+    //         signatureId: tx.signatureId,
+    //         index: tx.index
+    //     });
+    // }
     
-    public async stopNftCreate(tx: EgldEsdtTransaction) {
-        const transactionData = await prepareEgldStopNftCreateSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
-        return this.broadcastOrStoreKMSTransaction({
-            transactionData,
-            signatureId: tx.signatureId,
-            index: tx.index
-        });
-    }
+    // public async stopNftCreate(tx: EgldEsdtTransaction) {
+    //     const transactionData = await prepareEgldStopNftCreateSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
+    //     return this.broadcastOrStoreKMSTransaction({
+    //         transactionData,
+    //         signatureId: tx.signatureId,
+    //         index: tx.index
+    //     });
+    // }
     
-    public async addOrBurnNftQuantity(tx: EgldEsdtTransaction) {
-        const transactionData = await prepareEgldAddOrBurnNftQuantitySignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
-        return this.broadcastOrStoreKMSTransaction({
-            transactionData,
-            signatureId: tx.signatureId,
-            index: tx.index
-        });
-    }
+    // public async addOrBurnNftQuantity(tx: EgldEsdtTransaction) {
+    //     const transactionData = await prepareEgldAddOrBurnNftQuantitySignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
+    //     return this.broadcastOrStoreKMSTransaction({
+    //         transactionData,
+    //         signatureId: tx.signatureId,
+    //         index: tx.index
+    //     });
+    // }
     
-    public async freezeNft(tx: EgldEsdtTransaction) {
-        const transactionData = await prepareEgldFreezeNftSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
-        return this.broadcastOrStoreKMSTransaction({
-            transactionData,
-            signatureId: tx.signatureId,
-            index: tx.index
-        });
-    }
+    // public async freezeNft(tx: EgldEsdtTransaction) {
+    //     const transactionData = await prepareEgldFreezeNftSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
+    //     return this.broadcastOrStoreKMSTransaction({
+    //         transactionData,
+    //         signatureId: tx.signatureId,
+    //         index: tx.index
+    //     });
+    // }
   
-    public async wipeNft(tx: EgldEsdtTransaction) {
-        const transactionData = await prepareEgldWipeNftSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
-        return this.broadcastOrStoreKMSTransaction({
-            transactionData,
-            signatureId: tx.signatureId,
-            index: tx.index
-        });
-    }
+    // public async wipeNft(tx: EgldEsdtTransaction) {
+    //     const transactionData = await prepareEgldWipeNftSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
+    //     return this.broadcastOrStoreKMSTransaction({
+    //         transactionData,
+    //         signatureId: tx.signatureId,
+    //         index: tx.index
+    //     });
+    // }
 
-    public async transferNft(tx: EgldEsdtTransaction) {
-        const transactionData = await prepareEgldTransferNftSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
-        return this.broadcastOrStoreKMSTransaction({
-            transactionData,
-            signatureId: tx.signatureId,
-            index: tx.index
-        });
-    }
+    // these methods are moveded:
+    // public async transferNft(tx: EgldEsdtTransaction) {
+    //     const transactionData = await prepareEgldTransferNftSignedTransaction(tx, await this.getFirstNodeUrl(await this.isTestnet()));
+    //     return this.broadcastOrStoreKMSTransaction({
+    //         transactionData,
+    //         signatureId: tx.signatureId,
+    //         index: tx.index
+    //     });
+    // }
 }

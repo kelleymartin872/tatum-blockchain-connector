@@ -8,6 +8,6 @@ export class PathAddressContractAddressChain extends PathChain {
     public contractAddress: string;
 
     @IsNotEmpty()
-    @Length(18, 43)
+    @Length(18, 62)
     public address: string;
 }

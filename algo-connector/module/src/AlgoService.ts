@@ -177,7 +177,7 @@ export abstract class AlgoService {
 
   public async getPayTransactions(from: string, to: string, limit?:string, next?: string, testnet?: boolean) {
     const istestnet = testnet || (await this.isTestnet());
-    const baseurl = (await this.getNodesUrl(AlgoNodeType.ALGOD))[0];
+    const baseurl = (await this.getNodesUrl(AlgoNodeType.INDEXER))[0];
     const apiurl = `${baseurl}/v2/transactions?tx-type=pay&after-time=${from}&before-time=${to}` + (limit ? `&limit=${limit}`: '') + (next ? `&next=${next}` : '');
     try {
       const res = (await axios({

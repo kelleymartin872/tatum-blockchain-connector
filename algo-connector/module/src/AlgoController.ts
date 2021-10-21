@@ -1,8 +1,10 @@
 import {Get, Post, HttpCode, HttpStatus, Query, Param, Body, BadRequestException} from '@nestjs/common';
 import {AlgoService} from './AlgoService';
-import {QueryMnemonic} from '@tatumio/blockchain-connector-common';
+import {QueryMnemonic, PathAddress} from '@tatumio/blockchain-connector-common';
 import { AlgoError } from './AlgoError';
 import { GeneratePrivateKey } from './dto/GeneratePrivateKey';
+import { PathRountNumber } from './dto/PathRoundNumber';
+import { PathTransactionId } from './dto/PathTransactionId';
 import { AlgoTransaction, BroadcastTx } from '@tatumio/tatum';
 import { PathFromTo } from './PathFromTo';
 import { Pagination } from './Pagination';
@@ -19,7 +21,7 @@ export abstract class AlgoController {
     }
   }
 
-  @Get('/address/:priv')
+  @Get('/address/:fromPrivateKey')
   @HttpCode(HttpStatus.OK)
   public async generateAddress(@Param() {fromPrivateKey}: GeneratePrivateKey) {
     try {
@@ -37,9 +39,9 @@ export abstract class AlgoController {
 
   @Get('/account/balance/:address')
   @HttpCode(HttpStatus.OK)
-  public async getAccountBalance(@Param() address: string) {
+  public async getAccountBalance(@Param() param: PathAddress) {
     try {
-      return await this.service.getBalance(address);
+      return await this.service.getBalance(param.address);
     } catch (e) {
       if (['Array', 'ValidationError'].includes(e.constructor.name)) {
         throw new BadRequestException(e);
@@ -101,7 +103,7 @@ export abstract class AlgoController {
 
   @Get('/block/:roundNumber')
   @HttpCode(HttpStatus.OK)
-  public async getBlock(@Param() roundNumber: string) {
+  public async getBlock(@Param() {roundNumber}: PathRountNumber) {
     try {
       return await this.service.getBlock(Number(roundNumber));
     } catch (e) {
@@ -116,7 +118,7 @@ export abstract class AlgoController {
   }
 
   @Get('/transaction/:txid')
-  public async getTransaction(@Param() txid: string) {
+  public async getTransaction(@Param() {txid}: PathTransactionId) {
     try {
       return await this.service.getTransaction(txid);
     } catch (e) {

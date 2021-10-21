@@ -75,7 +75,7 @@ export abstract class AlgoService {
     return getAlgoIndexerClient(await this.isTestnet(), (await this.getNodesUrl(AlgoNodeType.INDEXER))[0]);
   }
 
-  public async generateWallet(mnem: string) {
+  public async generateWallet(mnem?: string) {
     return generateAlgoWallet(mnem);
   }
 

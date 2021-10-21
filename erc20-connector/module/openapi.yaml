@@ -1349,29 +1349,7 @@ components:
           example: ETH
           description: Chain to work with.
           enum:
-            - ETH, XDC
-        currency:
-          description: Currency to transfer from Ethereum Blockchain Account.
-          enum:
-            - USDT
-            - LEO
-            - LINK
-            - UNI
-            - FREE
-            - MKR
-            - USDC
-            - BAT
-            - TUSD
-            - PAX
-            - PAXG
-            - PLTC
-            - MMY
-            - WBTC
-            - XCON
-            - ETH
-            - XDC
-          example: ETH
-          type: string
+            - ETH, BSC, MATIC, XDC, ONE
         to:
           maxLength: 50
           minLength: 1
@@ -1438,29 +1416,7 @@ components:
           example: ETH
           description: Chain to work with.
           enum:
-            - ETH, XDC
-        currency:
-          description: Currency to transfer from Ethereum Blockchain Account.
-          enum:
-            - USDT
-            - LEO
-            - LINK
-            - UNI
-            - FREE
-            - MKR
-            - USDC
-            - BAT
-            - TUSD
-            - PAX
-            - PAXG
-            - PLTC
-            - MMY
-            - WBTC
-            - XCON
-            - ETH
-            - XDC
-          example: ETH
-          type: string
+            - ETH, BSC, MATIC, XDC, ONE
         to:
           maxLength: 50
           minLength: 1

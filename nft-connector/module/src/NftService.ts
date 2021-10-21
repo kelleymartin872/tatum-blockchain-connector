@@ -423,6 +423,7 @@ export abstract class NftService {
                 } else {
                     return this.wrapFlowCall(async (proposer, payer) => await sendFlowNftMintToken(testnet, body as FlowMintNft, proposer, payer));
                 }
+                break;
             // case Currency.XDC:
             //     if (!(body as EthMintErc721).authorAddresses) {
             //         txData = await prepareXdcMintErc721SignedTransaction(body as EthMintErc721, provider);
@@ -494,13 +495,13 @@ export abstract class NftService {
             case Currency.EGLD:
                 // txData = await prepareEgldCreateNftOrSftSignedTransaction(body as EgldEsdtTransaction, provider)
                 throw new NftError(`Unsupported chain ${chain}.`, 'unsupported.chain');
-                break;
             case Currency.FLOW:
                 if (body.signatureId) {
                     txData = JSON.stringify({type: FlowTxType.MINT_MULTIPLE_NFT, body});
                 } else {
                     return this.wrapFlowCall(async (proposer, payer) => await sendFlowNftMintMultipleToken(testnet, body as FlowMintMultipleNft, proposer, payer));
                 }
+                break;
             // case Currency.XDC:
             //     if (!(body as EthMintMultipleErc721).authorAddresses) {
             //         txData = await prepareXdcMintMultipleErc721SignedTransaction(body as EthMintMultipleErc721, provider);
@@ -544,7 +545,6 @@ export abstract class NftService {
                 break;
             case Currency.EGLD:
                 throw new NftError(`Unsupported chain ${chain}.`, 'unsupported.chain');
-                break;
             // case Currency.XDC:
             //     txData = await prepareXdcUpdateCashbackForAuthorErc721SignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
             //     break;
@@ -640,7 +640,6 @@ export abstract class NftService {
                 break;
             case Currency.FLOW:
                 return await this.deployFlowNft(testnet, body as FlowDeployNft);
-                return;
             // case Currency.XDC:
             //     txData = await prepareXdcDeployErc721SignedTransaction(body as EthDeployErc721, (await this.getNodesUrl(chain, testnet))[0]);
             //     break;

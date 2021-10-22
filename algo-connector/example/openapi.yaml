@@ -1,0 +1,3392 @@
+openapi: 3.0.0
+servers:
+  - url: 'https://api-eul.tatum.io'
+info:
+  version: 1.0.0
+  title: Tatum Algorand API
+tags:
+  - description: |
+      <p>Algorand is a decentralized blockchain technology network. Algorand is enabling the simple creation of next generation financial products, protocols and exchange of value across defi, financial institutions and governments.<br/>
+      Tatum supports 2 chains:
+      <ul><li>Mainnet - a regular live chain
+      <li>Testnet - a chain used for testing purposes. Coins on the test chain have no value and can be obtained from
+      a faucet, e.g. <a target="_blank" href="https://bank.testnet.algorand.network/">https://bank.testnet.algorand.network/</a></li></ul></p>
+    name: Blockchain / Algorand
+paths:
+  /v3/algorand/wallet:
+    get:
+      description: |
+        <h4>1 credit per API call.</h4><br/><p>Tatum supports Algorand wallets.</p>
+      operationId: AlgorandGenerateWallet
+      parameters:
+        - description: "Mnemonic to use for generation of extended public and private keys."
+          in: query
+          name: mnemonic
+          required: false
+          schema:
+            type: string
+            maxLength: 500
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Wallet"
+          description: OK
+        400: &API400
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error400"
+          description: Bad Request. Validation failed for the given object in the HTTP Body or Request parameters.
+        401: &API401
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/Error401NotActive"
+                  - $ref: "#/components/schemas/Error401Invalid"
+          description: Unauthorized. Not valid or inactive subscription key present in the HTTP Header.
+        500: &API500
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error500"
+          description: Internal server error. There was an error on the server during the processing of the request.
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Generate Algorand wallet
+      tags:
+        - Blockchain / Algorand
+  /v3/algorand/address/{priv}:
+    get:
+      description: |
+        <h4>1 credit per API call.</h4><br/>
+        <p>Generate Algorand account deposit address from Extended private key.</p>
+      operationId: AlgorandGenerateAddress
+      parameters:
+        - description: "Extended private key of wallet."
+          in: path
+          name: priv
+          required: true
+          schema:
+            type: string
+            example: "NBYMCVEEDFYV3TPWVRE6APE7PKHUJD4XAKXCKNCLKGUXOC3LFNJGZQCJCRA53HB7ZAHF6NFJH2QIVQ5USQNWG35QCJLD4KZ5IWMB24Q"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  address:
+                    type: string
+                    description: Algorand address
+                    example: "NTAESFCB3WOD7SAOL42KSPVARLB3JFA3MNX3AESWHYVT2RMYDVZI6YLG4Y"
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Generate Algorand account address from Extended private key
+      tags:
+        - Blockchain / Algorand
+  /v3/algorand/account/balance/{address}:
+    get:
+      description: |
+        <h4>1 credit per API call.</h4><br/>
+        <p>Get Algorand account balance in ALGO.</p>
+      operationId: AlgorandGetBalance
+      parameters:
+        - description: "Account address"
+          in: path
+          name: address
+          required: true
+          schema:
+            type: string
+            example: "TMETT6BXL3QUH7AH5TS6IONU7LVTLKIGG54CFCNPMQXWGRIZFIESZBYWP4"
+      responses:
+        200:
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  balance:
+                    type: number
+                    description: Balance in ALGO
+                    example: 1000
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Get ALgorand Account balance
+      tags:
+        - Blockchain / Algorand (ALGO)
+  /v3/algorand/block/current:
+    get:
+      description: "<h4>1 credit per API call.</h4><br/><p>Get Algorand current block number. This is the number of the latest block in the blockchain.</p>"
+      operationId: AlgorandGetCurrentBlock
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: number
+                description: Current block number
+                example: 16775567
+          description: OK
+        401:
+          <<: *API401
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Get current block number
+      tags:
+        - Blockchain / Algorand (ALGO)
+  /v3/algorand/block/{roundNumber}:
+    get:
+      description: "<h4>1 credit per API call.</h4><br/><p>Get Algorand block by block round number.</p>"
+      operationId: AlgorandGetBlock
+      parameters:
+        - description: "Block round number"
+          in: path
+          name: roundNumber
+          required: true
+          schema:
+            type: string
+            example: 16775567
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlgoBlock"
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Get Algorand block by block round number
+      tags:
+        - Blockchain / Algorand (ALGO)
+  /v3/algorand/transaction:
+    post:
+      description: |
+        <h4>2 credits per API call.</h4><br/>
+        <p>Send ALGO from account to account.<br/><br/>
+        This operation needs the private key of the blockchain address.
+        No one should ever send it's own private keys to the internet because there is a strong possibility of stealing keys and loss of funds. In this method, it is possible to enter privateKey
+        or signatureId. PrivateKey should be used only for quick development on testnet versions of blockchain when there is no risk of losing funds. In production,
+        <a href="https://github.com/tatumio/tatum-kms" target="_blank">Tatum KMS</a> should be used for the highest security standards, and signatureId should be present in the request.
+        Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
+        </p>
+      operationId: AlgorandBlockchainTransfer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: "#/components/schemas/TransferAlgorandBlockchain"
+                - $ref: "#/components/schemas/TransferAlgorandBlockchainKMS"
+        required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema: 
+                oneOf:
+                  - $ref: "#/components/schemas/TransactionHashKMS"
+                  - $ref: "#/components/schemas/SignatureId"
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Send ALGO from account to account
+      tags:
+        - Blockchain / Algorand (ALGO)
+  /v3/algorand/transaction/{txid}:
+    get:
+      description: "<h4>1 credit per API call.</h4><br/><p>Get Algorand transaction by transaction id.</p>"
+      operationId: AlgorandGetTransaction
+      parameters:
+        - description: "Transaction id"
+          in: path
+          name: txid
+          required: true
+          schema:
+            type: string
+            example: "LXEBXIBDAIF72NRI76SU252QSOGFCKEHTG7AI4P6W25V35PETU3Q"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlgoTx"
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Get Algorand Transaction
+      tags:
+        - Blockchain / Algorand (ALGO)
+  /v3/algorand/transactions/{from}/{to}:
+    get:
+      description: "<h4>1 credit per API call.</h4><br/><p>Get Algorand transaction by specified period of time.</p>"
+      operationId: AlgorandGetPayTransactionsByFromTo
+      parameters:
+        - description: "Start timestamp in specified period of time"
+          in: path
+          name: from
+          required: true
+          schema:
+            type: string
+            example: "2021-05-01T20:44:39Z"
+        - description: "End timestamp in specified period of time"
+          in: path
+          name: to
+          required: true
+          schema:
+            type: string
+            example: "2021-06-01T20:44:39Z"
+        - description: "page size for pagination"
+          in: query
+          name: limit
+          required: false
+          schema:
+            type: string
+            example: "5"
+        - description: "Algorand Next Token for getting the next page results"
+          in: query
+          name: next
+          required: false
+          schema:
+            type: string
+            example: "ywAAAAAAAAAAAAAA"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlgoTxsWithPagination"
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Get Algorand Transaction
+      tags:
+        - Blockchain / Algorand (ALGO)
+  /v3/algorand/broadcast:
+    post:
+      description: |
+        <h4>2 credits per API call.</h4><br/>
+        <p>Broadcast signed transaction to Algorand blockchain. This method is used internally from Tatum KMS or Tatum client libraries.
+        It is possible to create custom signing mechanism and use this method only for broadcasting data to the blockchian.</p>
+      operationId: AlgoandBroadcast
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BroadcastKMS"
+        required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionHashKMS"
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Broadcast signed Algorand transaction
+      tags:
+        - Blockchain / Algorand (ALGO)
+components:
+  schemas:
+    Wallet:
+      type: object
+      properties:
+        address:
+          maxLength: 58
+          minLength: 58
+          description: address of Algorand account.
+          example: "NTAESFCB3WOD7SAOL42KSPVARLB3JFA3MNX3AESWHYVT2RMYDVZI6YLG4Y"
+          type: string
+        secret:
+          maxLength: 103
+          minLength: 103
+          description: secretKey can generate Mnemonic, similar to private Key.
+          type: string
+          example: NBYMCVEEDFYV3TPWVRE6APE7PKHUJD4XAKXCKNCLKGUXOC3LFNJGZQCJCRA53HB7ZAHF6NFJH2QIVQ5USQNWG35QCJLD4KZ5IWMB24Q
+    AlgoBlock:
+      type: object
+      properties:
+        genesisHash: 
+          description: hash to which this block belongs
+          type: string
+          example: "SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI="
+        genesisId:
+          description: ID to which this block belongs
+          type: string
+          example: "testnet-v1.0"
+        previousBlockHash:
+          description: Previous block hash
+          type: string
+          example: "JeLGQTbqnBsD3NXE8Bf1TpPFMFadEVVyHhkcD61ljAU="
+        rewards:
+          description: rewards
+          type: object
+          example: {
+            'fee-sink': 'A7NMWS3NT3IUDMLVO26ULGXGIIOUQ3ND2TXSER6EBGRZNOBOUIQXHIBGDE',
+            'rewards-calculation-round': 17000000,
+            'rewards-level': 27521,
+            'rewards-pool': '7777777777777777777777777777777777777777777777777774MSJUVU',
+            'rewards-rate': 0,
+            'rewards-residue': 2020197303
+          }
+        round: 
+          description: Current round on which this block was appended to the chain
+          type: number
+          example: 16775567
+        seed: 
+          description: Sortition seed.
+          type: string
+          example: "VPBpyrHyqbfqrHqJ3l39LXGN4qgEdNnE5kpJfk3vJtA="
+        timestamp: 
+          description: Block creation timestamp in seconds since eposh
+          type: number
+          example: 1632167753
+        txns:
+          description: Array of transactions
+          type: array
+          items:
+            $ref: "#/components/schemas/AlgoTx"
+        txn:
+          description: TransactionsRoot authenticates the set of transactions appearing in the block.
+          type: string
+          example: ++MWW82yIvYQ0AEoPP0aDGGHGk/dSp5WHlbkf9SVU1U=
+        txnc:
+          description: TxnCounter counts the number of transations committed in the ledger
+          type: number
+          example: 27814470
+        upgradeState:
+          description: upgrade state
+          type: object
+          example: {
+            'current-protocol': 'https://github.com/algorandfoundation/specs/tree/abc54f79f9ad679d2d22f0fb9909fb005c16f8a1',
+            'next-protocol-approvals': 0,
+            'next-protocol-switch-on': 0,
+            'next-protocol-vote-before': 0
+          }
+        upgradeVote:
+          description: upgrade vote
+          type: object
+          example: { 'upgrade-approve': false, 'upgrade-delay': 0 }
+    AlgoTx:
+      type: object
+      properties:
+        closeRewards:
+          description: rewards applied to close-remainder-to account.
+          type: number
+          example: 0
+        closingAmount:
+          description: closing amount for transaction.
+          type: number
+          example: 0
+        confirmedRound:
+          description: Round when the transaction was confirmed.
+          type: number
+          example: 16775567
+        fee:
+          description: Transaction fee
+          type: number
+          example: 0.001
+        firstValid:
+          description: First valid round for this transaction.
+          type: number
+          example: 16775565
+        genesisHash:
+          description: Hash of genesis block
+          type: string
+          example: 'SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI='
+        genesisId:
+          description: genesis block ID.
+          type: string
+          example: 'testnet-v1.0'
+        id:
+          description: transaction ID
+          type: string
+          example: 'HNIQ76UTJYPOLZP5FWODYABBJPYPGJNEM2QEJSMDMQRWEKHEYJHQ'
+        intraRoundOffset:
+          description: Offset into the round where this transaction was confirmed.
+          type: number
+          example: 1
+        lastValid:
+          description: Last valid round for this transaction.
+          type: number
+          example: 16775571
+        note:
+          description: Free form data
+          type: string
+          example: 'cGluZ3Bvbmf0Jyl21QrtLw=='
+        paymentTransaction:
+          description: payment Transaction
+          type: object
+        receiverRewards:
+          description: rewards applied to receiver account.
+          type: number
+          example: 0
+        roundTime:
+          description: Time when the block this transaction is in was confirmed.
+          type: number
+          example: 1632167753
+        sender:
+          description: Sender's address
+          type: string
+          example: "U6QEM4KM7KKGCLH4FELZBGJEVVSF556ELXHUOZC4ESPFS4O4V4VQXKQRXQ"
+        senderRewards:
+          description: rewards applied to sender account.
+          type: number
+          example: 0
+        signature:
+          description: signature
+          type: object
+        txType:
+          description: indicates what type of transaction this is. Different types have differnet fields.
+          type: string
+          example: 'pay'
+    AlgoTxsWithPagination:
+      type: object
+      properties:
+        nextToken:
+          description: Used for pagination, when making another request provide this token with the next parameter.
+          type: string
+          example: "ywAAAAAAAAAAAAAA"
+        transactions:
+          description: Array of transactions.
+          type: array
+          items:
+            $ref: "#/components/schemas/AlgoTx"
+    TransferAlgorandBlockchain:
+      type: object
+      properties:
+        from:
+          description: Blockchain sender address.
+          type: string
+          example: "TMETT6BXL3QUH7AH5TS6IONU7LVTLKIGG54CFCNPMQXWGRIZFIESZBYWP4"
+        to:
+          description: Blockchain address to send algo
+          type: string
+          example: "NTAESFCB3WOD7SAOL42KSPVARLB3JFA3MNX3AESWHYVT2RMYDVZI6YLG4Y"
+        fee:
+          description: Transaction fee in Algos.
+          type: string
+          example: "0.001"
+        amount:
+          description: Amount to be sent in Algos.
+          type: string
+          example: "1"
+        note:
+          description: "Helloworld"
+          type: string
+        fromPrivateKey:
+          description: Private key of sender address. Private key, or signature Id must be present.
+          type: string
+          example: "72TCV5BRQPBMSAFPYO3CPWVDBYWNGAYNMTW5QHENOMQF7I6QLNMJWCJZ7A3V5YKD7QD6ZZPEHG2PV2ZVVEDDO6BCRGXWIL3DIUMSUCI"
+      required:
+        - from
+        - to
+        - amount
+        - fromPrivateKey
+    TransferAlgorandBlockchainKMS:
+      type: object
+      properties:
+        from:
+          description: Blockchain sender address.
+          type: string
+          example: "TMETT6BXL3QUH7AH5TS6IONU7LVTLKIGG54CFCNPMQXWGRIZFIESZBYWP4"
+        to:
+          description: Blockchain address to send algo
+          type: string
+          example: "NTAESFCB3WOD7SAOL42KSPVARLB3JFA3MNX3AESWHYVT2RMYDVZI6YLG4Y"
+        fee:
+          description: Transaction fee in MicroAlgos.
+          type: string
+          example: "1000"
+        amount:
+          description: Amount to be sent in MicroAlgos.
+          type: string
+          example: "100000"
+        note:
+          description: "Helloworld"
+          type: string
+        index:
+          type: number
+          minimum: 0
+          description: If signatureId is mnemonic-based, this is the index to the specific address from that mnemonic.
+        signatureId:
+          type: string
+          minLength: 36
+          maxLength: 36
+          format: uuid
+          example: 26d3883e-4e17-48b3-a0ee-09a3e484ac83
+          description: Identifier of the private key associated in signing application. Private key, or signature Id must be present.
+      required:
+        - from
+        - to
+        - amount
+        - signatureId
+
+    Error400:
+      properties:
+        errorCode:
+          example: validation.failed
+          description: validation.failed
+          type: string
+        message:
+          example: "Request validation failed. Please see data for additional information."
+          description: "Request validation failed. Please see data for additional information."
+          type: string
+        statusCode:
+          example: 400
+          description: "400"
+          type: number
+        data:
+          type: array
+          items:
+            type: object
+            required:
+              - target
+            properties:
+              target:
+                type: object
+                additionalProperties: true
+                description: Request object present in the body of the HTTP request
+                example:
+                  property: 12345
+              value:
+                type: number
+                description: Value of the target object which validation is wrong. Can be of any data type, example here is using type number.
+                example: 12345
+              property:
+                type: string
+                description: Property name of the target object which validation is wrong
+                example: property1
+              constraints:
+                type: object
+                additionalProperties: true
+                description: Object of failed constraints for the target object. Key is the constraint, value is detailed description of the failed constraint.
+                example:
+                  min: property1 must not be less than 50000
+      required:
+        - errorCode
+        - message
+        - statusCode
+        - data
+      type: object
+    Error401Invalid:
+      properties:
+        errorCode:
+          example: subscription.invalid
+          description: subscription.invalid
+          type: string
+        message:
+          example: "Unable to find valid subscription for '${apiKey}'"
+          description: "Unable to find valid subscription for '${apiKey}'"
+          type: string
+        statusCode:
+          example: 401
+          description: "401"
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error401NotActive:
+      properties:
+        errorCode:
+          example: subscription.not.active
+          description: subscription.not.active
+          type: string
+        message:
+          example: Subscription not active anymore.
+          description: Subscription not active anymore.
+          type: string
+        statusCode:
+          example: 401
+          description: "401"
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403ComplianceBtc:
+      properties:
+        errorCode:
+          description: compliance.country.btc.not.supported
+          example: compliance.country.btc.not.supported
+          type: string
+        message:
+          description: Customer country not supported for BTC.
+          example: Customer country not supported for BTC.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403Libra:
+      properties:
+        errorCode:
+          description: libra.request.failed
+          example: libra.request.failed
+          type: string
+        message:
+          description: ${error}
+          example: ${error}
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403Neo:
+      properties:
+        errorCode:
+          description: neo.failed
+          example: neo.failed
+          type: string
+        message:
+          description: Unable to communicate to blockchain. ${error}
+          example: Unable to communicate to blockchain. ${error}
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403EthBroadcast:
+      properties:
+        errorCode:
+          description: ethereum.broadcast.failed
+          example: ethereum.broadcast.failed
+          type: string
+        message:
+          description: Unable to broadcast transaction due to ${error}.
+          example: Unable to broadcast transaction due to ${error}.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403EthErc20NotFound:
+      properties:
+        errorCode:
+          description: erc20.token.notFound
+          example: erc20.token.notFound
+          type: string
+        message:
+          description: No such ERC20 currency ${name}.
+          example: No such ERC20 currency ${name}.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403TxNotFound:
+      properties:
+        errorCode:
+          description: tx.missing
+          example: tx.missing
+          type: string
+        message:
+          description: No such tx.
+          example: No such tx.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403EthErc20Set:
+      properties:
+        errorCode:
+          description: erc20.address.set
+          example: erc20.address.set
+          type: string
+        message:
+          description: ERC20 address was already set.
+          example: ERC20 address was already set.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403EthMnemonicPrivateKey:
+      properties:
+        errorCode:
+          description: private.mnemonic.missing
+          example: private.mnemonic.missing
+          type: string
+        message:
+          description: Either mnemonic and index or private key must be present.
+          example: Either mnemonic and index or private key must be present.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403EthErc20Unsupported:
+      properties:
+        errorCode:
+          description: eth.erc20.unsupported
+          example: eth.erc20.unsupported
+          type: string
+        message:
+          description: Unsupported ETH ERC20 blockchain.
+          example: Unsupported ETH ERC20 blockchain.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403EthTxHash:
+      properties:
+        errorCode:
+          description: eth.transaction.hash
+          example: eth.transaction.hash
+          type: string
+        message:
+          description: Unable to calculate transaction hash. ${error}
+          example: Unable to calculate transaction hash. ${error}
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403EthTxSign:
+      properties:
+        errorCode:
+          description: eth.transaction.sign
+          example: eth.transaction.sign
+          type: string
+        message:
+          description: Unable to sign transaction. ${error}
+          example: Unable to sign transaction. ${error}
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403EthErc20TxSign:
+      properties:
+        errorCode:
+          description: eth.erc20.sign
+          example: eth.erc20.sign
+          type: string
+        message:
+          description: Unable to sign transaction for contract creation. ${error}
+          example: Unable to sign transaction for contract creation. ${error}
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403EthErc721TxSign:
+      properties:
+        errorCode:
+          description: eth.erc721.sign
+          example: eth.erc721.sign
+          type: string
+        message:
+          description: Unable to sign transaction for contract creation. ${error}
+          example: Unable to sign transaction for contract creation. ${error}
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403EthErc721Call:
+      properties:
+        errorCode:
+          description: eth.erc721.failed
+          example: eth.erc721.failed
+          type: string
+        message:
+          description: Unable to obtain information for token. ${error}
+          example: Unable to obtain information for token. ${error}
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403EthGasCalculation:
+      properties:
+        errorCode:
+          description: eth.transaction.gas
+          example: eth.transaction.gas
+          type: string
+        message:
+          description: Unable to calculate gas limit for transaction. ${error}
+          example: Unable to calculate gas limit for transaction. ${error}
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403EthTxBody:
+      properties:
+        errorCode:
+          description: ethereum.transaction.body
+          example: ethereum.transaction.body
+          type: string
+        message:
+          description: Either currency, or tokenAddress must be defined.
+          example: Either currency, or tokenAddress must be defined.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403EthScBody:
+      properties:
+        errorCode:
+          description: ethereum.sc.invalid
+          example: ethereum.sc.invalid
+          type: string
+        message:
+          description: Invalid parameters for smart contract invocation.
+          example: Invalid parameters for smart contract invocation.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403EthGasPrice:
+      properties:
+        errorCode:
+          description: gas.price.failed
+          example: gas.price.failed
+          type: string
+        message:
+          description: Unable to obtain current GAS price.
+          example: Unable to obtain current GAS price.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403ComplianceEth:
+      properties:
+        errorCode:
+          description: compliance.country.eth.not.supported
+          example: compliance.country.eth.not.supported
+          type: string
+        message:
+          description: Customer country not supported for ETH.
+          example: Customer country not supported for ETH.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403AccountTestnet:
+      properties:
+        errorCode:
+          description: account.blockchain.testnet
+          example: account.blockchain.testnet
+          type: string
+        message:
+          description: Unable to create account, unsupported testnet blockchain.
+          example: Unable to create account, unsupported testnet blockchain.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403AccountXpub:
+      properties:
+        errorCode:
+          description: account.xpub.present
+          example: account.xpub.present
+          type: string
+        message:
+          description: Unable to create ${account.currency} account with xpub.
+          example: Unable to create ${account.currency} account with xpub.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403AddressXpub:
+      properties:
+        errorCode:
+          description: Address.xpub.present
+          example: address.xpub.present
+          type: string
+        message:
+          description: Xpub assigned to account, it is not possible to assign address. Use generateAddress method instead.
+          example: Xpub assigned to account, it is not possible to assign address. Use generateAddress method instead.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403AccountCurrency:
+      properties:
+        errorCode:
+          description: ledger.currency.invalid
+          example: ledger.currency.invalid
+          type: string
+        message:
+          description: Unable to create an account, unsupported currency.
+          example: Unable to create an account, unsupported currency.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403AccountIncompatibleXpub:
+      properties:
+        errorCode:
+          description: account.xpub.incompatible
+          example: account.xpub.incompatible
+          type: string
+        message:
+          description: Xpub not compatible with account currency.
+          example: Xpub not compatible with account currency.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403AccountIncompatibleXpubBtc:
+      properties:
+        errorCode:
+          description: Address.generation.failed.wrong.xpub
+          example: address.generation.failed.wrong.xpub
+          type: string
+        message:
+          description: Unable to generate address, wrong xpub and account type.
+          example: Unable to generate address, wrong xpub and account type.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403AccountAddressGeneral:
+      properties:
+        errorCode:
+          description: Address.generation.failed
+          example: address.generation.failed
+          type: string
+        message:
+          description: Unable to generate address.
+          example: Unable to generate address.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403BnbFailed:
+      properties:
+        errorCode:
+          description: bnb.failed
+          example: bnb.failed
+          type: string
+        message:
+          description: Unable to communicate with blockchain. ${error}
+          example: Unable to communicate with blockchain. ${error}
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403BnbAddressFailed:
+      properties:
+        errorCode:
+          description: Address.bnb.generation.failed.wrong.xpub
+          example: address.bnb.generation.failed.wrong.xpub
+          type: string
+        message:
+          description: Unable to generate BNB address, wrong xpub and account type.
+          example: Unable to generate BNB address, wrong xpub and account type.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403BnbBroadcatSigFailed:
+      properties:
+        errorCode:
+          description: bnb.broadcast.bad.signature
+          example: bnb.broadcast.bad.signature
+          type: string
+        message:
+          description: Unable to broadcast BNB transaction, bad signature.
+          example: Unable to broadcast BNB transaction, bad signature.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403BnbTxStateFailed:
+      properties:
+        errorCode:
+          description: bnb.broadcast.failed.tx.state
+          example: bnb.broadcast.failed.tx.state
+          type: string
+        message:
+          description: Unable to broadcast BNB transaction, tx ${hash} state not OK.
+          example: Unable to broadcast BNB transaction, tx ${hash} state not OK.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403BnbTxFailed:
+      properties:
+        errorCode:
+          description: bnb.transfer.failed
+          example: bnb.transfer.failed
+          type: string
+        message:
+          description: Unable to transfer funds. ${error}
+          example: Unable to transfer funds. ${error}
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403BtcTxFailed:
+      properties:
+        errorCode:
+          description: transaction.failed
+          example: transaction.failed
+          type: string
+        message:
+          description: No spendable inputs.
+          example: No spendable inputs.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403BtcTx:
+      properties:
+        errorCode:
+          description: transaction.invalid.body
+          example: transaction.invalid.body
+          type: string
+        message:
+          description: Either UTXO, or addresses must be present.
+          example: Either UTXO, or addresses must be present.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403AccountNotExists:
+      properties:
+        errorCode:
+          description: account.not.exists
+          example: account.not.exists
+          type: string
+        message:
+          description: No such account.
+          example: No such account.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403BlockageNotExists:
+      properties:
+        errorCode:
+          description: blockage.not.exists
+          example: blockage.not.exists
+          type: string
+        message:
+          description: No such blockage.
+          example: No such blockage.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403BlockageAmount:
+      properties:
+        errorCode:
+          description: blockage.amount.exceeded
+          example: blockage.amount.exceeded
+          type: string
+        message:
+          description: Amount to transfer is greater then amount of the blockage.
+          example: Amount to transfer is greater then amount of the blockage.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403SubscriptionNotExists:
+      properties:
+        errorCode:
+          description: subscription.not.exists
+          example: subscription.not.exists
+          type: string
+        message:
+          description: No such subscription.
+          example: No such subscription.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403SubscriptionType:
+      properties:
+        errorCode:
+          description: subscription.type.invalid
+          example: subscription.type.invalid
+          type: string
+        message:
+          description: Invalid subscription type.
+          example: Invalid subscription type.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403SubscriptionCurrency:
+      properties:
+        errorCode:
+          description: subscription.attr.currency.invalid
+          example: subscription.attr.currency.invalid
+          type: string
+        message:
+          description: Invalid subscription attribute 'currency'.
+          example: Invalid subscription attribute 'currency'.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403SubscriptionInterval:
+      properties:
+        errorCode:
+          description: subscription.attr.interval.invalid
+          example: subscription.attr.interval.invalid
+          type: string
+        message:
+          description: Invalid subscription attribute 'interval'.
+          example: Invalid subscription attribute 'interval'.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403SubscriptionBalance:
+      properties:
+        errorCode:
+          description: subscription.attr.balance.invalid
+          example: subscription.attr.balance.invalid
+          type: string
+        message:
+          description: Invalid subscription attribute 'limit' or 'typeOfBalance'.
+          example: Invalid subscription attribute 'limit' or 'typeOfBalance'.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403SubscriptionId:
+      properties:
+        errorCode:
+          description: subscription.attr.incoming.invalid
+          example: subscription.attr.incoming.invalid
+          type: string
+        message:
+          description: Invalid subscription attribute 'id' or 'url'.
+          example: Invalid subscription attribute 'id' or 'url'.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403SubscriptionPendingId:
+      properties:
+        errorCode:
+          description: subscription.attr.pending.invalid
+          example: subscription.attr.pending.invalid
+          type: string
+        message:
+          description: Invalid subscription attribute 'id' or 'url'.
+          example: Invalid subscription attribute 'id' or 'url'.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403ReportNotAvailable:
+      properties:
+        errorCode:
+          description: report.invalid
+          example: report.invalid
+          type: string
+        message:
+          description: Unsupported report type.
+          example: Unsupported report type.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403AccountInactive:
+      properties:
+        errorCode:
+          description: account.inactive
+          example: account.inactive
+          type: string
+        message:
+          description: Unable to deactivate inactive account.
+          example: Unable to deactivate inactive account.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403AccountActive:
+      properties:
+        errorCode:
+          description: account.active
+          example: account.active
+          type: string
+        message:
+          description: Unable to activate active account.
+          example: Unable to activate active account.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403AccountFrozen:
+      properties:
+        errorCode:
+          description: account.frozen
+          example: account.frozen
+          type: string
+        message:
+          description: Unable to freeze frozen account.
+          example: Unable to freeze frozen account.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403AccountNotFrozen:
+      properties:
+        errorCode:
+          description: account.not.frozen
+          example: account.not.frozen
+          type: string
+        message:
+          description: Unable to unfreeze unfrozen account.
+          example: Unable to unfreeze unfrozen account.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403CustomerInternalNotExists:
+      properties:
+        errorCode:
+          description: customer.internal.not.exists
+          example: customer.internal.not.exists
+          type: string
+        message:
+          description: No such customer.
+          example: No such customer.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403CustomerActive:
+      properties:
+        errorCode:
+          description: customer.active
+          example: customer.active
+          type: string
+        message:
+          description: Unable to activate active customer.
+          example: Unable to activate active customer.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403CustomerInactive:
+      properties:
+        errorCode:
+          description: customer.inactive
+          example: customer.inactive
+          type: string
+        message:
+          description: Unable to perform operation on inactive customer.
+          example: Unable to perform operation on inactive customer.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403CustomerDisabled:
+      properties:
+        errorCode:
+          description: customer.disabled
+          example: customer.disabled
+          type: string
+        message:
+          description: Unable to disable disabled customer.
+          example: Unable to disable disabled customer.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403CustomerEnabled:
+      properties:
+        errorCode:
+          description: customer.enabled
+          example: customer.enabled
+          type: string
+        message:
+          description: Unable to enable enabled customer.
+          example: Unable to enable enabled customer.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403CustomerDeactivateActiveAccounts:
+      properties:
+        errorCode:
+          description: customer.deactivate.account.active
+          example: customer.deactivate.account.active
+          type: string
+        message:
+          description: Unable to deactivate customer, accounts not deactivated.
+          example: Unable to deactivate customer, accounts not deactivated.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403CustomerNotExists:
+      properties:
+        errorCode:
+          description: customer.not.exists
+          example: customer.not.exists
+          type: string
+        message:
+          description: No customer with given external ID ${externalId} exists.
+          example: No customer with given external ID ${externalId} exists.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403BlockDelete:
+      properties:
+        errorCode:
+          description: customer.blockage.inactive
+          example: customer.blockage.inactive
+          type: string
+        message:
+          description: Unable to delete blockages on account for inactive customer.
+          example: Unable to delete blockages on account for inactive customer.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403CustomerNotActive:
+      properties:
+        errorCode:
+          description: customer.not.active
+          example: customer.not.active
+          type: string
+        message:
+          description: Customer not active.
+          example: Customer not active.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403VCNoAccount:
+      properties:
+        errorCode:
+          description: virtual.account.notValid
+          example: virtual.account.notValid
+          type: string
+        message:
+          description: Unable to perform operation on virtual currency, account does not exists.
+          example: Unable to perform operation on virtual currency, account does not exists.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403VCTxFailed:
+      properties:
+        errorCode:
+          description: virtual.tx.failed
+          example: virtual.tx.failed
+          type: string
+        message:
+          description: Unable to perform operation on virtual currency, impossible to store transaction.
+          example: Unable to perform operation on virtual currency, impossible to store transaction.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403VCRevokeBalance:
+      properties:
+        errorCode:
+          description: virtual.account.balance
+          example: virtual.account.balance
+          type: string
+        message:
+          description: Insufficient balance to revoke virtual currency on account.
+          example: Insufficient balance to revoke virtual currency on account.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403VCCreateFailed:
+      properties:
+        errorCode:
+          description: virtual.creation.error
+          example: virtual.creation.error
+          type: string
+        message:
+          description: It is not possible to create virtual currency.
+          example: It is not possible to create virtual currency.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403VCPrefix:
+      properties:
+        errorCode:
+          description: virtual.name.prefix
+          example: virtual.name.prefix
+          type: string
+        message:
+          description: Virtual currency has wrong name, must start with VC_.
+          example: Virtual currency has wrong name, must start with VC_.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403VCDuplicate:
+      properties:
+        errorCode:
+          description: virtual.duplicate
+          example: virtual.duplicate
+          type: string
+        message:
+          description: Virtual currency with given name already exists.
+          example: Virtual currency with given name already exists.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403AccountCustomerInactive:
+      properties:
+        errorCode:
+          description: account.customer.inactive
+          example: account.customer.inactive
+          type: string
+        message:
+          description: Unable to activate account, customer inactive.
+          example: Unable to activate account, customer inactive.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403AccountBalanceNonZero:
+      properties:
+        errorCode:
+          description: account.balance.non.zero
+          example: account.balance.non.zero
+          type: string
+        message:
+          description: Unable to deactivate account with non-zero balance.
+          example: Unable to deactivate account with non-zero balance.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403TradeBalanceNonZero:
+      properties:
+        errorCode:
+          description: account.trade.non.zero
+          example: account.trade.non.zero
+          type: string
+        message:
+          description: Unable to deactivate account with non-zero exchange trades.
+          example: Unable to deactivate account with non-zero exchange trades.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403AmountFormat:
+      properties:
+        errorCode:
+          description: amount.format
+          example: amount.format
+          type: string
+        message:
+          description: Amount has incorrect format.
+          example: Amount has incorrect format.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403RecipientFormat:
+      properties:
+        errorCode:
+          description: withdrawal.recipient.format
+          example: withdrawal.recipient.format
+          type: string
+        message:
+          description: Recipient blockchain address has incorrect format.
+          example: Recipient blockchain address has incorrect format.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403AccountCurrencyVC:
+      properties:
+        errorCode:
+          description: account.currency.missing
+          example: account.currency.missing
+          type: string
+        message:
+          description: No such virtual currency ${currency} for account ${account}.
+          example: No such virtual currency ${currency} for account ${account}.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403VCNotFound:
+      properties:
+        errorCode:
+          description: vc.not.found
+          example: vc.not.found
+          type: string
+        message:
+          description: No such virtual currency.
+          example: No such virtual currency.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403AddressUsed:
+      properties:
+        errorCode:
+          description: Address.used
+          example: address.used
+          type: string
+        message:
+          description: Address and currency already in use.
+          example: Address and currency already in use.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403AddressNotFound:
+      properties:
+        errorCode:
+          description: Address.not.found
+          example: address.not.found
+          type: string
+        message:
+          description: No such address exists.
+          example: No such address exists.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403AddressAccountXpubMissing:
+      properties:
+        errorCode:
+          description: account.xpub.missing
+          example: account.xpub.missing
+          type: string
+        message:
+          description: No xpub assigned to account, it is not possible to generate address. Use assignAddress method instead.
+          example: No xpub assigned to account, it is not possible to generate address. Use assignAddress method instead.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403AddressIndexUsed:
+      properties:
+        errorCode:
+          description: Address.index.used
+          example: address.index.used
+          type: string
+        message:
+          description: Unable to create address, derivation index is already used.
+          example: Unable to create address, derivation index is already used.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403BtcBlockchain:
+      properties:
+        errorCode:
+          description: blockchain.error.code
+          example: blockchain.error.code
+          type: string
+        message:
+          description: "${error.message} Code: ${error.code}"
+          example: "${error.message} Code: ${error.code}"
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403BlockNotExists:
+      properties:
+        errorCode:
+          description: block.hash.not.exists
+          example: block.hash.not.exists
+          type: string
+        message:
+          description: No such block.
+          example: No such block.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403Broadcast:
+      properties:
+        errorCode:
+          description: blockchain.broadcast.error
+          example: blockchain.broadcast.error
+          type: string
+        message:
+          description: Unable to broadcast transaction, wrong input data.
+          example: Unable to broadcast transaction, wrong input data.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403BlockchainPrivateFailed:
+      properties:
+        errorCode:
+          description: key.generation.failed.wrong.mnemonic
+          example: key.generation.failed.wrong.mnemonic
+          type: string
+        message:
+          description: Unable to generate address, wrong mnemonic and index.
+          example: Unable to generate address, wrong mnemonic and index.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403BtcUTXO:
+      properties:
+        errorCode:
+          description: tx.hash.index.spent
+          example: tx.hash.index.spent
+          type: string
+        message:
+          description: No such UTXO for transaction and index.
+          example: No such UTXO for transaction and index.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403BcashBroadcast:
+      properties:
+        errorCode:
+          description: bch.broadcast.failed
+          example: bch.broadcast.failed
+          type: string
+        message:
+          description: 'Unable to broadcast transaction. Error from blockchain: ${error}'
+          example: 'Unable to broadcast transaction. Error from blockchain: ${error}'
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403WithdrawalNotFound:
+      properties:
+        errorCode:
+          description: withdrawal.missing
+          example: withdrawal.missing
+          type: string
+        message:
+          description: No such withdrawal.
+          example: No such withdrawal.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403KMSNotExists:
+      properties:
+        errorCode:
+          description: kms.missing
+          example: kms.missing
+          type: string
+        message:
+          description: No such KMS signature with id '{id}'.
+          example: No such KMS signature with id '{id}'.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403OffchainNotCancelled:
+      properties:
+        errorCode:
+          description: withdrawal.not.cancelled.transaction.failed
+          example: withdrawal.not.cancelled.transaction.failed
+          type: string
+        message:
+          description: 'Unable to broadcast transaction, and impossible to cancel withdrawal. ID is attached, "${withdrawalId}", cancel it manually.'
+          example: 'Unable to broadcast transaction, and impossible to cancel withdrawal. ID is attached, "${withdrawalId}", cancel it manually.'
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403XlmFailed:
+      properties:
+        errorCode:
+          description: xlm.failed
+          example: xlm.failed
+          type: string
+        message:
+          description: Unable to communicate with blockchain. ${error}
+          example: Unable to communicate with blockchain. ${error}
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403XrpFailed:
+      properties:
+        errorCode:
+          description: xrp.failed
+          example: xrp.failed
+          type: string
+        message:
+          description: Unable to communicate with blockchain. ${error}
+          example: Unable to communicate with blockchain. ${error}
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403XrpCode:
+      properties:
+        errorCode:
+          description: xrp.account.failed
+          example: xrp.account.failed
+          type: string
+        message:
+          description: '${error} Code: ${code}'
+          example: '${error} Code: ${code}'
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403XrpLedger:
+      properties:
+        errorCode:
+          description: xrp.ledger.failed
+          example: xrp.ledger.failed
+          type: string
+        message:
+          description: '${error} Code: ${code}'
+          example: '${error} Code: ${code}'
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403XrpBroadcast:
+      properties:
+        errorCode:
+          description: xrp.broadcast.failed
+          example: xrp.broadcast.failed
+          type: string
+        message:
+          description: Xrp submit tx failed. ${error}
+          example: Xrp submit tx failed. ${error}
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403XrpMultiple:
+      properties:
+        errorCode:
+          description: xrp.settings.multiple
+          example: xrp.settings.multiple
+          type: string
+        message:
+          description: It is possible to set 1 parameter at a time.
+          example: It is possible to set 1 parameter at a time.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403XrpAttr:
+      properties:
+        errorCode:
+          description: attr.wrong.format
+          example: attr.wrong.format
+          type: string
+        message:
+          description: Wrong attr of withdrawal, should be of uint32 type.
+          example: Wrong attr of withdrawal, should be of uint32 type.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403XrpFee:
+      properties:
+        errorCode:
+          description: xrp.fee
+          example: xrp.fee
+          type: string
+        message:
+          description: Unable to calculate fee.
+          example: Unable to calculate fee.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403XrpSign:
+      properties:
+        errorCode:
+          description: xrp.sign.failed
+          example: xrp.sign.failed
+          type: string
+        message:
+          description: Unable to sign tx. ${error}
+          example: Unable to sign tx. ${error}
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403XlmTxFailed:
+      properties:
+        errorCode:
+          description: xlm.tx.failed
+          example: xlm.tx.failed
+          type: string
+        message:
+          description: Unable to construct transaction. ${error}
+          example: Unable to construct transaction. ${error}
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403VetFailed:
+      properties:
+        errorCode:
+          description: vet.failed
+          example: vet.failed
+          type: string
+        message:
+          description: Unable to communicate with blockchain. ${error}
+          example: Unable to communicate with blockchain. ${error}
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403VetGas:
+      properties:
+        errorCode:
+          description: vet.transaction.gas
+          example: vet.transaction.gas
+          type: string
+        message:
+          description: Unable to calculate gas limit for transaction. ${error}
+          example: Unable to calculate gas limit for transaction. ${error}
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403VetTxHash:
+      properties:
+        errorCode:
+          description: vet.transaction.hash
+          example: vet.transaction.hash
+          type: string
+        message:
+          description: Unable to calculate transaction hash.
+          example: Unable to calculate transaction hash.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403OffchainBroadcastState:
+      properties:
+        errorCode:
+          description: withdrawal.unexpected.state
+          example: withdrawal.unexpected.state
+          type: string
+        message:
+          description: Unable to complete withdrawal, which is not in InProgress state.
+          example: Unable to complete withdrawal, which is not in InProgress state.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403OffchainCancelled:
+      properties:
+        errorCode:
+          description: withdrawal.prepare.failed
+          example: withdrawal.prepare.failed
+          type: string
+        message:
+          description: Unable to prepare transaction, withdrawal cancelled.
+          example: Unable to prepare transaction, withdrawal cancelled.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403OffchainNotSupported:
+      properties:
+        errorCode:
+          description: offchain.not.supported
+          example: offchain.not.supported
+          type: string
+        message:
+          description: Offchain not supported for account with ${account.currency} currency.
+          example: Offchain not supported for account with ${account.currency} currency.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403AddressAccountXpubUsed:
+      properties:
+        errorCode:
+          description: xpub.used
+          example: xpub.used
+          type: string
+        message:
+          description: XPub already used registered within Tatum
+          example: XPub already used registered within Tatum
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403RateNotFound:
+      properties:
+        errorCode:
+          description: rate.not.found
+          example: rate.not.found
+          type: string
+        message:
+          description: No such currency rate.
+          example: No such currency rate.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403OffchainBroadcast:
+      properties:
+        errorCode:
+          description: broadcast.failed.withdrawalId
+          example: broadcast.failed.withdrawalId
+          type: string
+        message:
+          description: WithdrawalId must be present.
+          example: WithdrawalId must be present.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403OffchainCheck:
+      properties:
+        errorCode:
+          description: withdrawal.check.currency
+          example: withdrawal.check.currency
+          type: string
+        message:
+          description: Withdrawal check available only for ETH based currencies.
+          example: Withdrawal check available only for ETH based currencies.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403BtcTxUtxoFailed:
+      properties:
+        errorCode:
+          description: transaction.preparation.failed.utxo
+          example: transaction.preparation.failed.utxo
+          type: string
+        message:
+          description: Impossible to find last UTXO.
+          example: Impossible to find last UTXO.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403BtcMnemonicTxFailed:
+      properties:
+        errorCode:
+          description: transaction.preparation.failed
+          example: transaction.preparation.failed
+          type: string
+        message:
+          description: Impossible to prepare transaction. Either mnemonic or keyPair and attr must be present.
+          example: Impossible to prepare transaction. Either mnemonic or keyPair and attr must be present.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403WithdrawalFailed:
+      properties:
+        errorCode:
+          description: withdrawal.failed.transaction.failed
+          example: withdrawal.failed.transaction.failed
+          type: string
+        message:
+          description: Unable to store withdrawal, it is impossible to create transaction.
+          example: Unable to store withdrawal, it is impossible to create transaction.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403WithdrawalCancelled:
+      properties:
+        errorCode:
+          description: withdrawal.not.cancelled.transaction.failed
+          example: withdrawal.not.cancelled.transaction.failed
+          type: string
+        message:
+          description: Unable to cancel withdrawal ${id}, it is impossible to create refund transaction.
+          example: Unable to cancel withdrawal ${id}, it is impossible to create refund transaction.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403FeeFormat:
+      properties:
+        errorCode:
+          description: fee.format
+          example: fee.format
+          type: string
+        message:
+          description: Fee has incorrect format.
+          example: Fee has incorrect format.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403TxSenderNotFound:
+      properties:
+        errorCode:
+          description: senderAccount.not.exists
+          example: senderAccount.not.exists
+          type: string
+        message:
+          description: Unable to find sender account ${transaction.senderAccountId}.
+          example: Unable to find sender account ${transaction.senderAccountId}.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403TxSenderFrozen:
+      properties:
+        errorCode:
+          description: senderAccount.frozen
+          example: senderAccount.frozen
+          type: string
+        message:
+          description: Sender account ${transaction.senderAccountId} is frozen, unable to perform payment.
+          example: Sender account ${transaction.senderAccountId} is frozen, unable to perform payment.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403TxSenderCustomerDisabled:
+      properties:
+        errorCode:
+          description: senderAccount.customer.disabled
+          example: senderAccount.customer.disabled
+          type: string
+        message:
+          description: Sender accounts customer ${senderAccount.customerId} is disabled, unable to perform payment.
+          example: Sender accounts customer ${senderAccount.customerId} is disabled, unable to perform payment.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403TxRecipientNotFound:
+      properties:
+        errorCode:
+          description: recipientAccount.not.exists
+          example: recipientAccount.not.exists
+          type: string
+        message:
+          description: Unable to find recipient account ${transaction.recipientAccountId}.
+          example: Unable to find recipient account ${transaction.recipientAccountId}.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403TxCurrency:
+      properties:
+        errorCode:
+          description: transaction.currency.incompatible
+          example: transaction.currency.incompatible
+          type: string
+        message:
+          description: Incompatible currencies for sender account ${transaction.senderAccountId} and recipient account ${transaction.recipientAccountId}.
+          example: Incompatible currencies for sender account ${transaction.senderAccountId} and recipient account ${transaction.recipientAccountId}.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403TxBalance:
+      properties:
+        errorCode:
+          description: balance.insufficient
+          example: balance.insufficient
+          type: string
+        message:
+          description: Insufficient balance for account ${transaction.senderAccountId} and payment amount ${transaction.amount}. Sender balance is ${senderAccount.balance.availableBalance as string}, amount is ${amount}
+          example: Insufficient balance for account ${transaction.senderAccountId} and payment amount ${transaction.amount}. Sender balance is ${senderAccount.balance.availableBalance as string}, amount is ${amount}
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403TxAmountBtc:
+      properties:
+        errorCode:
+          description: amount.btc
+          example: amount.btc
+          type: string
+        message:
+          description: BTC|LTC|BCH payment amount must be at least 0.00000000000001, not ${transaction.amount}.
+          example: BTC|LTC|BCH payment amount must be at least 0.00000000000001, not ${transaction.amount}.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403TxAmountBtcOffchain:
+      properties:
+        errorCode:
+          description: transaction.amount.btc
+          example: transaction.amount.btc
+          type: string
+        message:
+          description: BTC|LTC|BCH payment amount must be at least 0.00000001, not ${transaction.amount}.
+          example: BTC|LTC|BCH payment amount must be at least 0.00000001, not ${transaction.amount}.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403TxAmountAda:
+      properties:
+        errorCode:
+          description: transaction.amount.ada
+          example: transaction.amount.ada
+          type: string
+        message:
+          description: ADA payment amount must be at least 0.000001, not ${transaction.amount}.
+          example: ADA payment amount must be at least 0.000001, not ${transaction.amount}.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403TxAmountAdaOffchain:
+      properties:
+        errorCode:
+          description: amount.ada
+          example: amount.ada
+          type: string
+        message:
+          description: ADA payment amount must be at least 0.000000000001, not ${transaction.amount}.
+          example: ADA payment amount must be at least 0.000000000001, not ${transaction.amount}.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403WithdrawalPending:
+      properties:
+        errorCode:
+          description: withdrawal.pending
+          example: withdrawal.pending
+          type: string
+        message:
+          description: Unable to prepare withdrawal, last withdrawal with id ${id} is not yet processed by blockchain.
+          example: Unable to prepare withdrawal, last withdrawal with id ${id} is not yet processed by blockchain.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403TxAmountEth:
+      properties:
+        errorCode:
+          description: amount.eth
+          example: amount.eth
+          type: string
+        message:
+          description: ETH payment amount must be at least 0.000000000001, not ${transaction.amount}.
+          example: ETH payment amount must be at least 0.000000000001, not ${transaction.amount}.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403TxAmountEthOffchain:
+      properties:
+        errorCode:
+          description: transaction.amount.eth
+          example: transaction.amount.eth
+          type: string
+        message:
+          description: ETH payment amount must be at least 0.000000000000000001, not ${transaction.amount}.
+          example: ETH payment amount must be at least 0.000000000000000001, not ${transaction.amount}.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403TxNotCompliant:
+      properties:
+        errorCode:
+          description: transaction.not.compliant
+          example: transaction.not.compliant
+          type: string
+        message:
+          description: Transaction not compliant, recipient account customer country is not defined.
+          example: Transaction not compliant, recipient account customer country is not defined.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403WithdrawalVC:
+      properties:
+        errorCode:
+          description: withdrawal.account.virtual
+          example: withdrawal.account.virtual
+          type: string
+        message:
+          description: Sender account cannot be virtual.
+          example: Sender account cannot be virtual.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403Erc20Prefix:
+      properties:
+        errorCode:
+          description: erc20.symbol.prefix
+          example: erc20.symbol.prefix
+          type: string
+        message:
+          description: ERC20 token cannot start with VC_.
+          example: ERC20 token cannot start with VC_.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403Erc20XpubBoth:
+      properties:
+        errorCode:
+          description: erc20.address.xpub.both
+          example: erc20.address.xpub.both
+          type: string
+        message:
+          description: Either xpub or address must be present, not both.
+          example: Either xpub or address must be present, not both.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403Erc20XpubMissing:
+      properties:
+        errorCode:
+          description: erc20.address.xpub.missing
+          example: erc20.address.xpub.missing
+          type: string
+        message:
+          description: Either xpub or address must be present.
+          example: Either xpub or address must be present.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403Erc20NameDuplicate:
+      properties:
+        errorCode:
+          description: erc20.duplicate.name
+          example: erc20.duplicate.name
+          type: string
+        message:
+          description: ERC20 token with given name already exists.
+          example: ERC20 token with given name already exists.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403OrderCurrency1NotFound:
+      properties:
+        errorCode:
+          description: trade.currency1AccountId.not.exists
+          example: trade.currency1AccountId.not.exists
+          type: string
+        message:
+          description: Unable to find currency1 account ${trade.currency1AccountId}.
+          example: Unable to find currency1 account ${trade.currency1AccountId}.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403OrderFeeNotFound:
+      properties:
+        errorCode:
+          description: trade.feeAccount
+          example: trade.feeAccount
+          type: string
+        message:
+          description: Unable to find fee account ${trade.feeAccountId}.
+          example: Unable to find fee account ${trade.feeAccountId}.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403OrderFeeIncompatible:
+      properties:
+        errorCode:
+          description: trade.currency.fee
+          example: trade.currency.fee
+          type: string
+        message:
+          description: Incompatible currencies for currency1 and fee account.
+          example: Incompatible currencies for currency1 and fee account.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403OrderCurrency1Frozen:
+      properties:
+        errorCode:
+          description: trade.currency1AccountId.frozen
+          example: trade.currency1AccountId.frozen
+          type: string
+        message:
+          description: Currency1 account ${trade.currency1AccountId} is frozen, unable to perform trade.
+          example: Currency1 account ${trade.currency1AccountId} is frozen, unable to perform trade.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403OrderCurrency1CustomerDisabled:
+      properties:
+        errorCode:
+          description: trade.currency1AccountId.customer.disabled
+          example: trade.currency1AccountId.customer.disabled
+          type: string
+        message:
+          description: Currency1 account's customer ${currency1Account.customerId} is disabled, unable to perform exchange trade.
+          example: Currency1 account's customer ${currency1Account.customerId} is disabled, unable to perform exchange trade.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403OrderCurrency2NotFound:
+      properties:
+        errorCode:
+          description: trade.currency2AccountId.not.exists
+          example: trade.currency2AccountId.not.exists
+          type: string
+        message:
+          description: Unable to find currency2 account ${trade.currency2AccountId}.
+          example: Unable to find currency2 account ${trade.currency2AccountId}.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403OrderCurrency2Frozen:
+      properties:
+        errorCode:
+          description: trade.currency2AccountId.frozen
+          example: trade.currency2AccountId.frozen
+          type: string
+        message:
+          description: Currency2 account ${trade.currency2AccountId} is frozen, unable to perform trade.
+          example: Currency2 account ${trade.currency2AccountId} is frozen, unable to perform trade.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403OrderCurrency2CustomerDisabled:
+      properties:
+        errorCode:
+          description: trade.currency2AccountId.customer.disabled
+          example: trade.currency2AccountId.customer.disabled
+          type: string
+        message:
+          description: Currency2 account's customer ${currency2Account.customerId} is disabled, unable to perform exchange trade.
+          example: Currency2 account's customer ${currency2Account.customerId} is disabled, unable to perform exchange trade.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403OrderCurrency1Pair:
+      properties:
+        errorCode:
+          description: trade.currency1.pair
+          example: trade.currency1.pair
+          type: string
+        message:
+          description: Incompatible currencies for currency1 account ${trade.currency1AccountId} and trading pair.
+          example: Incompatible currencies for currency1 account ${trade.currency1AccountId} and trading pair.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403OrderCurrency2Pair:
+      properties:
+        errorCode:
+          description: trade.currency2.pair
+          example: trade.currency2.pair
+          type: string
+        message:
+          description: Incompatible currencies for currency2 account ${trade.currency2AccountId} and trading pair.
+          example: Incompatible currencies for currency2 account ${trade.currency2AccountId} and trading pair.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403OrderCurrency1Balance:
+      properties:
+        errorCode:
+          description: trade.currency1.balance
+          example: trade.currency1.balance
+          type: string
+        message:
+          description: Insufficient balance on currency1 account ${trade.currency1AccountId}.
+          example: Insufficient balance on currency1 account ${trade.currency1AccountId}.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error403OrderCurrency2Balance:
+      properties:
+        errorCode:
+          description: trade.currency2.balance
+          example: trade.currency2.balance
+          type: string
+        message:
+          description: Insufficient balance on currency2 account ${trade.currency2AccountId}.
+          example: Insufficient balance on currency2 account ${trade.currency2AccountId}.
+          type: string
+        statusCode:
+          description: "403"
+          example: 403
+          type: number
+      required:
+        - errorCode
+        - message
+        - statusCode
+      type: object
+    Error500:
+      properties:
+        message:
+          example: Internal server error
+          description: Internal server error
+          type: string
+        statusCode:
+          example: 500
+          description: "500"
+          type: number
+      required:
+        - statusCode
+        - message
+      type: object
+    Error403:
+      properties:
+        message:
+          example: Forbidden
+          description: Forbidden
+          type: string
+        statusCode:
+          example: 403
+          description: "403"
+          type: number
+      required:
+        - statusCode
+        - message
+      type: object
+    Error401:
+      properties:
+        message:
+          example: Unauthorized
+          description: Unauthorized
+          type: string
+        statusCode:
+          example: 401
+          description: "401"
+          type: number
+      required:
+        - statusCode
+        - message
+      type: object
+    TransactionHashKMS:
+      type: object
+      properties:
+        txId:
+          description: TX hash of successful transaction.
+          example: c83f8818db43d9ba4accfe454aa44fc33123d47a4f89d47b314d6748eb0e9bc9
+          type: string
+        failed:
+          description: In case of the transaction was broadcast to the blockchain, but it was not possible to complete Tatum KMS signature, reponse is marked as failed and must be marked manually.
+          example: false
+          type: boolean
+      required:
+        - txId
+    SignatureId:
+      type: object
+      properties:
+        signatureId:
+          format: uuid
+          description: ID of prepared payment template to sign. This is should be stored on a client side to retrieve ID of the blockchain transaction, when signing application signs the transaction and broadcasts it to the blockchain.
+          example: 1f7f7c0c-3906-4aa1-9dfe-4b67c43918f6
+          type: string
+      required:
+        - signatureId
+    BroadcastKMS:
+      properties:
+        txData:
+          description: Raw signed transaction to be published to network.
+          example: 62BD544D1B9031EFC330A3E855CC3A0D51CA5131455C1AB3BCAC6D243F65460D
+          maxLength: 500000
+          minLength: 1
+          type: string
+        signatureId:
+          description: ID of prepared payment template to sign. Required only, when broadcasting transaction signed by Tatum KMS.
+          format: uuid
+          example: 1f7f7c0c-3906-4aa1-9dfe-4b67c43918f6
+          type: string
+          minLength: 36
+          maxLength: 36
+      required:
+        - txData
+      type: object

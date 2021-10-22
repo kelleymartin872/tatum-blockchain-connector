@@ -1531,10 +1531,10 @@
   dependencies:
     "@tatumio/bitcoincash-ops" "2.0.0"
 
-"@tatumio/tatum@^1.28.16":
-  version "1.28.16"
-  resolved "https://registry.yarnpkg.com/@tatumio/tatum/-/tatum-1.28.16.tgz#575da2d6cd1c2fbffa0ab979b7699e4858e7eca9"
-  integrity sha512-taYMkeZPkt2ATFJeZ3w9kWeelFF5oCaflisb9vzgTxUpLdXV/ufbJKvlcs4vcEAf4vpA/6MW8BAAO7Ug20+gnA==
+"@tatumio/tatum@^1.29.1":
+  version "1.29.1"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum/-/tatum-1.29.1.tgz#53a2b765ca43b276bb7c447fc547c181de688caa"
+  integrity sha512-Y/CIA0TErZ++BWI5pVwUgpkMvwNXTCJMs5WDpfhKAcbJlhw5G9YCImSUj6teEX3nYdB8uLgpoqm9+BrYWk9MNA==
   dependencies:
     "@binance-chain/javascript-sdk" "^4.1.1"
     "@celo-tools/celo-ethers-wrapper" "0.0.5"

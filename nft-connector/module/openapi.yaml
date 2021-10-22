@@ -148,7 +148,7 @@ paths:
         Second mode works without private key or signature id.
         Mint NFT requests use built-in smart contract, private key and token id which are provided by Tatum.
         You dont need to provide fromPrivateKey (or signatureId), contractAddress and tokenId fields to perform the mint NFT request.
-  
+
         Performed request without fromPrivateKey or signatureId fields will be populated with following attributes:
 
         <ul>
@@ -618,6 +618,95 @@ paths:
       summary: Update Royalty NFT
       tags:
         - Blockchain / NFT
+  /v3/nft/transaction/{chain}/{address}/{tokenAddress}:
+    get:
+      description: "<h4>1 credit per API call.</h4><br/><p>Get NFT transactions by address. This includes incoming and outgoing transactions for the address.</p>"
+      operationId: NftGetTransactionByAddress
+      parameters:
+        - description: "Blockchain to work with"
+          in: path
+          name: chain
+          required: true
+          schema:
+            type: string
+            enum:
+              - CELO
+            example: "CELO"
+        - description: "Account address"
+          in: path
+          name: address
+          required: true
+          schema:
+            type: string
+            example: "0x8ce4e40889a13971681391aad29e88efaf91f784"
+        - description: "Token address"
+          in: path
+          name: tokenAddress
+          required: true
+          schema:
+            type: string
+            example: "0x1ce4e40889a13971681391aad29e88efaf91f784"
+        - description: Max number of items per page is 50.
+          in: query
+          name: pageSize
+          schema:
+            type: number
+            example: 10
+            maximum: 50
+            minimum: 1
+          required: true
+        - description: Offset to obtain next page of the data.
+          in: query
+          name: offset
+          schema:
+            type: number
+            example: 0
+        - description: Transactions from this block onwords will be included.
+          in: query
+          name: from
+          schema:
+            type: number
+            minimum: 0
+            example: 1087623
+        - description: Transactions up to this block will be included.
+          in: query
+          name: to
+          schema:
+            type: number
+            minimum: 0
+            example: 1087823
+        - description: Sorting of the data. ASC - oldest first, DESC - newest first.
+          in: query
+          name: sort
+          schema:
+            type: string
+            default: DESC
+            example: ASC
+            enum:
+              - ASC
+              - DESC
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                    - $ref: "#/components/schemas/NftTx"
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Get NFT transactions by address
+      tags:
+        - Blockchain / NFT
   /v3/nft/address/{chain}/{hash}:
     get:
       description: "<h4>1 credit per API call.</h4><br/><p>Get NFT contract address from deploy transaction.</p>"
@@ -890,7 +979,7 @@ paths:
                     tokenPrice:
                       type: string
                       example: "123"
-                  
+
           description: OK
         400:
           <<: *API400
@@ -2544,6 +2633,40 @@ components:
         - signatureId
         - to
         - tokenId
+    NftTx:
+      type: object
+      properties:
+        blockNumber:
+          type: number
+          example: 6541235
+          description: Block number
+        txId:
+          type: string
+          example: "0x955c1037608c7aecb6d1a3f150ce7d0a80536bcabb0deb69d62f55292cc4c372"
+          description: Transaction ID
+        contractAddress:
+          type: string
+          example: "0x4f54fAD27F7F46C102Cd49b8E75C5593397cd9c3"
+          description: Contract address
+        tokenId:
+          type: string
+          example: "1"
+          description: ID of the token
+        from:
+          type: string
+          example: "0x780c3de0aba1b51f04cfe8a5d9d277d4ad032b8d"
+          description: Sender
+        to:
+          type: string
+          example: "0x8cb76aed9c5e336ef961265c6079c14e9cd3d2ea"
+          description: recipient
+      required:
+        - blockNumber
+        - txId
+        - contractAddress
+        - tokenId
+        - from
+        - to
     UpdateCashbackValueForAuthorNftCelo:
       type: object
       properties:

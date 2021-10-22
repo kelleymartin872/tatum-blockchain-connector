@@ -47,7 +47,7 @@ paths:
         </p>
       operationId: DeployMultiToken
       parameters:
-        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+        - description: "Type of testnet. Defaults to ropsten. Valid only for ETH invocations."
           in: header
           name: x-testnet-type
           required: false
@@ -132,7 +132,7 @@ paths:
         </p>
       operationId: MintMultiToken
       parameters:
-        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+        - description: "Type of testnet. Defaults to ropsten. Valid only for ETH invocations."
           in: header
           name: x-testnet-type
           required: false
@@ -202,7 +202,7 @@ paths:
         </p>
       operationId: MintMultiTokenBatch
       parameters:
-        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+        - description: "Type of testnet. Defaults to ropsten. Valid only for ETH invocations."
           in: header
           name: x-testnet-type
           required: false
@@ -272,7 +272,7 @@ paths:
         </p>
       operationId: BurnMultiToken
       parameters:
-        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+        - description: "Type of testnet. Defaults to ropsten. Valid only for ETH invocations."
           in: header
           name: x-testnet-type
           required: false
@@ -342,7 +342,7 @@ paths:
         </p>
       operationId: BurnMultiTokenBatch
       parameters:
-        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+        - description: "Type of testnet. Defaults to ropsten. Valid only for ETH invocations."
           in: header
           name: x-testnet-type
           required: false
@@ -413,7 +413,7 @@ paths:
         </p>
       operationId: TransferMultiToken
       parameters:
-        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+        - description: "Type of testnet. Defaults to ropsten. Valid only for ETH invocations."
           in: header
           name: x-testnet-type
           required: false
@@ -484,7 +484,7 @@ paths:
         </p>
       operationId: TransferMultiTokenBatch
       parameters:
-        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+        - description: "Type of testnet. Defaults to ropsten. Valid only for ETH invocations."
           in: header
           name: x-testnet-type
           required: false
@@ -533,6 +533,95 @@ paths:
       summary: Transfer Multi Token Batch
       tags:
         - Blockchain / Multi Token (ERC-1155)
+  /v3/multitoken/transaction/{chain}/{address}/{tokenAddress}:
+    get:
+      description: "<h4>1 credit per API call.</h4><br/><p>Get Multi Token (ERC-1155) transactions by address. This includes incoming and outgoing transactions for the address.</p>"
+      operationId: MultiTokenGetTransactionByAddress
+      parameters:
+        - description: "Blockchain to work with"
+          in: path
+          name: chain
+          required: true
+          schema:
+            type: string
+            enum:
+              - CELO
+            example: "CELO"
+        - description: "Account address"
+          in: path
+          name: address
+          required: true
+          schema:
+            type: string
+            example: "0x8ce4e40889a13971681391aad29e88efaf91f784"
+        - description: "Token address"
+          in: path
+          name: tokenAddress
+          required: true
+          schema:
+            type: string
+            example: "0x1ce4e40889a13971681391aad29e88efaf91f784"
+        - description: Max number of items per page is 50.
+          in: query
+          name: pageSize
+          schema:
+            type: number
+            example: 10
+            maximum: 50
+            minimum: 1
+          required: true
+        - description: Offset to obtain next page of the data.
+          in: query
+          name: offset
+          schema:
+            type: number
+            example: 0
+        - description: Transactions from this block onwords will be included.
+          in: query
+          name: from
+          schema:
+            type: number
+            minimum: 0
+            example: 1087623
+        - description: Transactions up to this block will be included.
+          in: query
+          name: to
+          schema:
+            type: number
+            minimum: 0
+            example: 1087823
+        - description: Sorting of the data. ASC - oldest first, DESC - newest first.
+          in: query
+          name: sort
+          schema:
+            type: string
+            default: DESC
+            example: ASC
+            enum:
+              - ASC
+              - DESC
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                    - $ref: "#/components/schemas/MultiTx"
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Get Multi Token transactions by address
+      tags:
+        - Blockchain / Multi Token (ERC-1155)
   /v3/multitoken/address/{chain}/{hash}:
     get:
       description: "<h4>1 credit per API call.</h4><br/><p>Get Multi Token contract address from deploy transaction.</p>"
@@ -557,7 +646,7 @@ paths:
           schema:
             type: string
             example: "0xe6e7340394958674cdf8606936d292f565e4ecc476aaa8b258ec8a141f7c75d7"
-        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+        - description: "Type of testnet. Defaults to ropsten. Valid only for ETH invocations."
           in: header
           name: x-testnet-type
           required: false
@@ -623,7 +712,7 @@ paths:
           schema:
             type: string
             example: "0xe6e7340394958674cdf8606936d292f565e4ecc476aaa8b258ec8a141f7c75d7"
-        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+        - description: "Type of testnet. Defaults to ropsten. Valid only for ETH invocations."
           in: header
           name: x-testnet-type
           required: false
@@ -700,7 +789,7 @@ paths:
           schema:
             type: string
             example: "100"
-        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+        - description: "Type of testnet. Defaults to ropsten. Valid only for ETH invocations."
           in: header
           name: x-testnet-type
           required: false
@@ -778,7 +867,7 @@ paths:
           schema:
             type: string
             example: "0x3223AEB8404C7525FcAA6C512f91e287AE9FfE7B,0x3223AEB8404C7525FcAA6C512f91e287AE9FfE7B,0x3223AEB8404C7525FcAA6C512f91e287AE9FfE7B"
-        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+        - description: "Type of testnet. Defaults to ropsten. Valid only for ETH invocations."
           in: header
           name: x-testnet-type
           required: false
@@ -850,7 +939,7 @@ paths:
           schema:
             type: string
             example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
-        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+        - description: "Type of testnet. Defaults to ropsten. Valid only for ETH invocations."
           in: header
           name: x-testnet-type
           required: false
@@ -960,6 +1049,50 @@ components:
         - contractAddress
         - tokenId
         - fromPrivateKey
+    MultiTx:
+      type: object
+      properties:
+        blockNumber:
+          type: number
+          example: 6541235
+          description: Block number
+        txId:
+          type: string
+          example: "0x955c1037608c7aecb6d1a3f150ce7d0a80536bcabb0deb69d62f55292cc4c372"
+          description: Transaction ID
+        contractAddress:
+          type: string
+          example: "0x4f54fAD27F7F46C102Cd49b8E75C5593397cd9c3"
+          description: Contract address
+        tokenId:
+          type: string
+          example: "1"
+          description: ID of the token
+        amount:
+          type: string
+          example: "1"
+          description: Amount of tokens transferred.
+        from:
+          type: string
+          example: "0x780c3de0aba1b51f04cfe8a5d9d277d4ad032b8d"
+          description: Sender
+        operator:
+          type: string
+          example: "0x780c3de0aba1b51f04cfe8a5d9d277d4ad032b8d"
+          description: Operator
+        to:
+          type: string
+          example: "0x8cb76aed9c5e336ef961265c6079c14e9cd3d2ea"
+          description: recipient
+      required:
+        - blockNumber
+        - txId
+        - contractAddress
+        - tokenId
+        - from
+        - to
+        - amount
+        - operator
     TransferMultiTokenBatchCelo:
       type: object
       properties:
@@ -1039,7 +1172,7 @@ components:
           minLength: 1
           type: string
         fromPrivateKey:
-          description: Private key of Ethereum account address, from which gas for deployment of ERC1155 will be paid. Private key, or signature Id must be present.
+          description: Private key of account address, from which gas for deployment of ERC1155 will be paid. Private key, or signature Id must be present.
           type: string
           maxLength: 66
           example: "0x05e150c73f1920ec14caa1e0b6aa09940899678051a78542840c2668ce5080c2"
@@ -1047,7 +1180,7 @@ components:
         nonce:
           type: number
           minimum: 0
-          description: Nonce to be set to Ethereum transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to transaction. If not present, last known nonce will be used.
         feeCurrency:
           type: string
           description: Currency to pay for transaction gas
@@ -1788,7 +1921,7 @@ components:
         nonce:
           type: number
           example: 1
-          description: Nonce to be set to Ethereum transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to transaction. If not present, last known nonce will be used.
         fee:
           description: Custom defined fee. If not present, it will be calculated automatically.
           type: object
@@ -1863,7 +1996,7 @@ components:
         nonce:
           type: number
           example: 1
-          description: Nonce to be set to Ethereum transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to transaction. If not present, last known nonce will be used.
         fee:
           description: Custom defined fee. If not present, it will be calculated automatically.
           type: object
@@ -1905,7 +2038,7 @@ components:
           example: example.com
           type: string
         fromPrivateKey:
-          description: Private key of Ethereum account address, from which gas for deployment of ERC1155 will be paid. Private key, or signature Id must be present.
+          description: Private key of account address, from which gas for deployment of ERC1155 will be paid. Private key, or signature Id must be present.
           type: string
           maxLength: 66
           example: "0x05e150c73f1920ec14caa1e0b6aa09940899678051a78542840c2668ce5080c2"
@@ -1913,7 +2046,7 @@ components:
         nonce:
           type: number
           minimum: 0
-          description: Nonce to be set to Ethereum transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to transaction. If not present, last known nonce will be used.
         fee:
           description: Custom defined fee. If not present, it will be calculated automatically.
           type: object
@@ -1961,7 +2094,7 @@ components:
         nonce:
           type: number
           minimum: 0
-          description: Nonce to be set to Ethereum transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to transaction. If not present, last known nonce will be used.
         fee:
           description: Custom defined fee. If not present, it will be calculated automatically.
           type: object
@@ -2035,7 +2168,7 @@ components:
         nonce:
           type: number
           example: 1
-          description: Nonce to be set to Ethereum transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to transaction. If not present, last known nonce will be used.
         fee:
           description: Custom defined fee. If not present, it will be calculated automatically.
           type: object
@@ -2117,7 +2250,7 @@ components:
         nonce:
           type: number
           example: 1
-          description: Nonce to be set to Ethereum transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to transaction. If not present, last known nonce will be used.
         fee:
           description: Custom defined fee. If not present, it will be calculated automatically.
           type: object
@@ -2194,7 +2327,7 @@ components:
         nonce:
           type: number
           minimum: 0
-          description: Nonce to be set to Ethereum transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to transaction. If not present, last known nonce will be used.
         fee:
           description: Custom defined fee. If not present, it will be calculated automatically.
           type: object
@@ -2272,7 +2405,7 @@ components:
         nonce:
           type: number
           minimum: 0
-          description: Nonce to be set to Ethereum transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to transaction. If not present, last known nonce will be used.
         fee:
           description: Custom defined fee. If not present, it will be calculated automatically.
           type: object
@@ -2355,7 +2488,7 @@ components:
         nonce:
           type: number
           minimum: 0
-          description: Nonce to be set to Ethereum transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to transaction. If not present, last known nonce will be used.
         fee:
           description: Custom defined fee. If not present, it will be calculated automatically.
           type: object
@@ -2443,7 +2576,7 @@ components:
         nonce:
           type: number
           minimum: 0
-          description: Nonce to be set to Ethereum transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to transaction. If not present, last known nonce will be used.
         fee:
           description: Custom defined fee. If not present, it will be calculated automatically.
           type: object
@@ -2516,7 +2649,7 @@ components:
         nonce:
           type: number
           minimum: 0
-          description: Nonce to be set to Ethereum transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to transaction. If not present, last known nonce will be used.
         fee:
           description: Custom defined fee. If not present, it will be calculated automatically.
           type: object
@@ -2591,7 +2724,7 @@ components:
         nonce:
           type: number
           minimum: 0
-          description: Nonce to be set to Ethereum transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to transaction. If not present, last known nonce will be used.
         fee:
           description: Custom defined fee. If not present, it will be calculated automatically.
           type: object
@@ -2669,7 +2802,7 @@ components:
         nonce:
           type: number
           minimum: 0
-          description: Nonce to be set to Ethereum transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to transaction. If not present, last known nonce will be used.
         fee:
           description: Custom defined fee. If not present, it will be calculated automatically.
           type: object
@@ -2749,7 +2882,7 @@ components:
         nonce:
           type: number
           minimum: 0
-          description: Nonce to be set to Ethereum transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to transaction. If not present, last known nonce will be used.
         fee:
           description: Custom defined fee. If not present, it will be calculated automatically.
           type: object

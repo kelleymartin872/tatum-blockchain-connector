@@ -34,6 +34,14 @@ import {PathChainTxId} from './dto/PathChainTxId';
 export abstract class NftController {
     protected constructor(protected readonly service: NftService) {
     }
+    @Get('/provenance/:chain/:contractAddress/:tokenId')
+    public async getProvenanceData(@Param() path: any) {
+        try{
+            return await this.service.getProvenanceData(path.chain, path.contractAddress, path.tokenId);
+        }catch(e){
+            throw new NftError(`Unexpected error occurred. Reason: ${e.response?.message || e.response?.data || e.message || e}`, 'nft.error');
+        }
+    }
 
     @Get('/balance/:chain/:contractAddress/:address/:nonce?')
     public async getBalanceErc721(@Param() path: PathAddressContractAddressNonceChain) {

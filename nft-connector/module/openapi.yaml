@@ -148,7 +148,7 @@ paths:
         Second mode works without private key or signature id.
         Mint NFT requests use built-in smart contract, private key and token id which are provided by Tatum.
         You dont need to provide fromPrivateKey (or signatureId), contractAddress and tokenId fields to perform the mint NFT request.
-
+  
         Performed request without fromPrivateKey or signatureId fields will be populated with following attributes:
 
         <ul>
@@ -825,6 +825,91 @@ paths:
       summary: Get NFT Account balance
       tags:
         - Blockchain / NFT
+  /v3/nft/provenance/{chain}/{contractAddress}/{tokenId}:
+    get:
+      description: "<h4>1 credit per API call.</h4><br/><p>Get NFT token provenance data, valid only for provenance contract.</p>"
+      operationId: NftGetMetadataErc721
+      parameters:
+        - description: Blockchain to work with
+          in: path
+          name: chain
+          required: true
+          schema:
+            type: string
+            enum:
+              - ETH
+              - MATIC
+              - ONE
+              - CELO
+              - BSC
+        - description: "Token ID"
+          in: path
+          name: tokenId
+          required: true
+          schema:
+            type: string
+            example: "1"
+            maxLength: 32
+        - description: "NFT contract address"
+          in: path
+          name: contractAddress
+          required: true
+          schema:
+            type: string
+            example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+        - description: Account holding this token. FLOW only.
+          in: query
+          required: false
+          name: account
+          schema:
+            type: string
+            example: "0xc1b45bc27b9c61c3"
+        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+          in: header
+          name: x-testnet-type
+          required: false
+          schema:
+            default: ropsten
+            type: string
+            enum:
+              - ethereum-ropsten
+              - ethereum-rinkeby
+            maxLength: 10
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    provenanceData:
+                      type: string
+                      example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+                    tokenPrice:
+                      type: string
+                      example: "123"
+                  
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        403:
+          description: Forbidden. The request is authenticated, but it is not possible to required perform operation due to logical error or invalid permissions.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error403"
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Get NFT Token Provenance Data
+      tags:
+        - Blockchain / NFT
   /v3/nft/metadata/{chain}/{contractAddress}/{token}:
     get:
       description: "<h4>1 credit per API call.</h4><br/><p>Get NFT token metadata.</p>"
@@ -1022,6 +1107,19 @@ components:
         tokenId:
           description: ID of token.
           example: "100000"
+          type: string
+          maxLength: 256
+        provenance:
+          description: True if the contract is provenance type
+          example: true
+          type: boolean
+        provenanceData:
+          description: data you want to store with transaction, optional and valid only if provenance contract
+          example: test
+          type: string
+        tokenPrice:
+          description: current price of the token, valid only for provenance
+          example: "1"
           type: string
           maxLength: 256
         contractAddress:
@@ -1278,6 +1376,10 @@ components:
           maxLength: 100
           minLength: 1
           type: string
+        provenance:
+          description: True if the contract is provenance type
+          example: true
+          type: boolean
         symbol:
           description: Symbol of the NFT token
           example: ERC_SYMBOL
@@ -1379,6 +1481,10 @@ components:
         nonce:
           type: number
           minimum: 0
+        provenance:
+          description: True if the contract is provenance type
+          example: true
+          type: boolean
         feeCurrency:
           type: string
           description: Currency to pay for transaction gas
@@ -2663,6 +2769,19 @@ components:
           description: Address of NFT token
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
           type: string
+        provenance:
+          description: True if the contract is provenance type
+          example: true
+          type: boolean
+        provenanceData:
+          description: data you want to store with transaction, optional and valid only if provenance contract
+          example: test
+          type: string
+        tokenPrice:
+          description: current price of the token, valid only for provenance
+          example: "1"
+          type: string
+          maxLength: 256
         index:
           type: number
           minimum: 0
@@ -2791,9 +2910,20 @@ components:
             maxLength: 42
             description: Blockchain address to send royalties to
             example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
+        provenance:
+          description: True if the contract is provenance type
+          example: true
+          type: boolean
         cashbackValues:
           type: array
-          description: List of values, which will be paid as a royalty for author of the NFT token with every token transfer. This is exact value in native blockhain currency.
+          description: List of values, which will be paid as a royalty for author of the NFT token with every token transfer. This is exact value in native blockhain currency and percentage value in case of provenance
+          items:
+            type: string
+            description: Value of the royalty to be paid.
+            example: "0.5"
+        fixedValues:
+          type: array
+          description: List of fixed values, if fixed value is greater than cashback value, it will be transferred to the authors instead.This is exact value in native blockhain currency.
           items:
             type: string
             description: Value of the royalty to be paid.
@@ -2925,9 +3055,20 @@ components:
             maxLength: 42
             description: Blockchain address to send royalties to
             example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
+        provenance:
+          description: True if the contract is provenance type
+          example: true
+          type: boolean
         cashbackValues:
           type: array
-          description: List of values, which will be paid as a royalty for author of the NFT token with every token transfer. This is exact value in native blockhain currency.
+          description: List of values, which will be paid as a royalty for author of the NFT token with every token transfer. This is exact value in native blockhain currency and percentage value in case of provenance
+          items:
+            type: string
+            description: Value of the royalty to be paid.
+            example: "0.5"
+        fixedValues:
+          type: array
+          description: List of fixed values, if fixed value is greater than cashback value, it will be transferred to the authors instead.This is exact value in native blockhain currency.
           items:
             type: string
             description: Value of the royalty to be paid.
@@ -3072,6 +3213,19 @@ components:
           description: Address of NFT token
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
           type: string
+        provenance:
+          description: True if the contract is provenance type
+          example: true
+          type: boolean
+        provenanceData:
+          description: data you want to store with transaction, optional and valid only if provenance contract
+          example: test
+          type: string
+        tokenPrice:
+          description: current price of the token, valid only for provenance
+          example: "1"
+          type: string
+          maxLength: 256
         fromPrivateKey:
           type: string
           maxLength: 66
@@ -3135,6 +3289,10 @@ components:
           maxLength: 66
           example: "0x05e150c73f1920ec14caa1e0b6aa09940899678051a78542840c2668ce5080c2"
           minLength: 66
+        provenance:
+          description: True if the contract is provenance type
+          example: true
+          type: boolean
         nonce:
           type: number
           minimum: 0
@@ -3179,6 +3337,10 @@ components:
           maxLength: 100
           minLength: 1
           type: string
+        provenance:
+          description: True if the contract is provenance type
+          example: true
+          type: boolean
         symbol:
           description: Symbol of the NFT token
           example: ERC_SYMBOL
@@ -3259,6 +3421,19 @@ components:
           type: number
           minimum: 0
           description: If signatureId is mnemonic-based, this is the index to the specific address from that mnemonic.
+        provenance:
+          description: True if the contract is provenance type
+          example: true
+          type: boolean
+        provenanceData:
+          description: data you want to store with transaction, optional and valid only if provenance contract
+          example: test
+          type: string
+        tokenPrice:
+          description: current price of the token, valid only for provenance
+          example: "1"
+          type: string
+          maxLength: 256
         signatureId:
           type: string
           minLength: 36
@@ -3327,6 +3502,10 @@ components:
           example: "https://my_token_data.com"
           type: string
           maxLength: 256
+        provenance:
+          description: True if the contract is provenance type
+          example: true
+          type: boolean
         authorAddresses:
           type: array
           description: List of addresses, where royalty cashback for every transfer of this NFT will be send. Royalties are paid in native blockchain currency, like BSC or ETH.
@@ -3338,7 +3517,14 @@ components:
             example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
         cashbackValues:
           type: array
-          description: List of values, which will be paid as a royalty for author of the NFT token with every token transfer. This is exact value in native blockhain currency.
+          description: List of values, which will be paid as a royalty for author of the NFT token with every token transfer. This is exact value in native blockhain currency and percentage value in case of provenance
+          items:
+            type: string
+            description: Value of the royalty to be paid.
+            example: "0.5"
+        fixedValues:
+          type: array
+          description: List of fixed values, if fixed value is greater than cashback value, it will be transferred to the authors instead.This is exact value in native blockhain currency.
           items:
             type: string
             description: Value of the royalty to be paid.
@@ -3414,6 +3600,10 @@ components:
           example: "https://my_token_data.com"
           type: string
           maxLength: 256
+        provenance:
+          description: True if the contract is provenance type
+          example: true
+          type: boolean
         authorAddresses:
           type: array
           description: List of addresses, where royalty cashback for every transfer of this NFT will be send. Royalties are paid in native blockchain currency, like BSC or ETH.
@@ -3425,7 +3615,14 @@ components:
             example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
         cashbackValues:
           type: array
-          description: List of values, which will be paid as a royalty for author of the NFT token with every token transfer. This is exact value in native blockhain currency.
+          description: List of values, which will be paid as a royalty for author of the NFT token with every token transfer. This is exact value in native blockhain currency and percentage value in case of provenance
+          items:
+            type: string
+            description: Value of the royalty to be paid.
+            example: "0.5"
+        fixedValues:
+          type: array
+          description: List of fixed values, if fixed value is greater than cashback value, it will be transferred to the authors instead.This is exact value in native blockhain currency.
           items:
             type: string
             description: Value of the royalty to be paid.

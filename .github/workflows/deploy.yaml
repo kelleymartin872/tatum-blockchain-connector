@@ -1,0 +1,16 @@
+name: Deploy multiple package to NPM
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" > ~/.npmrc
+      - uses: ./deployment/
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

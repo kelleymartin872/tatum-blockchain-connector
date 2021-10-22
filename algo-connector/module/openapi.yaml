@@ -11,7 +11,7 @@ tags:
       <ul><li>Mainnet - a regular live chain
       <li>Testnet - a chain used for testing purposes. Coins on the test chain have no value and can be obtained from
       a faucet, e.g. <a target="_blank" href="https://bank.testnet.algorand.network/">https://bank.testnet.algorand.network/</a></li></ul></p>
-    name: Blockchain / Algorand
+    name: Blockchain / Algorand (ALGO)
 paths:
   /v3/algorand/wallet:
     get:
@@ -58,7 +58,7 @@ paths:
       x-code-samples:
       summary: Generate Algorand wallet
       tags:
-        - Blockchain / Algorand
+        - Blockchain / Algorand (ALGO)
   /v3/algorand/address/{priv}:
     get:
       description: |
@@ -96,7 +96,7 @@ paths:
       x-code-samples:
       summary: Generate Algorand account address from Extended private key
       tags:
-        - Blockchain / Algorand
+        - Blockchain / Algorand (ALGO)
   /v3/algorand/account/balance/{address}:
     get:
       description: |

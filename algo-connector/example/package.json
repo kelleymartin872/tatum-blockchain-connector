@@ -1,6 +1,6 @@
 {
   "name": "@tatumio/algo-connector",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "ALGO Connector for Tatum API",
   "license": "MIT",
   "main": "npm/index.js",
@@ -36,7 +36,7 @@
   "peerDependencies": {
     "@nestjs/common": "^8.0.6",
     "@tatumio/blockchain-connector-common": "^1.1.4",
-    "@tatumio/tatum": "^1.28.16",
+    "@tatumio/tatum": "^1.29.1",
     "axios": "^0.21.1",
     "bignumber.js": "^9.0.0",
     "class-transformer": "^0.2.3",
@@ -47,7 +47,7 @@
   "devDependencies": {
     "@nestjs/common": "^8.0.6",
     "@tatumio/blockchain-connector-common": "^1.1.4",
-    "@tatumio/tatum": "^1.28.16",
+    "@tatumio/tatum": "^1.29.1",
     "@types/express": "4.17.9",
     "@types/jest": "26.0.18",
     "@types/node": "14.14.12",

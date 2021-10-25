@@ -707,6 +707,96 @@ paths:
       summary: Get NFT transactions by address
       tags:
         - Blockchain / NFT
+  /v3/nft/transaction/tokenId/{chain}/{tokenAddress}/{tokenId}:
+    get:
+      description: "<h4>1 credit per API call.</h4><br/><p>Get NFT transactions by token. This includes incoming and outgoing transactions for the token.</p>"
+      operationId: NftGetTransactionByToken
+      parameters:
+        - description: "Blockchain to work with"
+          in: path
+          name: chain
+          required: true
+          schema:
+            type: string
+            enum:
+              - CELO
+            example: "CELO"
+        - description: "NFT Token ID"
+          in: path
+          name: tokenId
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            example: 1
+        - description: "Token address"
+          in: path
+          name: tokenAddress
+          required: true
+          schema:
+            type: string
+            example: "0x1ce4e40889a13971681391aad29e88efaf91f784"
+        - description: Max number of items per page is 50.
+          in: query
+          name: pageSize
+          schema:
+            type: number
+            example: 10
+            maximum: 50
+            minimum: 1
+          required: true
+        - description: Offset to obtain next page of the data.
+          in: query
+          name: offset
+          schema:
+            type: number
+            example: 0
+        - description: Transactions from this block onwords will be included.
+          in: query
+          name: from
+          schema:
+            type: number
+            minimum: 0
+            example: 1087623
+        - description: Transactions up to this block will be included.
+          in: query
+          name: to
+          schema:
+            type: number
+            minimum: 0
+            example: 1087823
+        - description: Sorting of the data. ASC - oldest first, DESC - newest first.
+          in: query
+          name: sort
+          schema:
+            type: string
+            default: DESC
+            example: ASC
+            enum:
+              - ASC
+              - DESC
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                    - $ref: "#/components/schemas/NftTx"
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Get NFT transactions by token
+      tags:
+        - Blockchain / NFT
   /v3/nft/address/{chain}/{hash}:
     get:
       description: "<h4>1 credit per API call.</h4><br/><p>Get NFT contract address from deploy transaction.</p>"

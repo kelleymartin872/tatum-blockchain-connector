@@ -799,7 +799,10 @@ paths:
         - Blockchain / NFT
   /v3/nft/address/{chain}/{hash}:
     get:
-      description: "<h4>1 credit per API call.</h4><br/><p>Get NFT contract address from deploy transaction.</p>"
+      description: |
+        <h4>1 credit per API call.</h4><br/>
+        <p>Get NFT contract address from deploy transaction. This method is deprecated, use <a href="#operation/SCGetContractAddress">Get contract address</a> instead.</p>
+      deprecated: true
       operationId: NftGetContractAddress
       parameters:
         - description: Blockchain to work with
@@ -931,9 +934,79 @@ paths:
       summary: Get Transaction
       tags:
         - Blockchain / NFT
+  /v3/nft/address/balance/{chain}/{contractAddress}/{address}:
+    get:
+      description: |
+        <h4>1 credit per API call.</h4><br/><p>Get NFTs on address. Returns all tokenIDs of all NFT contracts this address holds.</p>
+      operationId: NftGetBalanceAddressErc721
+      parameters:
+        - description: Blockchain to work with
+          in: path
+          name: chain
+          required: true
+          schema:
+            type: string
+            enum:
+              - CELO
+        - description: "Account address"
+          in: path
+          name: address
+          required: true
+          schema:
+            type: string
+            example: "0x3223AEB8404C7525FcAA6C512f91e287AE9FfE7B"
+        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+          in: header
+          name: x-testnet-type
+          required: false
+          schema:
+            default: ropsten
+            type: string
+            enum:
+              - ethereum-ropsten
+              - ethereum-rinkeby
+            maxLength: 10
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    contractAddress:
+                      type: string
+                      example: "0x771987a5add0ef1ce303aa069df82dd7f8fbb33b"
+                      description: Contract address of the NFT.
+                    balances:
+                      type: string
+                      description: Token ID.
+                      example: "10"
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        403:
+          description: Forbidden. The request is authenticated, but it is not possible to required perform operation due to logical error or invalid permissions.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error403Celo"
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Get NFT Account balance
+      tags:
+        - Blockchain / NFT
   /v3/nft/balance/{chain}/{contractAddress}/{address}:
     get:
-      description: "<h4>1 credit per API call.</h4><br/><p>Get NFTs on Account. Returns tokenIDs of tokens Account holds.</p>"
+      deprecated: true
+      description: |
+        <h4>1 credit per API call.</h4><br/><p>Get NFTs on Account. Returns tokenIDs of tokens Account holds. This method is deprecated, use <a href="#operation/NftGetBalanceAddressErc721">Get contract address</a> instead.</p>
       operationId: NftGetBalanceErc721
       parameters:
         - description: Blockchain to work with
@@ -2360,7 +2433,7 @@ components:
         url:
           type: string
           description: Metadata of the token. See https://eips.ethereum.org/EIPS/eip-721#specification for more details.
-          example:  "https://my_token_data.com"
+          example: "https://my_token_data.com"
           maxLength: 256
         contractAddress:
           maxLength: 36
@@ -2405,7 +2478,7 @@ components:
         url:
           type: string
           description: Metadata of the token. See https://eips.ethereum.org/EIPS/eip-721#specification for more details.
-          example:  "https://my_token_data.com"
+          example: "https://my_token_data.com"
           maxLength: 256
         contractAddress:
           maxLength: 36
@@ -2456,7 +2529,7 @@ components:
         url:
           type: string
           description: Metadata of the token. See https://eips.ethereum.org/EIPS/eip-721#specification for more details.
-          example:  "https://my_token_data.com"
+          example: "https://my_token_data.com"
           maxLength: 256
         contractAddress:
           maxLength: 36

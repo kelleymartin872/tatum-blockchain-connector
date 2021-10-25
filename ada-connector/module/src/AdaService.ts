@@ -90,12 +90,18 @@ export abstract class AdaService {
 
 
   public async getBlock(hash: string): Promise<Block> {
+    let where
+    if(/^\d+$/.test(hash)) {
+      const blockNumber = new BigNumber(hash)
+      where = `(where: { number: { _eq: ${blockNumber.toNumber()} } })`
+    } else {
+      where = `(where: { hash: { _eq: "${hash}" } })`
+    }
     const response = await this.sendNodeRequest({
-      query: `{ blocks (where: { hash: { _eq: "${hash}" } }) {
+      query: `{ blocks ${where} {
           fees
           slotLeader { description, hash }
           forgedAt
-          merkleRoot
           number
           opCert
           slotInEpoch

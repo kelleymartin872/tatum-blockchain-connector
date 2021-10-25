@@ -63,10 +63,10 @@ paths:
     get:
       description: |
         <h4>1 credit per API call.</h4><br/>
-        <p>Generate Algorand account deposit address from Extended private key.</p>
+        <p>Generate Algorand account deposit address from private key.</p>
       operationId: AlgorandGenerateAddress
       parameters:
-        - description: "Extended private key of wallet."
+        - description: "private key of wallet."
           in: path
           name: priv
           required: true
@@ -94,7 +94,7 @@ paths:
       security:
         - X-Api-Key: [ ]
       x-code-samples:
-      summary: Generate Algorand account address from Extended private key
+      summary: Generate Algorand account address from private key
       tags:
         - Blockchain / Algorand (ALGO)
   /v3/algorand/account/balance/{address}:

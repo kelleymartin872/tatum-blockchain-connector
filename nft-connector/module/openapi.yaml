@@ -148,7 +148,7 @@ paths:
         Second mode works without private key or signature id.
         Mint NFT requests use built-in smart contract, private key and token id which are provided by Tatum.
         You dont need to provide fromPrivateKey (or signatureId), contractAddress and tokenId fields to perform the mint NFT request.
-
+  
         Performed request without fromPrivateKey or signatureId fields will be populated with following attributes:
 
         <ul>
@@ -1142,7 +1142,6 @@ paths:
                     tokenPrice:
                       type: string
                       example: "123"
-
           description: OK
         400:
           <<: *API400

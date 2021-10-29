@@ -265,11 +265,7 @@ export abstract class AdaService {
     try {
       const response = await this.sendNodeRequest({query: `{transactions(where:{block:{number:{_gte:${blockNumber}}}})${TX_FIELDS}}`}, isTestnet)
       const { data } = response.data;
-      return (data?.transactions || []).map((t: any) => {
-        t.block = t.block.number;
-        delete t.block.number;
-        return t;
-      });
+      return (data?.transactions || []);
     } catch (e) {
       this.logger.error(e.response);
       throw new AdaError('Unable to find transaction.', 'tx.not.found');

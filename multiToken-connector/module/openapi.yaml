@@ -533,6 +533,74 @@ paths:
       summary: Transfer Multi Token Batch
       tags:
         - Blockchain / Multi Token (ERC-1155)
+  /v3/multitoken/mint/add:
+    post:
+      description: |
+        <h4>2 credits per API call.</h4><br/>
+        <p>Add Multi Token minter.<br/><br/>
+        Tatum now supports Multi Tokens these blockchains:<br/>
+        <ul>
+        <li><b>Ethereum</b></li>
+        <li><b>Polygon (Matic)</b></li>
+        <li><b>Celo</b></li>
+        <li><b>Harmony.ONE</b></li>
+        <li><b>Binance Smart Chain</b></li>
+        </ul>
+        This operation needs the private key of the blockchain address. Every time the funds are transferred, the transaction must be signed with the corresponding private key.
+        No one should ever send it's own private keys to the internet because there is a strong possibility of stealing keys and loss of funds. In this method, it is possible to enter privateKey
+        or signatureId. PrivateKey should be used only for quick development on testnet versions of blockchain when there is no risk of losing funds. In production,
+        <a href="https://github.com/tatumio/tatum-kms" target="_blank">Tatum KMS</a> should be used for the highest security standards, and signatureId should be present in the request.
+        Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
+        </p>
+      operationId: AddMultiTokenMinter
+      parameters:
+        - description: "Type of testnet. Defaults to ropsten. Valid only for ETH invocations."
+          in: header
+          name: x-testnet-type
+          required: false
+          schema:
+            default: ropsten
+            type: string
+            enum:
+              - ethereum-ropsten
+              - ethereum-rinkeby
+            maxLength: 10
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: "#/components/schemas/AddMultiTokenMinter"
+                - $ref: "#/components/schemas/AddMultiTokenMinterKMS"
+        required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/TransactionHashKMS"
+                  - $ref: "#/components/schemas/SignatureId"
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        403:
+          description: Forbidden. The request is authenticated, but it is not possible to required perform operation due to logical error or invalid permissions.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/Error403Celo"
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Add Multi Token miter
+      tags:
+        - Blockchain / Multi Token (ERC-1155)
   /v3/multitoken/transaction/{chain}/{address}/{tokenAddress}:
     get:
       description: "<h4>1 credit per API call.</h4><br/><p>Get Multi Token (ERC-1155) transactions by address. This includes incoming and outgoing transactions for the address.</p>"
@@ -1569,6 +1637,141 @@ components:
         - amount
         - signatureId
         - account
+    AddMultiTokenMinterKMS:
+      type: object
+      properties:
+        chain:
+          type: string
+          example: ETH
+          description: Chain to work with.
+          enum:
+            - ETH
+            - MATIC
+            - CELO
+            - ONE
+            - BSC
+        contractAddress:
+          maxLength: 42
+          minLength: 43
+          description: Address of MultiToken token
+          example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
+          type: string
+        minter:
+          maxLength: 42
+          minLength: 43
+          description: Address of MultiToken minter
+          example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
+          type: string
+        index:
+          type: number
+          minimum: 0
+          description: If signatureId is mnemonic-based, this is the index to the specific address from that mnemonic.
+        signatureId:
+          type: string
+          minLength: 36
+          maxLength: 36
+          format: uuid
+          example: 26d3883e-4e17-48b3-a0ee-09a3e484ac83
+          description: Identifier of the private key associated in signing application. Private key, or signature Id must be present.
+        nonce:
+          type: number
+          minimum: 0
+          description: Nonce to be set to Ethereum transaction. If not present, last known nonce will be used.
+        fee:
+          description: Custom defined fee. If not present, it will be calculated automatically.
+          type: object
+          required:
+            - gasLimit
+            - gasPrice
+          properties:
+            gasLimit:
+              type: string
+              description: Gas limit for transaction in gas price.
+              pattern: ^[+]?\d+$
+              example: "40000"
+            gasPrice:
+              type: string
+              description: Gas price in Gwei.
+              pattern: ^[+]?\d+$
+              example: "20"
+        feeCurrency:
+          type: string
+          description: Currency to pay for transaction gas, only valid for CELO chain.
+          enum:
+            - CELO
+            - CUSD
+            - CEUR
+      required:
+        - chain
+        - url
+        - contractAddress
+        - minter
+        - signatureId
+    AddMultiTokenMinter:
+      type: object
+      properties:
+        chain:
+          type: string
+          example: ETH
+          description: Chain to work with.
+          enum:
+            - ETH
+            - MATIC
+            - CELO
+            - ONE
+            - BSC
+        contractAddress:
+          maxLength: 42
+          minLength: 42
+          description: Address of MultiToken token
+          example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
+          type: string
+        minter:
+          maxLength: 42
+          minLength: 42
+          description: Address of MultiToken minter
+          example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
+          type: string
+        fromPrivateKey:
+          type: string
+          maxLength: 66
+          example: "0x05e150c73f1920ec14caa1e0b6aa09940899678051a78542840c2668ce5080c2"
+          minLength: 66
+          description: Private key of sender address. Private key, or signature Id must be present.
+        nonce:
+          type: number
+          minimum: 0
+          description: Nonce to be set to Ethereum transaction. If not present, last known nonce will be used.
+        fee:
+          description: Custom defined fee. If not present, it will be calculated automatically.
+          type: object
+          required:
+            - gasLimit
+            - gasPrice
+          properties:
+            gasLimit:
+              type: string
+              description: Gas limit for transaction in gas price.
+              pattern: ^[+]?\d+$
+              example: "40000"
+            gasPrice:
+              type: string
+              description: Gas price in Gwei.
+              pattern: ^[+]?\d+$
+              example: "20"
+        feeCurrency:
+          type: string
+          description: Currency to pay for transaction gas, only valid for CELO chain.
+          enum:
+            - CELO
+            - CUSD
+            - CEUR
+      required:
+        - minter
+        - chain
+        - url
+        - contractAddress
+        - fromPrivateKey
     BurnMultiTokenBatchKMSCelo:
       type: object
       properties:

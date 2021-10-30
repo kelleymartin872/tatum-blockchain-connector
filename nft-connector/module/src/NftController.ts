@@ -2,6 +2,7 @@ import {BadRequestException, Body, Get, HttpCode, HttpStatus, Param, Post, Put, 
 import {NftService} from './NftService';
 import {NftError} from './NftError';
 import {
+    AddMinter,
     CeloBurnErc721,
     CeloDeployErc721,
     CeloMintErc721,
@@ -113,6 +114,24 @@ export abstract class NftController {
     ) {
         try {
             return await this.service.mintErc721(body);
+        } catch (e) {
+            if (['Array', 'NftError', 'ValidationError'].includes(e.constructor.name)) {
+                throw new BadRequestException(e);
+            }
+            if (e.constructor.name === 'TatumError') {
+                throw e;
+            }
+            throw new NftError(`Unexpected error occurred. Reason: ${e.response?.message || e.response?.data || e.message || e}`, 'nft.error');
+        }
+    }
+
+    @Post('/mint/add')
+    @HttpCode(HttpStatus.OK)
+    public async addMinter(
+        @Body() body: AddMinter
+    ) {
+        try {
+            return await this.service.addMinter(body);
         } catch (e) {
             if (['Array', 'NftError', 'ValidationError'].includes(e.constructor.name)) {
                 throw new BadRequestException(e);

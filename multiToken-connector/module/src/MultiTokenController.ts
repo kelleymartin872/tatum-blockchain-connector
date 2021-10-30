@@ -2,6 +2,7 @@ import { BadRequestException, Body, Get, HttpCode, HttpStatus, Param, Post, Put,
 import {MultiTokenService} from './MultiTokenService';
 import {MultiTokenError} from './MultiTokenError';
 import {
+    AddMinter,
     CeloBurnMultiToken,
     CeloBurnMultiTokenBatch,
     CeloDeployMultiToken,
@@ -121,6 +122,23 @@ export abstract class MultiTokenController {
             throw new MultiTokenError(`Unexpected error occurred. Reason: ${e.message?.message || e.message || e.response?.data || e}`, 'multitoken.error');
         }
     }
+
+    @Post('/mint/add')
+    @HttpCode(HttpStatus.OK)
+    public async addMinter(@Body() body: AddMinter) {
+        try {
+            return await this.service.addMinter(body);
+        } catch (e) {
+            if (['Array', 'MultiTokenError', 'ValidationError'].includes(e.constructor.name)) {
+                throw new BadRequestException(e);
+            }
+            if (e.constructor.name === 'TatumError') {
+                throw e;
+            }
+            throw new MultiTokenError(`Unexpected error occurred. Reason: ${e.message?.message || e.message || e.response?.data || e}`, 'multitoken.error');
+        }
+    }
+
     @Post('/mint/batch')
     @HttpCode(HttpStatus.OK)
     public async mintMultiTokenBatch(@Body() body: CeloMintMultiTokenBatch | MintMultiTokenBatch | OneMintMultiTokenBatch) {

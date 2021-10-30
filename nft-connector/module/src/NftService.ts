@@ -1,11 +1,28 @@
-import axios, { AxiosRequestConfig } from 'axios';
-import { PinoLogger } from 'nestjs-pino';
+import axios from 'axios';
+import {PinoLogger} from 'nestjs-pino';
 import BigNumber from 'bignumber.js';
 import * as fcl from '@onflow/fcl';
 import * as sdk from '@onflow/sdk';
-import { NftError } from './NftError';
-import { HarmonyAddress } from '@harmony-js/crypto';
+import {NftError} from './NftError';
+import {HarmonyAddress} from '@harmony-js/crypto';
+import erc721Provenance_abi from '@tatumio/tatum/dist/src/contracts/erc721Provenance/erc721Provenance_abi';
+import erc721_abi from '@tatumio/tatum/dist/src/contracts/erc721/erc721_abi';
+import Web3 from 'web3';
+import {Transaction, TransactionReceipt} from 'web3-eth';
+import {FlowTxType,} from '@tatumio/tatum/dist/src/transaction/flow';
 import {
+    prepareOneBurn721SignedTransaction,
+    prepareOneDeploy721SignedTransaction,
+    prepareOneMint721SignedTransaction,
+    prepareOneMintCashback721SignedTransaction,
+    prepareOneMintMultiple721SignedTransaction,
+    prepareOneMintMultipleCashback721SignedTransaction,
+    prepareOneTransfer721SignedTransaction,
+    prepareOneUpdateCashbackForAuthor721SignedTransaction
+} from '@tatumio/tatum/dist/src/transaction/one';
+import {ChainEgldEsdtTransaction} from './dto/ChainEgldEsdtTransaction';
+import {
+    AddMinter,
     CeloBurnErc721,
     CeloDeployErc721,
     CeloMintErc721,
@@ -104,24 +121,8 @@ import {
     sendBscSmartContractReadMethodInvocationTransaction,
     sendPolygonSmartContractReadMethodInvocationTransaction,
     sendOneSmartContractReadMethodInvocationTransaction,
-    SmartContractReadMethodInvocation
+    SmartContractReadMethodInvocation, prepareAddNFTMinter
 } from '@tatumio/tatum';
-import erc721Provenance_abi from '@tatumio/tatum/dist/src/contracts/erc721Provenance/erc721Provenance_abi';
-import erc721_abi from '@tatumio/tatum/dist/src/contracts/erc721/erc721_abi';
-import Web3 from 'web3';
-import { Transaction, TransactionReceipt } from 'web3-eth';
-import { FlowTxType, } from '@tatumio/tatum/dist/src/transaction/flow';
-import {
-    prepareOneBurn721SignedTransaction,
-    prepareOneDeploy721SignedTransaction,
-    prepareOneMint721SignedTransaction,
-    prepareOneMintCashback721SignedTransaction,
-    prepareOneMintMultiple721SignedTransaction,
-    prepareOneMintMultipleCashback721SignedTransaction,
-    prepareOneTransfer721SignedTransaction,
-    prepareOneUpdateCashbackForAuthor721SignedTransaction
-} from '@tatumio/tatum/dist/src/transaction/one';
-import { ChainEgldEsdtTransaction } from './dto/ChainEgldEsdtTransaction'
 
 export abstract class NftService {
 
@@ -514,6 +515,19 @@ export abstract class NftService {
             default:
                 throw new NftError(`Unsupported chain ${chain}.`, 'unsupported.chain');
         }
+        if (body.signatureId) {
+            return { signatureId: await this.storeKMSTransaction(txData, chain, [body.signatureId], body.index) };
+        } else {
+            return this.broadcast(chain, txData);
+        }
+    }
+
+
+    public async addMinter(body: AddMinter): Promise<TransactionHash | { signatureId: string } | { txId: string, tokenId: number }> {
+        const testnet = await this.isTestnet();
+        const { chain } = body;
+        const provider = (await this.getNodesUrl(chain, testnet))[0];
+        const txData = await prepareAddNFTMinter(testnet, body, provider);
         if (body.signatureId) {
             return { signatureId: await this.storeKMSTransaction(txData, chain, [body.signatureId], body.index) };
         } else {

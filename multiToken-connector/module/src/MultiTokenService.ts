@@ -1,6 +1,7 @@
 import {PinoLogger} from 'nestjs-pino';
 import {MultiTokenError} from './MultiTokenError';
 import {
+    AddMinter,
     CeloBurnMultiToken,
     CeloBurnMultiTokenBatch,
     CeloDeployMultiToken,
@@ -58,7 +59,7 @@ import {
     preparePolygonDeployMultiTokenSignedTransaction,
     TransactionHash,
     TransferMultiToken,
-    TransferMultiTokenBatch,
+    TransferMultiTokenBatch, prepareAddNFTMinter,
 } from '@tatumio/tatum';
 import erc1155_abi from '@tatumio/tatum/dist/src/contracts/erc1155/erc1155_abi';
 import Web3 from 'web3';
@@ -154,6 +155,18 @@ export abstract class MultiTokenService {
         }
         if (body.signatureId) {
             return {signatureId: await this.storeKMSTransaction(txData, chain, [body.signatureId], body.index)};
+        } else {
+            return this.broadcast(chain, txData);
+        }
+    }
+
+    public async addMinter(body: AddMinter): Promise<TransactionHash | { signatureId: string } | { txId: string, tokenId: number }> {
+        const testnet = await this.isTestnet();
+        const { chain } = body;
+        const provider = (await this.getNodesUrl(chain, testnet))[0];
+        const txData = await prepareAddNFTMinter(testnet, body, provider);
+        if (body.signatureId) {
+            return { signatureId: await this.storeKMSTransaction(txData, chain, [body.signatureId], body.index) };
         } else {
             return this.broadcast(chain, txData);
         }

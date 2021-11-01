@@ -1,6 +1,6 @@
 {
   "name": "@tatumio/ada-connector",
-  "version": "1.1.10",
+  "version": "1.1.11",
   "description": "Ada Connector for Tatum API",
   "license": "MIT",
   "files": [

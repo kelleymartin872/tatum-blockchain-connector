@@ -89,7 +89,8 @@ export abstract class AdaService {
   }
 
 
-  public async getBlock(hash: string): Promise<Block> {
+  public async getBlock(hash: string, isTestnet?: boolean): Promise<Block> {
+    const testnet = isTestnet === undefined ? await this.isTestnet() : isTestnet
     let where
     if(/^\d+$/.test(hash)) {
       const blockNumber = new BigNumber(hash)
@@ -114,7 +115,7 @@ export abstract class AdaService {
           previousBlock { hash, number  }
           vrfKey
         } }`,
-    })
+    }, testnet)
     const [block] = response.data.data.blocks
     return block;
   }

@@ -120,7 +120,8 @@ export abstract class AdaService {
     return block;
   }
 
-  public async getTransaction(hash: string): Promise<Transaction> {
+  public async getTransaction(hash: string, isTestnet?: boolean): Promise<Transaction> {
+    const testnet = isTestnet === undefined ? await this.isTestnet() : isTestnet
     const response = await this.sendNodeRequest({
       query: `{ transactions (where: { hash: { _eq: "${hash}" } }) {
           block { hash number }
@@ -139,7 +140,7 @@ export abstract class AdaService {
           withdrawals { address amount transaction { hash }}
           withdrawals_aggregate { aggregate { count } }
         } }`,
-    })
+    }, testnet)
     const [transaction] = response.data.data.transactions;
     return transaction;
   }

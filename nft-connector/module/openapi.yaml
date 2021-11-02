@@ -698,8 +698,10 @@ paths:
           schema:
             type: string
             enum:
+              - ETH
+              - MATIC
               - CELO
-            example: "CELO"
+            example: ETH
         - description: "Account address"
           in: path
           name: address
@@ -787,8 +789,10 @@ paths:
           schema:
             type: string
             enum:
+              - ETH
+              - MATIC
               - CELO
-            example: "CELO"
+            example: ETH
         - description: "NFT Token ID"
           in: path
           name: tokenId

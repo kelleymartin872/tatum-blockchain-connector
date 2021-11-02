@@ -1,6 +1,6 @@
 {
   "name": "@tatumio/multitoken-connector",
-  "version": "1.1.13",
+  "version": "1.1.14",
   "description": "MultiToken Connector for Tatum API",
   "license": "MIT",
   "files": [

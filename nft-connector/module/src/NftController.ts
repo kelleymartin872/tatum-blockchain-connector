@@ -26,6 +26,7 @@ import {
     TronMintMultipleTrc721,
     TronTransferTrc721,
     OneDeploy721, OneBurn721, OneMintMultiple721, OneUpdateCashback721, TronMintTrc721, OneMint721, OneTransfer721,
+    DeployErc721, BurnErc721, TransferErc721
 } from '@tatumio/tatum';
 import {PathTokenIdContractAddressNonceChain} from './dto/PathTokenIdContractAddressNonceChain';
 import {PathAddressContractAddressNonceChain} from './dto/PathAddressContractAddressNonceChain';
@@ -92,7 +93,7 @@ export abstract class NftController {
     @Post('/transaction')
     @HttpCode(HttpStatus.OK)
     public async transactionErc721(
-        @Body() body: CeloTransferErc721 | EthTransferErc721 | FlowTransferNft | TronTransferTrc721 | OneTransfer721 | ChainEgldEsdtTransaction
+        @Body() body: CeloTransferErc721 | EthTransferErc721 | FlowTransferNft | TronTransferTrc721 | OneTransfer721 | ChainEgldEsdtTransaction | TransferErc721
     ) {
         try {
             return await this.service.transferErc721(body);
@@ -178,7 +179,7 @@ export abstract class NftController {
     @Post('/burn')
     @HttpCode(HttpStatus.OK)
     public async burnErc721(
-        @Body() body: CeloBurnErc721 | TronBurnTrc721 | EthBurnErc721 | FlowBurnNft | OneBurn721 | ChainEgldEsdtTransaction
+        @Body() body: CeloBurnErc721 | TronBurnTrc721 | EthBurnErc721 | FlowBurnNft | OneBurn721 | ChainEgldEsdtTransaction | BurnErc721
     ) {
         try {
             return await this.service.burnErc721(body);
@@ -196,7 +197,7 @@ export abstract class NftController {
     @Post('/deploy')
     @HttpCode(HttpStatus.OK)
     public async deployErc721(
-        @Body() body: CeloDeployErc721 | TronDeployTrc721 | EthDeployErc721 | FlowDeployNft | OneDeploy721 | ChainEgldEsdtTransaction
+        @Body() body: CeloDeployErc721 | TronDeployTrc721 | EthDeployErc721 | FlowDeployNft | OneDeploy721 | ChainEgldEsdtTransaction | DeployErc721
     ) {
         try {
             return await this.service.deployErc721(body);

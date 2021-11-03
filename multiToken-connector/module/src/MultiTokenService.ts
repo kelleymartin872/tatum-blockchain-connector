@@ -1,5 +1,6 @@
 import {PinoLogger} from 'nestjs-pino';
 import {MultiTokenError} from './MultiTokenError';
+import {AlgoNodeType} from '@tatumio/blockchain-connector-common';
 import {
     AddMinter,
     CeloBurnMultiToken,
@@ -60,6 +61,11 @@ import {
     TransactionHash,
     TransferMultiToken,
     TransferMultiTokenBatch, prepareAddNFTMinter,
+    prepareAlgoBurnFractionalNFTSignedTransaction,
+    BurnMultiToken,
+    prepareAlgoTransferFractionalNFTSignedTransaction,
+    getAlgoClient,
+    prepareAlgoCreateFractionalNFTSignedTransaction
 } from '@tatumio/tatum';
 import erc1155_abi from '@tatumio/tatum/dist/src/contracts/erc1155/erc1155_abi';
 import Web3 from 'web3';
@@ -76,6 +82,8 @@ export abstract class MultiTokenService {
     protected abstract isTestnet(): Promise<boolean>;
 
     protected abstract getNodesUrl(chain: Currency, testnet: boolean): Promise<string[]>;
+
+    protected abstract getAlgoNodesUrl(nodeType: AlgoNodeType): Promise<string[]>;
 
     protected abstract broadcast(chain: Currency, txData: string, signatureId?: string)
 
@@ -150,6 +158,8 @@ export abstract class MultiTokenService {
             case Currency.ONE:
                 txData = await prepareOneTransferMultiTokenSignedTransaction(testnet, body as OneTransferMultiToken, (await this.getNodesUrl(chain, testnet))[0]);
                 break;
+            case Currency.ALGO:
+                txData = await prepareAlgoTransferFractionalNFTSignedTransaction(testnet, body as TransferMultiToken, (await this.getAlgoNodesUrl(AlgoNodeType.ALGOD))[0])
             default:
                 throw new MultiTokenError(`Unsupported chain ${chain}.`, 'unsupported.chain');
         }
@@ -206,7 +216,7 @@ export abstract class MultiTokenService {
         const testnet = await this.isTestnet();
         let txData;
         const {chain} = body;
-        const provider = (await this.getNodesUrl(chain, testnet))[0];
+        const provider = chain === Currency.ALGO ? (await this.getAlgoNodesUrl(AlgoNodeType.ALGOD))[0] : (await this.getNodesUrl(chain, testnet))[0];
         switch (chain) {
             case Currency.ETH:
                 txData = await prepareEthMintMultiTokenSignedTransaction(body, provider);
@@ -222,6 +232,9 @@ export abstract class MultiTokenService {
                 break;
             case Currency.ONE:
                 txData = await prepareOneMintMultiTokenSignedTransaction(testnet, body as OneMintMultiToken, provider);
+                break;
+            case Currency.ALGO:
+                txData = await prepareAlgoCreateFractionalNFTSignedTransaction(testnet, body as MintMultiToken, provider);
                 break;
             default:
                 throw new MultiTokenError(`Unsupported chain ${chain}.`, 'unsupported.chain');
@@ -264,7 +277,7 @@ export abstract class MultiTokenService {
         }
     }
 
-    public async burnMultiToken(body: CeloBurnMultiToken | EthBurnMultiToken | OneBurnMultiToken): Promise<TransactionHash | { signatureId: string }> {
+    public async burnMultiToken(body: CeloBurnMultiToken | EthBurnMultiToken | OneBurnMultiToken | BurnMultiToken): Promise<TransactionHash | { signatureId: string }> {
         const testnet = await this.isTestnet();
         let txData;
         const {chain} = body;
@@ -284,6 +297,8 @@ export abstract class MultiTokenService {
             case Currency.ONE:
                 txData = await prepareOneBurnMultiTokenSignedTransaction(testnet, body as OneBurnMultiToken, (await this.getNodesUrl(chain, testnet))[0]);
                 break;
+            case Currency.ALGO:
+                txData = await prepareAlgoBurnFractionalNFTSignedTransaction(testnet, body as BurnMultiToken, (await this.getAlgoNodesUrl(AlgoNodeType.ALGOD))[0]);
             default:
                 throw new MultiTokenError(`Unsupported chain ${chain}.`, 'unsupported.chain');
         }
@@ -366,6 +381,9 @@ export abstract class MultiTokenService {
     }
 
     private async getClient(chain: Currency, testnet: boolean) {
+        if (chain === Currency.ALGO) {
+            return await getAlgoClient(await this.isTestnet(), (await this.getAlgoNodesUrl(AlgoNodeType.ALGOD))[0]);
+        }
         return new Web3((await this.getNodesUrl(chain, testnet))[0]);
     }
 }

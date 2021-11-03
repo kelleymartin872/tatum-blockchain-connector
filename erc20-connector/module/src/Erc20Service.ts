@@ -15,8 +15,10 @@ import {
     ChainTransferHrm20,
     ChainTransferPolygonErc20,
     ChainEgldEsdtTransaction,
+    ChainTransferAlgoErc20
 } from './Erc20Base';
 import {HarmonyAddress} from '@harmony-js/crypto';
+import {AlgoNodeType} from '@tatumio/blockchain-connector-common';
 import {
     ApproveErc20,
     BurnCeloErc20,
@@ -66,6 +68,10 @@ import {
     prepareEgldTransferEsdtSignedTransaction,
     prepareEgldFreezeOrWipeOrOwvershipEsdtSignedTransaction,
     egldGetAccountErc20Balance,
+    prepareAlgoCreateFTSignedTransaction,
+    prepareAlgoTransferFTSignedTransaction,
+    prepareAlgoBurnFTSignedTransaction,
+    getAlgoClient
 } from '@tatumio/tatum';
 import erc20_abi from '@tatumio/tatum/dist/src/contracts/erc20/token_abi';
 
@@ -80,10 +86,12 @@ export abstract class Erc20Service {
 
     protected abstract getNodesUrl(chain: Currency, testnet: boolean): Promise<string[]>;
 
+    protected abstract getAlgoNodesUrl(nodeType: AlgoNodeType): Promise<string[]>;
+
     protected abstract broadcast(chain: Currency, txData: string, signatureId?: string): Promise<TransactionHash>;
 
     private async getFirstNodeUrl(chain: Currency, testnet: boolean): Promise<string> {
-        const nodes = await this.getNodesUrl(chain, testnet);
+        const nodes = chain === Currency.ALGO ? await this.getAlgoNodesUrl(AlgoNodeType.ALGOD) :  await this.getNodesUrl(chain, testnet);
         if (nodes.length === 0) {
             new Erc20Error('Nodes url array must have at least one element.', 'erc20.nodes.url');
         }
@@ -93,6 +101,8 @@ export abstract class Erc20Service {
     private async getClient(chain: Currency, testnet: boolean) {
         if ([Currency.ETH, Currency.BSC, Currency.CELO, Currency.XDC, Currency.ONE, Currency.MATIC].includes(chain)) {
             return new Web3((await this.getFirstNodeUrl(chain, testnet)));
+        } else if (chain === Currency.ALGO) {
+            return await getAlgoClient(await this.isTestnet(), (await this.getAlgoNodesUrl(AlgoNodeType.ALGOD))[0]);
         }
 
         throw new Erc20Error(`Unsupported chain ${chain}.`, 'unsupported.chain');
@@ -128,7 +138,7 @@ export abstract class Erc20Service {
     }
 
     public async transferErc20(body: ChainTransferEthErc20 | ChainTransferBscBep20 | ChainTransferCeloErc20Token |
-        ChainTransferErc20 | ChainTransferHrm20 | ChainTransferPolygonErc20 | ChainEgldEsdtTransaction):
+        ChainTransferErc20 | ChainTransferHrm20 | ChainTransferPolygonErc20 | ChainEgldEsdtTransaction | ChainTransferAlgoErc20):
         Promise<TransactionHash | { signatureId: string }> {
         const testnet = await this.isTestnet();
         const {chain, ..._body} = body;
@@ -158,6 +168,9 @@ export abstract class Erc20Service {
                 break;
             case Currency.XDC:
                 txData = await prepareXdcOrErc20SignedTransaction(_body as TransferErc20, (await this.getFirstNodeUrl(chain, testnet)));
+                break;
+            case Currency.ALGO:
+                txData = await prepareAlgoTransferFTSignedTransaction(testnet, _body as TransferErc20, (await this.getFirstNodeUrl(chain, testnet)));
                 break;
             default:
                 throw new Erc20Error(`Unsupported chain ${chain}.`, 'unsupported.chain');
@@ -194,6 +207,9 @@ export abstract class Erc20Service {
                 break;                
             case Currency.XDC:
                 txData = await prepareXdcBurnErc20SignedTransaction(_body as BurnErc20, (await this.getFirstNodeUrl(chain, testnet)));
+                break;
+            case Currency.ALGO:
+                txData = await prepareAlgoBurnFTSignedTransaction(testnet, _body as BurnErc20, (await this.getFirstNodeUrl(chain, testnet)));
                 break;
             default:
                 throw new Erc20Error(`Unsupported chain ${chain}.`, 'unsupported.chain');
@@ -271,6 +287,9 @@ export abstract class Erc20Service {
                 };
 
                 txData = await prepareXdcDeployErc20SignedTransaction(tx as DeployErc20, (await this.getFirstNodeUrl(chain, testnet)));
+                break;
+            case Currency.ALGO:
+                txData = await prepareAlgoCreateFTSignedTransaction(testnet, _body as DeployErc20, (await this.getFirstNodeUrl(chain, testnet)));
                 break;
             default:
                 throw new Erc20Error(`Unsupported chain ${chain}.`, 'unsupported.chain');

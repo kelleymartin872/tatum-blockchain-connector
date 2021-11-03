@@ -15,13 +15,13 @@ import {
 
 export class ChainBurnErc20 extends BurnErc20 {
   @IsNotEmpty()
-  @IsIn([Currency.ETH, Currency.BSC, Currency.XDC, Currency.ONE, Currency.MATIC])
+  @IsIn([Currency.ETH, Currency.BSC, Currency.XDC, Currency.ONE, Currency.MATIC, Currency.ALGO])
   public chain: Currency;
 }
 
 export class ChainDeployErc20 extends DeployErc20 {
   @IsNotEmpty()
-  @IsIn([Currency.ETH, Currency.BSC, Currency.XDC, Currency.ONE])
+  @IsIn([Currency.ETH, Currency.BSC, Currency.XDC, Currency.ONE, Currency.ALGO])
   public chain: Currency;
 }
 
@@ -37,6 +37,11 @@ export class ChainTransferErc20 extends TransferErc20 {
   public chain: Currency;
 }
 
+export class ChainTransferAlgoErc20 extends TransferErc20 {
+  @IsNotEmpty()
+  @IsIn([Currency.ALGO])
+  public chain: Currency;
+}
 export class ChainTransferHrm20 extends OneTransfer20 {
   @IsNotEmpty()
   @IsIn([Currency.ONE])

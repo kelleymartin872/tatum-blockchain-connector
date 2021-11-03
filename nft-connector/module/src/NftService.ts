@@ -21,6 +21,7 @@ import {
     prepareOneUpdateCashbackForAuthor721SignedTransaction
 } from '@tatumio/tatum/dist/src/transaction/one';
 import {ChainEgldEsdtTransaction} from './dto/ChainEgldEsdtTransaction';
+import {AlgoNodeType} from '@tatumio/blockchain-connector-common';
 import {
     AddMinter,
     CeloBurnErc721,
@@ -121,7 +122,13 @@ import {
     sendBscSmartContractReadMethodInvocationTransaction,
     sendPolygonSmartContractReadMethodInvocationTransaction,
     sendOneSmartContractReadMethodInvocationTransaction,
-    SmartContractReadMethodInvocation, prepareAddNFTMinter
+    SmartContractReadMethodInvocation, prepareAddNFTMinter, DeployErc721,
+    prepareAlgoCreateNFTSignedTransaction,
+    getAlgoClient,
+    BurnErc721,
+    prepareAlgoBurnNFTSignedTransaction,
+    TransferErc721,
+    prepareAlgoTransferNFTSignedTransaction
 } from '@tatumio/tatum';
 
 export abstract class NftService {
@@ -138,6 +145,8 @@ export abstract class NftService {
     protected abstract getTronClient(testnet: boolean): Promise<any>;
 
     protected abstract getNodesUrl(chain: Currency, testnet: boolean): Promise<string[]>;
+    
+    protected abstract getAlgoNodesUrl(nodeType: AlgoNodeType): Promise<string[]>;
 
     protected abstract broadcast(chain: Currency, txData: string, signatureId?: string);
 
@@ -363,7 +372,7 @@ export abstract class NftService {
     }
 
     public async transferErc721(
-        body: CeloTransferErc721 | EthTransferErc721 | FlowTransferNft | TronTransferTrc721 | OneTransfer721 | ChainEgldEsdtTransaction
+        body: CeloTransferErc721 | EthTransferErc721 | FlowTransferNft | TronTransferTrc721 | OneTransfer721 | ChainEgldEsdtTransaction | TransferErc721
     ): Promise<TransactionHash | { signatureId: string }> {
         const testnet = await this.isTestnet();
         let txData;
@@ -399,6 +408,9 @@ export abstract class NftService {
                     return this.wrapFlowCall(async (proposer, payer) =>
                         await sendFlowNftTransferToken(testnet, body as FlowTransferNft, proposer, payer));
                 }
+                break;
+            case Currency.ALGO:
+                txData = await prepareAlgoTransferNFTSignedTransaction(testnet, boad as TransferErc721, provider);
                 break;
             // case Currency.XDC:
             //     txData = await prepareXdcTransferErc721SignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
@@ -673,7 +685,7 @@ export abstract class NftService {
     }
 
     public async burnErc721(
-        body: CeloBurnErc721 | EthBurnErc721 | FlowBurnNft | TronBurnTrc721 | OneBurn721 | ChainEgldEsdtTransaction
+        body: CeloBurnErc721 | EthBurnErc721 | FlowBurnNft | TronBurnTrc721 | OneBurn721 | ChainEgldEsdtTransaction | BurnErc721
     ): Promise<TransactionHash | { signatureId: string }> {
         const testnet = await this.isTestnet();
         let txData;
@@ -708,6 +720,9 @@ export abstract class NftService {
                 } else {
                     return this.wrapFlowCall(async (proposer, payer) => await sendFlowNftBurnToken(testnet, body as FlowBurnNft, proposer, payer));
                 }
+                break;
+            case Currency.ALGO:
+                txData = await prepareAlgoBurnNFTSignedTransaction(testnet, body as BurnErc721, provider);
                 break;
             // case Currency.XDC:
             //     txData = await prepareXdcBurnErc721SignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
@@ -754,6 +769,10 @@ export abstract class NftService {
                 break;
             case Currency.FLOW:
                 return await this.deployFlowNft(testnet, body as FlowDeployNft);
+                break;
+            case Currency.ALGO:
+                txData = await prepareAlgoCreateNFTSignedTransaction(testnet, body as DeployErc721, provider)
+                break;
             // case Currency.XDC:
             //     txData = await prepareXdcDeployErc721SignedTransaction(body as EthDeployErc721, (await this.getNodesUrl(chain, testnet))[0]);
             //     break;
@@ -788,6 +807,8 @@ export abstract class NftService {
             return;
         } else if (chain === Currency.TRON) {
             return this.getTronClient(testnet);
+        } else if (chain === Currency.ALGO) {
+            return await getAlgoClient(await this.isTestnet(), (await this.getAlgoNodesUrl(AlgoNodeType.ALGOD))[0]);
         }
         return new Web3(url);
     }

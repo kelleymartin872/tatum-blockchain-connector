@@ -22,6 +22,7 @@ import {
     OneTransferMultiTokenBatch,
     TransferMultiToken,
     TransferMultiTokenBatch,
+    BurnMultiToken
 } from '@tatumio/tatum';
 import {PathAddressContractAddressChain} from './dto/PathAddressContractAddressChain';
 import {PathTokenIdContractAddressChain} from './dto/PathTokenIdContractAddressChain';
@@ -157,7 +158,7 @@ export abstract class MultiTokenController {
 
     @Post('/burn')
     @HttpCode(HttpStatus.OK)
-    public async burnMultiToken(@Body() body: CeloBurnMultiToken | EthBurnMultiToken | OneBurnMultiToken) {
+    public async burnMultiToken(@Body() body: CeloBurnMultiToken | EthBurnMultiToken | OneBurnMultiToken | BurnMultiToken) {
         try {
             return await this.service.burnMultiToken(body);
         } catch (e) {

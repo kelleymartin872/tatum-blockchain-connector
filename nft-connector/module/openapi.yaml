@@ -2,7 +2,7 @@ openapi: 3.0.0
 servers:
   - url: 'https://api-eu1.tatum.io'
 info:
-  version: 1.0.0
+  version: 1.0.1
   title: Tatum NFT Abstraction API
 tags:
   - description: |
@@ -23,6 +23,7 @@ tags:
       <li><b>Tron</b></li>
       <li><b>Flow</b></li>
       <li><b>Binance Smart Chain</b></li>
+      <li><b>Algorand</b></li>
       </ul>
       </p>
     name: Blockchain / NFT
@@ -326,6 +327,7 @@ paths:
         <li><b>Harmony.ONE</b></li>
         <li><b>Tron</b></li>
         <li><b>Binance Smart Chain</b></li>
+        <li><b>Algorand</b></li>
         </ul>
         This operation needs the private key of the blockchain address. Every time the funds are transferred, the transaction must be signed with the corresponding private key.
         No one should ever send it's own private keys to the internet because there is a strong possibility of stealing keys and loss of funds. In this method, it is possible to enter privateKey
@@ -481,6 +483,7 @@ paths:
         <li><b>Tron</b></li>
         <li><b>Flow</b></li>
         <li><b>Binance Smart Chain</b></li>
+        <li><b>Algorand</b></li>
         </ul>
         This operation needs the private key of the blockchain address. Every time the funds are transferred, the transaction must be signed with the corresponding private key.
         No one should ever send it's own private keys to the internet because there is a strong possibility of stealing keys and loss of funds. In this method, it is possible to enter privateKey
@@ -3557,8 +3560,9 @@ components:
             - MATIC
             - ONE
             - BSC
+            - ALGO
         to:
-          maxLength: 42
+          maxLength: 58
           minLength: 42
           description: Blockchain address to send NFT token to
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
@@ -3570,7 +3574,7 @@ components:
           maxLength: 256
         contractAddress:
           maxLength: 42
-          minLength: 42
+          minLength: 1
           description: Address of NFT token
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
           type: string
@@ -3589,16 +3593,16 @@ components:
           maxLength: 256
         fromPrivateKey:
           type: string
-          maxLength: 66
+          maxLength: 103
           example: "0x05e150c73f1920ec14caa1e0b6aa09940899678051a78542840c2668ce5080c2"
           minLength: 66
           description: Private key of sender address. Private key, or signature Id must be present.
         nonce:
           type: number
           example: 1
-          description: Nonce to be set to Ethereum transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to Ethereum transaction. If not present, last known nonce will be used. Setting nonce is not necessary in Algorand
         fee:
-          description: Custom defined fee. If not present, it will be calculated automatically.
+          description: Custom defined fee. If not present, it will be calculated automatically. Setting fee is not necessary in Algorand.
           type: object
           required:
             - gasLimit
@@ -3632,6 +3636,7 @@ components:
             - MATIC
             - ONE
             - BSC
+            - ALGO
         name:
           description: Name of the NFT token
           example: My ERC721
@@ -3647,7 +3652,7 @@ components:
         fromPrivateKey:
           description: Private key of Ethereum account address, from which gas for deployment of ERC721 will be paid. Private key, or signature Id must be present.
           type: string
-          maxLength: 66
+          maxLength: 103
           example: "0x05e150c73f1920ec14caa1e0b6aa09940899678051a78542840c2668ce5080c2"
           minLength: 66
         provenance:
@@ -4232,6 +4237,7 @@ components:
             - MATIC
             - ONE
             - BSC
+            - ALGO
         tokenId:
           description: ID of token to be destroyed.
           example: "100000"
@@ -4239,13 +4245,13 @@ components:
           maxLength: 32
         contractAddress:
           maxLength: 42
-          minLength: 42
+          minLength: 1
           description: Address of NFT token
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
           type: string
         fromPrivateKey:
           type: string
-          maxLength: 66
+          maxLength: 103
           example: "0x05e150c73f1920ec14caa1e0b6aa09940899678051a78542840c2668ce5080c2"
           minLength: 66
           description: Private key of sender address. Private key, or signature Id must be present.

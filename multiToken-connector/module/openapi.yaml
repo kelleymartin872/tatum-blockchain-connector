@@ -2,7 +2,7 @@ openapi: 3.0.0
 servers:
   - url: 'https://api-eu1.tatum.io'
 info:
-  version: 1.0.0
+  version: 1.0.1
   title: Tatum Multi Token Abstraction API
 tags:
   - description: |
@@ -21,6 +21,7 @@ tags:
       <li><b>Celo</b></li>
       <li><b>Harmony.ONE</b></li>
       <li><b>Binance Smart Chain</b></li>
+      <li><b>Algorand</b></li>
       </ul>
       </p>
     name: Blockchain / Multi Token (ERC-1155)
@@ -123,6 +124,7 @@ paths:
         <li><b>Celo</b></li>
         <li><b>Harmony.ONE</b></li>
         <li><b>Binance Smart Chain</b></li>
+        <li><b>Algorand</b></li>
         </ul>
         This operation needs the private key of the blockchain address. Every time the funds are transferred, the transaction must be signed with the corresponding private key.
         No one should ever send it's own private keys to the internet because there is a strong possibility of stealing keys and loss of funds. In this method, it is possible to enter privateKey
@@ -263,6 +265,7 @@ paths:
         <li><b>Celo</b></li>
         <li><b>Harmony.ONE</b></li>
         <li><b>Binance Smart Chain</b></li>
+        <li><b>Algorand</b></li>
         </ul>
         This operation needs the private key of the blockchain address. Every time the funds are transferred, the transaction must be signed with the corresponding private key.
         No one should ever send it's own private keys to the internet because there is a strong possibility of stealing keys and loss of funds. In this method, it is possible to enter privateKey
@@ -404,6 +407,7 @@ paths:
         <li><b>Celo</b></li>
         <li><b>Harmony.ONE</b></li>
         <li><b>Binance Smart Chain</b></li>
+        <li><b>Algorand</b></li>
         </ul>
         This operation needs the private key of the blockchain address. Every time the funds are transferred, the transaction must be signed with the corresponding private key.
         No one should ever send it's own private keys to the internet because there is a strong possibility of stealing keys and loss of funds. In this method, it is possible to enter privateKey
@@ -2180,8 +2184,9 @@ components:
             - ONE
             - MATIC
             - BSC
+            - ALGO
         to:
-          maxLength: 42
+          maxLength: 58
           minLength: 42
           description: Blockchain address to send Multi Token token to
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
@@ -2202,13 +2207,13 @@ components:
           type: string
         contractAddress:
           maxLength: 42
-          minLength: 42
+          minLength: 1
           description: Address of Multi Token token
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
           type: string
         fromPrivateKey:
           type: string
-          maxLength: 66
+          maxLength: 103
           example: "0x05e150c73f1920ec14caa1e0b6aa09940899678051a78542840c2668ce5080c2"
           minLength: 66
           description: Private key of sender address. Private key, or signature Id must be present.
@@ -2581,20 +2586,21 @@ components:
             - ONE
             - MATIC
             - BSC
+            - ALGO
         tokenId:
           description: ID of token to be created.
           example: "100000"
           type: string
           maxLength: 32
         to:
-          maxLength: 42
+          maxLength: 58
           minLength: 42
           description: Blockchain address to send Multi Token token to
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
           type: string
         contractAddress:
           maxLength: 42
-          minLength: 42
+          minLength: 1
           description: Address of Multi Token token
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
           type: string
@@ -2908,8 +2914,9 @@ components:
             - ONE
             - MATIC
             - BSC
+            - ALGO
         account:
-          maxLength: 42
+          maxLength: 58
           minLength: 42
           description: Address of holder
           example: "0x4b812a77b109A150C2Fc89eD133EaBC78bC9EC8f"
@@ -2921,13 +2928,13 @@ components:
           maxLength: 32
         contractAddress:
           maxLength: 42
-          minLength: 42
+          minLength: 1
           description: Address of Multi Token token
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
           type: string
         fromPrivateKey:
           type: string
-          maxLength: 66
+          maxLength: 103
           example: "0x05e150c73f1920ec14caa1e0b6aa09940899678051a78542840c2668ce5080c2"
           minLength: 66
           description: Private key of sender address. Private key, or signature Id must be present.

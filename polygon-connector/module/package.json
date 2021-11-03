@@ -1,6 +1,6 @@
 {
   "name": "@tatumio/polygon-connector",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "Polygon Connector for Tatum API",
   "license": "MIT",
   "files": [

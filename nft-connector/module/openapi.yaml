@@ -236,7 +236,7 @@ paths:
             <td>ETH</td>
             <td>Mainnet</td>
             <td>0xcf9e127455d28e7362380aec1b92ddee8200b295</td>
-            <td>0x6709bdda623af7eb152cb2fe2562ab7e031e564f</td>
+            <td>0x789c00ed7ddd72a806dbac40df926df32fde3c2f</td>
           </tr>
           <tr>
             <td>ONE</td>
@@ -698,10 +698,10 @@ paths:
           schema:
             type: string
             enum:
-              - ETH
-              - MATIC
+#              - ETH
+#              - MATIC
               - CELO
-            example: ETH
+            example: CELO
         - description: "Account address"
           in: path
           name: address
@@ -789,10 +789,10 @@ paths:
           schema:
             type: string
             enum:
-              - ETH
-              - MATIC
+#              - ETH
+#              - MATIC
               - CELO
-            example: ETH
+            example: CELO
         - description: "NFT Token ID"
           in: path
           name: tokenId
@@ -1006,79 +1006,83 @@ paths:
       summary: Get Transaction
       tags:
         - Blockchain / NFT
-  /v3/nft/address/balance/{chain}/{contractAddress}/{address}:
-    get:
-      description: |
-        <h4>1 credit per API call.</h4><br/><p>Get NFTs on address. Returns all tokenIDs of all NFT contracts this address holds.</p>
-      operationId: NftGetBalanceAddressErc721
-      parameters:
-        - description: Blockchain to work with
-          in: path
-          name: chain
-          required: true
-          schema:
-            type: string
-            enum:
-              - CELO
-        - description: "Account address"
-          in: path
-          name: address
-          required: true
-          schema:
-            type: string
-            example: "0x3223AEB8404C7525FcAA6C512f91e287AE9FfE7B"
-        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
-          in: header
-          name: x-testnet-type
-          required: false
-          schema:
-            default: ropsten
-            type: string
-            enum:
-              - ethereum-ropsten
-              - ethereum-rinkeby
-            maxLength: 10
-      responses:
-        200:
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    contractAddress:
-                      type: string
-                      example: "0x771987a5add0ef1ce303aa069df82dd7f8fbb33b"
-                      description: Contract address of the NFT.
-                    balances:
-                      type: string
-                      description: Token ID.
-                      example: "10"
-          description: OK
-        400:
-          <<: *API400
-        401:
-          <<: *API401
-        403:
-          description: Forbidden. The request is authenticated, but it is not possible to required perform operation due to logical error or invalid permissions.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error403Celo"
-        500:
-          <<: *API500
-      security:
-        - X-Api-Key: [ ]
-      x-code-samples:
-      summary: Get NFT Account balance
-      tags:
-        - Blockchain / NFT
+#  /v3/nft/address/balance/{chain}/{contractAddress}/{address}:
+#    get:
+#      description: |
+#        <h4>1 credit per API call.</h4><br/><p>Get NFTs on address. Returns all tokenIDs of all NFT contracts this address holds.</p>
+#      operationId: NftGetBalanceAddressErc721
+#      parameters:
+#        - description: Blockchain to work with
+#          in: path
+#          name: chain
+#          required: true
+#          schema:
+#            type: string
+#            example: ETH
+#            enum:
+#              - CELO
+#              - ETH
+#              - MATIC
+#        - description: "Account address"
+#          in: path
+#          name: address
+#          required: true
+#          schema:
+#            type: string
+#            example: "0x3223AEB8404C7525FcAA6C512f91e287AE9FfE7B"
+#        - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
+#          in: header
+#          name: x-testnet-type
+#          required: false
+#          schema:
+#            default: ropsten
+#            type: string
+#            enum:
+#              - ethereum-ropsten
+#              - ethereum-rinkeby
+#            maxLength: 10
+#      responses:
+#        200:
+#          content:
+#            application/json:
+#              schema:
+#                type: array
+#                items:
+#                  type: object
+#                  properties:
+#                    contractAddress:
+#                      type: string
+#                      example: "0x771987a5add0ef1ce303aa069df82dd7f8fbb33b"
+#                      description: Contract address of the NFT.
+#                    balances:
+#                      type: string
+#                      description: Token ID.
+#                      example: "10"
+#          description: OK
+#        400:
+#          <<: *API400
+#        401:
+#          <<: *API401
+#        403:
+#          description: Forbidden. The request is authenticated, but it is not possible to required perform operation due to logical error or invalid permissions.
+#          content:
+#            application/json:
+#              schema:
+#                $ref: "#/components/schemas/Error403Celo"
+#        500:
+#          <<: *API500
+#      security:
+#        - X-Api-Key: [ ]
+#      x-code-samples:
+#      summary: Get NFT Account balance
+#      tags:
+#        - Blockchain / NFT
   /v3/nft/balance/{chain}/{contractAddress}/{address}:
     get:
-      deprecated: true
+#      deprecated: true
       description: |
-        <h4>1 credit per API call.</h4><br/><p>Get NFTs on Account. Returns tokenIDs of tokens Account holds. This method is deprecated, use <a href="#operation/NftGetBalanceAddressErc721">Get contract address</a> instead.</p>
+#        <h4>1 credit per API call.</h4><br/><p>Get NFTs on Account. Returns tokenIDs of tokens Account holds. This method is deprecated, use <a href="#operation/NftGetBalanceAddressErc721">Get contract address</a> instead.</p>
+        <h4>1 credit per API call.</h4><br/><p>Get NFTs on Account. Returns tokenIDs of tokens Account holds.</p>
       operationId: NftGetBalanceErc721
       parameters:
         - description: Blockchain to work with

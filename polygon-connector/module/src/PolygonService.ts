@@ -24,7 +24,7 @@ import BigNumber from 'bignumber.js';
 
 export abstract class PolygonService {
 
-    private static mapBlock(block: any) {
+    public static mapBlock(block: any) {
         return {
             difficulty: parseInt(block.difficulty, 16),
             extraData: block.extraData,
@@ -46,7 +46,7 @@ export abstract class PolygonService {
         };
     }
 
-    private static mapTransaction(tx: any) {
+    public static mapTransaction(tx: any) {
         delete tx.r;
         delete tx.s;
         delete tx.v;

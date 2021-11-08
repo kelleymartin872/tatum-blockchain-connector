@@ -15,6 +15,7 @@ import {
     ChainTransferHrm20,
     ChainTransferPolygonErc20,
     ChainEgldEsdtTransaction,
+    ChainTransferAlgoErc20
 } from './Erc20Base';
 import {ApproveErc20} from '@tatumio/tatum';
 import {PathAddressContractAddressChain} from './dto/PathAddressContractAddressChain';
@@ -36,7 +37,7 @@ export abstract class Erc20Controller {
     @HttpCode(HttpStatus.OK)
     public async transactionErc20(
       @Body() body: ChainTransferEthErc20 | ChainTransferBscBep20 | ChainTransferCeloErc20Token | ChainTransferErc20
-        | ChainTransferHrm20 | ChainTransferPolygonErc20 | ChainEgldEsdtTransaction
+        | ChainTransferHrm20 | ChainTransferPolygonErc20 | ChainEgldEsdtTransaction | ChainTransferAlgoErc20
     ) {
         try {
             return await this.service.transferErc20(body);

@@ -410,7 +410,7 @@ export abstract class NftService {
                 }
                 break;
             case Currency.ALGO:
-                txData = await prepareAlgoTransferNFTSignedTransaction(testnet, boad as TransferErc721, provider);
+                txData = await prepareAlgoTransferNFTSignedTransaction(testnet, body as TransferErc721, provider);
                 break;
             // case Currency.XDC:
             //     txData = await prepareXdcTransferErc721SignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
@@ -738,7 +738,7 @@ export abstract class NftService {
     }
 
     public async deployErc721(
-        body: CeloDeployErc721 | EthDeployErc721 | FlowDeployNft | TronDeployTrc721 | OneDeploy721 | ChainEgldEsdtTransaction
+        body: CeloDeployErc721 | EthDeployErc721 | FlowDeployNft | TronDeployTrc721 | OneDeploy721 | ChainEgldEsdtTransaction | DeployErc721
     ): Promise<TransactionHash | { signatureId: string }> {
         const testnet = await this.isTestnet();
         let txData;

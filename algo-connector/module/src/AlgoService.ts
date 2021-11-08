@@ -10,9 +10,8 @@ import {
   prepareAlgoSignedTransaction
 } from '@tatumio/tatum';
 
-import {BroadcastOrStoreKMSTransaction} from '@tatumio/blockchain-connector-common';
+import {BroadcastOrStoreKMSTransaction, AlgoNodeType} from '@tatumio/blockchain-connector-common';
 import {AlgoError} from './AlgoError';
-import {AlgoNodeType} from './AlgoNodeType';
 
 export abstract class AlgoService {
 
@@ -61,7 +60,7 @@ export abstract class AlgoService {
 
   protected abstract isTestnet(): Promise<boolean>;
 
-  protected abstract getNodesUrl(nodeType: AlgoNodeType): Promise<string[]>;
+  public abstract getNodesUrl(nodeType: AlgoNodeType): Promise<string[]>;
 
   protected abstract storeKMSTransaction(txData: string, currency: string, signatureId: string[], index?: number): Promise<string>;
 

@@ -19,6 +19,7 @@ import {
 } from './Erc20Base';
 import {HarmonyAddress} from '@harmony-js/crypto';
 import {AlgoNodeType} from '@tatumio/blockchain-connector-common';
+import {AlgoService} from '@tatumio/algo-connector';
 import {
     ApproveErc20,
     BurnCeloErc20,
@@ -71,13 +72,14 @@ import {
     prepareAlgoCreateFTSignedTransaction,
     prepareAlgoTransferFTSignedTransaction,
     prepareAlgoBurnFTSignedTransaction,
-    getAlgoClient
 } from '@tatumio/tatum';
 import erc20_abi from '@tatumio/tatum/dist/src/contracts/erc20/token_abi';
 
 export abstract class Erc20Service {
 
-    protected constructor(protected readonly logger: PinoLogger) {
+    protected constructor(
+        protected readonly logger: PinoLogger,
+        protected readonly algoService: AlgoService) {
     }
 
     protected abstract storeKMSTransaction(txData: string, currency: string, signatureId: string[], index?: number): Promise<string>;
@@ -86,12 +88,10 @@ export abstract class Erc20Service {
 
     protected abstract getNodesUrl(chain: Currency, testnet: boolean): Promise<string[]>;
 
-    protected abstract getAlgoNodesUrl(nodeType: AlgoNodeType): Promise<string[]>;
-
     protected abstract broadcast(chain: Currency, txData: string, signatureId?: string): Promise<TransactionHash>;
 
     private async getFirstNodeUrl(chain: Currency, testnet: boolean): Promise<string> {
-        const nodes = chain === Currency.ALGO ? await this.getAlgoNodesUrl(AlgoNodeType.ALGOD) :  await this.getNodesUrl(chain, testnet);
+        const nodes = chain === Currency.ALGO ? await this.algoService.getNodesUrl(AlgoNodeType.ALGOD) :  await this.getNodesUrl(chain, testnet);
         if (nodes.length === 0) {
             new Erc20Error('Nodes url array must have at least one element.', 'erc20.nodes.url');
         }
@@ -102,7 +102,7 @@ export abstract class Erc20Service {
         if ([Currency.ETH, Currency.BSC, Currency.CELO, Currency.XDC, Currency.ONE, Currency.MATIC].includes(chain)) {
             return new Web3((await this.getFirstNodeUrl(chain, testnet)));
         } else if (chain === Currency.ALGO) {
-            return await getAlgoClient(await this.isTestnet(), (await this.getAlgoNodesUrl(AlgoNodeType.ALGOD))[0]);
+            return await this.algoService.getClient();
         }
 
         throw new Erc20Error(`Unsupported chain ${chain}.`, 'unsupported.chain');

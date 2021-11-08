@@ -64,17 +64,19 @@ import {
     prepareAlgoBurnFractionalNFTSignedTransaction,
     BurnMultiToken,
     prepareAlgoTransferFractionalNFTSignedTransaction,
-    getAlgoClient,
     prepareAlgoCreateFractionalNFTSignedTransaction
 } from '@tatumio/tatum';
 import erc1155_abi from '@tatumio/tatum/dist/src/contracts/erc1155/erc1155_abi';
 import Web3 from 'web3';
 import {Transaction, TransactionReceipt} from 'web3-eth';
 import {HarmonyAddress} from '@harmony-js/crypto';
+import {AlgoService} from '@tatumio/algo-connector';
 
 export abstract class MultiTokenService {
 
-    protected constructor(protected readonly logger: PinoLogger) {
+    protected constructor(
+        protected readonly logger: PinoLogger,
+        protected readonly algoService: AlgoService) {
     }
 
     protected abstract storeKMSTransaction(txData: string, currency: string, signatureId: string[], index?: number): Promise<string>;
@@ -82,8 +84,6 @@ export abstract class MultiTokenService {
     protected abstract isTestnet(): Promise<boolean>;
 
     protected abstract getNodesUrl(chain: Currency, testnet: boolean): Promise<string[]>;
-
-    protected abstract getAlgoNodesUrl(nodeType: AlgoNodeType): Promise<string[]>;
 
     protected abstract broadcast(chain: Currency, txData: string, signatureId?: string)
 
@@ -159,7 +159,7 @@ export abstract class MultiTokenService {
                 txData = await prepareOneTransferMultiTokenSignedTransaction(testnet, body as OneTransferMultiToken, (await this.getNodesUrl(chain, testnet))[0]);
                 break;
             case Currency.ALGO:
-                txData = await prepareAlgoTransferFractionalNFTSignedTransaction(testnet, body as TransferMultiToken, (await this.getAlgoNodesUrl(AlgoNodeType.ALGOD))[0])
+                txData = await prepareAlgoTransferFractionalNFTSignedTransaction(testnet, body as TransferMultiToken, (await this.algoService.getNodesUrl(AlgoNodeType.ALGOD))[0])
             default:
                 throw new MultiTokenError(`Unsupported chain ${chain}.`, 'unsupported.chain');
         }
@@ -216,7 +216,7 @@ export abstract class MultiTokenService {
         const testnet = await this.isTestnet();
         let txData;
         const {chain} = body;
-        const provider = chain === Currency.ALGO ? (await this.getAlgoNodesUrl(AlgoNodeType.ALGOD))[0] : (await this.getNodesUrl(chain, testnet))[0];
+        const provider = chain === Currency.ALGO ? (await this.algoService.getNodesUrl(AlgoNodeType.ALGOD))[0] : (await this.getNodesUrl(chain, testnet))[0];
         switch (chain) {
             case Currency.ETH:
                 txData = await prepareEthMintMultiTokenSignedTransaction(body, provider);
@@ -298,7 +298,7 @@ export abstract class MultiTokenService {
                 txData = await prepareOneBurnMultiTokenSignedTransaction(testnet, body as OneBurnMultiToken, (await this.getNodesUrl(chain, testnet))[0]);
                 break;
             case Currency.ALGO:
-                txData = await prepareAlgoBurnFractionalNFTSignedTransaction(testnet, body as BurnMultiToken, (await this.getAlgoNodesUrl(AlgoNodeType.ALGOD))[0]);
+                txData = await prepareAlgoBurnFractionalNFTSignedTransaction(testnet, body as BurnMultiToken, (await this.algoService.getNodesUrl(AlgoNodeType.ALGOD))[0]);
             default:
                 throw new MultiTokenError(`Unsupported chain ${chain}.`, 'unsupported.chain');
         }
@@ -382,7 +382,7 @@ export abstract class MultiTokenService {
 
     private async getClient(chain: Currency, testnet: boolean) {
         if (chain === Currency.ALGO) {
-            return await getAlgoClient(await this.isTestnet(), (await this.getAlgoNodesUrl(AlgoNodeType.ALGOD))[0]);
+            return await this.algoService.getClient();
         }
         return new Web3((await this.getNodesUrl(chain, testnet))[0]);
     }

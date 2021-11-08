@@ -21,8 +21,6 @@ import {
     prepareOneUpdateCashbackForAuthor721SignedTransaction
 } from '@tatumio/tatum/dist/src/transaction/one';
 import {ChainEgldEsdtTransaction} from './dto/ChainEgldEsdtTransaction';
-import {AlgoNodeType} from '@tatumio/blockchain-connector-common';
-import {AlgoService} from '@tatumio/algo-connector';
 import {
     AddMinter,
     CeloBurnErc721,
@@ -125,6 +123,7 @@ import {
     sendOneSmartContractReadMethodInvocationTransaction,
     SmartContractReadMethodInvocation, prepareAddNFTMinter, DeployErc721,
     prepareAlgoCreateNFTSignedTransaction,
+    getAlgoClient,
     BurnErc721,
     prepareAlgoBurnNFTSignedTransaction,
     TransferErc721,
@@ -133,9 +132,7 @@ import {
 
 export abstract class NftService {
 
-    protected constructor(
-        protected readonly logger: PinoLogger,
-        protected readonly algoService: AlgoService) {
+    protected constructor(protected readonly logger: PinoLogger) {
     }
 
     protected abstract storeKMSTransaction(txData: string, currency: string, signatureId: string[], index?: number): Promise<string>;
@@ -808,7 +805,7 @@ export abstract class NftService {
         } else if (chain === Currency.TRON) {
             return this.getTronClient(testnet);
         } else if (chain === Currency.ALGO) {
-            return await this.algoService.getClient();
+            return await getAlgoClient(await this.isTestnet(), (await this.getNodesUrl(chain, testnet))[0]);
         }
         return new Web3(url);
     }

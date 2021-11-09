@@ -1009,6 +1009,64 @@ paths:
       summary: Get Transaction
       tags:
         - Blockchain / NFT
+  /v3/nft/address/balance/{chain}/{address}:
+    get:
+      description: |
+        <h4>1 credit per API call.</h4><br/><p>Get NFTs on address. Returns all tokenIDs of all NFT contracts this address holds.</p>
+      operationId: NftGetTokensByAddressErc721
+      parameters:
+        - description: Blockchain to work with
+          in: path
+          name: chain
+          required: true
+          schema:
+            type: string
+            example: ALGO
+            enum:
+              - ALGO
+        - description: "Account address"
+          in: path
+          name: address
+          required: true
+          schema:
+            type: string
+            example: "NTAESFCB3WOD7SAOL42KSPVARLB3JFA3MNX3AESWHYVT2RMYDVZI6YLG4Y"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    contractAddress:
+                      type: string
+                      example: "43821281"
+                      description: Contract address of the NFT. In Algorand case, it will be asset-id.
+                    balances:
+                      type: string
+                      description: amount.
+                      example: "1"
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        403:
+          description: Forbidden. The request is authenticated, but it is not possible to required perform operation due to logical error or invalid permissions.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error403"
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Get NFT Account tokens with balances
+      tags:
+        - Blockchain / NFT
 #  /v3/nft/address/balance/{chain}/{contractAddress}/{address}:
 #    get:
 #      description: |

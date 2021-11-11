@@ -320,6 +320,7 @@ paths:
             schema:
               oneOf:
                 - $ref: "#/components/schemas/ChainTransferAlgoErc20"
+                - $ref: "#/components/schemas/ChainTransferAlgoErc20KMS"
                 - $ref: "#/components/schemas/ChainTransferEthErc20"
                 - $ref: "#/components/schemas/ChainTransferEthErc20KMS"
                 - $ref: "#/components/schemas/ChainTransferBscBep20"
@@ -1353,7 +1354,7 @@ components:
           example: ETH
           description: Chain to work with.
           enum:
-            - ETH, BSC, XDC
+            - ETH, BSC, XDC, ALGO
         amount:
           description: Amount of tokens to be destroyed.
           example: "100000"
@@ -1507,6 +1508,53 @@ components:
         - contractAddress
         - fromPrivateKey
         - amount
+    ChainTransferAlgoErc20KMS:
+      type: object
+      properties:
+        chain:
+          type: string
+          example: ALGO
+          description: Chain to work with.
+          enum:
+            - ALGO
+        to:
+          maxLength: 58
+          minLength: 42
+          description: Blockchain address to send ERC20 token to
+          example: "TMETT6BXL3QUH7AH5TS6IONU7LVTLKIGG54CFCNPMQXWGRIZFIESZBYWP4"
+          type: string
+        amount:
+          description: Amount to be sent.
+          example: "100000"
+          type: string
+          pattern: ^[+]?((\d+(\.\d*)?)|(\.\d+))$
+        contractAddress:
+          maxLength: 43
+          minLength: 1
+          description: assetIndex - asset index uniquely specifying the asset
+          example: "1"
+          type: string
+        signatureId:
+          type: string
+          minLength: 36
+          maxLength: 36
+          format: uuid
+          example: 26d3883e-4e17-48b3-a0ee-09a3e484ac83
+          description: Identifier of the private key associated in signing application. Private key, or signature Id must be present.
+        from:
+          maxLength: 58
+          minLength: 42
+          description: Blockchain address to send ERC20 token to
+          example: "NTAESFCB3WOD7SAOL42KSPVARLB3JFA3MNX3AESWHYVT2RMYDVZI6YLG4Y"
+          type: string
+      required:
+        - chain
+        - currency
+        - to
+        - contractAddress
+        - signatureId
+        - amount
+        - from
     ChainTransferEthErc20:
       type: object
       properties:

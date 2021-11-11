@@ -310,7 +310,7 @@ paths:
       security:
         - X-Api-Key: [ ]
       x-code-samples:
-      summary: Get Algorand Transaction
+      summary: Get Algorand Transactions between from and to
       tags:
         - Blockchain / Algorand (ALGO)
   /v3/algorand/broadcast:

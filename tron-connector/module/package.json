@@ -1,6 +1,6 @@
 {
   "name": "@tatumio/tron-connector",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Tron Connector for Tatum API",
   "license": "MIT",
   "files": [

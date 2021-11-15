@@ -65,6 +65,7 @@ export abstract class TronService {
             energyUsageTotal: t.energy_usage_total,
             internalTransactions: t.internal_transactions,
             rawData: rawData,
+            log: t.log,
         };
     }
 
@@ -179,7 +180,7 @@ export abstract class TronService {
         }
         const [{data: tx}, {data: info}] = await Promise.all([axios.post(`${url}/wallet/gettransactionbyid`, {value: txId}, {headers: {'TRON-PRO-API-KEY': apiKey1}}),
             axios.post(`${url}/wallet/gettransactioninfobyid`, {value: txId}, {headers: {'TRON-PRO-API-KEY': apiKey2}})]);
-        return TronService.mapTransaction({...tx, ...info.receipt, blockNumber: info.blockNumber});
+        return TronService.mapTransaction({...tx, ...info.receipt, log: info.log, blockNumber: info.blockNumber});
     }
 
     public async getAccount(address: string): Promise<TronAccount> {

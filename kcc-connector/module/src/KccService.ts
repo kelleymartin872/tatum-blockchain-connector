@@ -1,7 +1,7 @@
 import {PinoLogger} from 'nestjs-pino';
 import {
     Currency,
-    EstimateGasEth,
+    EstimateGas,
     generateAddressFromXPub,
     generatePrivateKeyFromMnemonic,
     generateWallet,
@@ -14,7 +14,7 @@ import {
     SmartContractReadMethodInvocation,
     TransactionHash,
     TransferErc20,
-} from '@tatumio/tatum';
+} from '@tatumio/tatum-kcc';
 import {BroadcastOrStoreKMSTransaction} from '@tatumio/blockchain-connector-common';
 import Web3 from 'web3';
 import {fromWei} from 'web3-utils';
@@ -211,20 +211,20 @@ export abstract class KccService {
     }
 
     public async generateWallet(mnemonic?: string) {
-        return generateWallet(Currency.KCS, await this.isTestnet(), mnemonic);
+        return generateWallet(await this.isTestnet(), mnemonic);
     }
 
     public async generatePrivateKey(mnemonic: string, index: number) {
-        const key = await generatePrivateKeyFromMnemonic(Currency.KCS, await this.isTestnet(), mnemonic, index);
+        const key = await generatePrivateKeyFromMnemonic(await this.isTestnet(), mnemonic, index);
         return {key};
     }
 
     public async generateAddress(xpub: string, derivationIndex: string): Promise<{ address: string }> {
-        const address = await generateAddressFromXPub(Currency.KCS, await this.isTestnet(), xpub, parseInt(derivationIndex));
+        const address = await generateAddressFromXPub(xpub, parseInt(derivationIndex));
         return {address};
     }
 
-    public async estimateGas(body: EstimateGasEth) {
+    public async estimateGas(body: EstimateGas) {
         const client = await this.getClient(await this.isTestnet());
         return {
             gasLimit: await client.eth.estimateGas(body),
@@ -237,8 +237,8 @@ export abstract class KccService {
         return {balance: fromWei(await client.eth.getBalance(address), 'ether')};
     }
 
-    public async sendMatic(transfer: TransferErc20): Promise<TransactionHash | SignatureId> {
-        const transactionData = await prepareKccSignedTransaction(await this.isTestnet(), transfer, await this.getFirstNodeUrl(await this.isTestnet()));
+    public async sendKCS(transfer: TransferErc20): Promise<TransactionHash | SignatureId> {
+        const transactionData = await prepareKccSignedTransaction(transfer, await this.getFirstNodeUrl(await this.isTestnet()));
         return this.broadcastOrStoreKMSTransaction({
             transactionData, signatureId: transfer.signatureId,
             index: transfer.index
@@ -253,10 +253,10 @@ export abstract class KccService {
     public async invokeSmartContractMethod(smartContractMethodInvocation: SmartContractMethodInvocation | SmartContractReadMethodInvocation) {
         const node = await this.getFirstNodeUrl(await this.isTestnet());
         if (smartContractMethodInvocation.methodABI.stateMutability === 'view') {
-            return sendKccSmartContractReadMethodInvocationTransaction(await this.isTestnet(), smartContractMethodInvocation, node);
+            return sendKccSmartContractReadMethodInvocationTransaction(smartContractMethodInvocation, node);
         }
 
-        const transactionData = await prepareKccSmartContractWriteMethodInvocation(await this.isTestnet(), smartContractMethodInvocation, node);
+        const transactionData = await prepareKccSmartContractWriteMethodInvocation(smartContractMethodInvocation, node);
         return this.broadcastOrStoreKMSTransaction({
             transactionData,
             signatureId: (smartContractMethodInvocation as SmartContractMethodInvocation).signatureId,

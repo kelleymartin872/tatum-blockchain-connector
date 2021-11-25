@@ -1,12 +1,12 @@
 import {BadRequestException, Body, Get, HttpCode, HttpStatus, Param, Post, Query,} from '@nestjs/common';
 import {KccService} from './KccService';
-import {
-  BroadcastTx,
-  EstimateGasEth,
+import {BroadcastTx} from './dto/BroadcastTx'
+import {  
+  EstimateGas,
   SmartContractMethodInvocation,
   SmartContractReadMethodInvocation,
   TransferErc20,
-} from '@tatumio/tatum';
+} from '@tatumio/tatum-kcc';
 import {KccError} from './KccError';
 import {
   EthBasedBlockchainControllerInterface,
@@ -75,7 +75,7 @@ export abstract class KccController implements EthBasedBlockchainControllerInter
 
   @Post('/gas')
   @HttpCode(HttpStatus.OK)
-  public async estimateGas(@Body() body: EstimateGasEth) {
+  public async estimateGas(@Body() body: EstimateGas) {
     try {
       return await this.service.estimateGas(body);
     } catch (e) {

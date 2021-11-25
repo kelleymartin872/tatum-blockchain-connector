@@ -1,7 +1,7 @@
 import {BadRequestException, Body, Get, HttpCode, HttpStatus, Param, Post, Query,} from '@nestjs/common';
 import {KccService} from './KccService';
 import {BroadcastTx} from './dto/BroadcastTx'
-import {  
+import {
   EstimateGas,
   SmartContractMethodInvocation,
   SmartContractReadMethodInvocation,
@@ -61,7 +61,7 @@ export abstract class KccController implements EthBasedBlockchainControllerInter
   @HttpCode(HttpStatus.OK)
   public async sendTransaction(@Body() body: TransferErc20) {
     try {
-      return await this.service.sendMatic(body);
+      return await this.service.sendKCS(body);
     } catch (e) {
       if (['Array', 'ValidationError'].includes(e.constructor.name)) {
         throw new BadRequestException(e);

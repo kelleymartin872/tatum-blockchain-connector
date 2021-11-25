@@ -17,19 +17,31 @@ const publishPackage = async (file, packages) => {
     try {
         console.log(`Scanning ${file}`)
         const localPackage = fs.readJsonSync(file)
-        const remotePackage = await fetchRegistry(localPackage.name);
+        let remotePackage;
+        try {
+            remotePackage = await fetchRegistry(localPackage.name);
+        } catch (e) {
+            console.log(`Remote package ${remotePackage} does not exist.`);
+        }
         console.log(remotePackage);
         const directory = file.substring(0, file.lastIndexOf('/'));
-        if (directory && localPackage && remotePackage) {
+        if (directory && localPackage) {
+            if (!remotePackage) {
+                await exec.getExecOutput(`yarn --cwd ${directory} cache clean`);
+                await exec.getExecOutput(`yarn --cwd ${directory}`);
+                await exec.getExecOutput(`yarn --cwd ${directory} build`);
+                await exec.getExecOutput(`yarn --cwd ${directory} publish --access public`);
+                packages.published.push({name: localPackage.name, version: localPackage.version})
+            }
             // compare to local version
-            if (semver.lt(remotePackage.version, localPackage.version)) {
+            else if (semver.lt(remotePackage.version, localPackage.version)) {
                 console.log(`Remote version ${remotePackage.version} on npm package ${localPackage.name} is older than current version ${localPackage.version}`)
                 await exec.getExecOutput(`yarn --cwd ${directory} cache clean`);
                 await exec.getExecOutput(`yarn --cwd ${directory}`);
                 await exec.getExecOutput(`yarn --cwd ${directory} build`);
                 await exec.getExecOutput(`yarn --cwd ${directory} publish --access public`);
                 packages.published.push({name: localPackage.name, version: localPackage.version})
-            } else {
+            }  else {
                 console.log(`Remote version ${remotePackage.version} on npm package ${remotePackage.name} is same or newer than current version ${localPackage.version}`)
                 packages.unpublished.push({name: remotePackage.name, version: remotePackage.version})
             }

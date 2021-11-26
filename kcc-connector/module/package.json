@@ -1,6 +1,6 @@
 {
   "name": "@tatumio/kcc-connector",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Kcc Connector for Tatum API",
   "license": "MIT",
   "files": [
@@ -37,8 +37,8 @@
   "peerDependencies": {
     "@nestjs/common": "^7.6.1",
     "@tatumio/blockchain-connector-common": "^1.1.2",
-    "@tatumio/tatum-kcc": "^2.0.0-alpha.42",
-    "@tatumio/tatum": "^1.29.19",
+    "@tatumio/tatum-kcc": "^2.0.0-alpha.46",
+    "@tatumio/tatum": "^1.29.20",
     "axios": "^0.21.1",
     "bignumber.js": "^9.0.0",
     "class-transformer": "^0.2.3",

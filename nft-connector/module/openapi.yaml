@@ -1037,7 +1037,6 @@ paths:
             example: ALGO
             enum:
               - ALGO
-              - SOL
         - description: "Account address"
           in: path
           name: address

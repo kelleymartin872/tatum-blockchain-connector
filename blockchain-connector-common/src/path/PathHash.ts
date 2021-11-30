@@ -1,7 +1,7 @@
-import { IsNotEmpty, Length } from 'class-validator';
+import {IsNotEmpty, Length} from 'class-validator';
 
 export class PathHash {
   @IsNotEmpty()
-  @Length(1, 70)
+  @Length(1, 128)
   public hash: string;
 }

@@ -133,11 +133,15 @@ paths:
         <li><b>Ethereum</b></li>
         <li><b>Polygon (Matic)</b></li>
         <li><b>Celo</b></li>
+        <li><b>Solana</b></li>
         <li><b>Harmony.ONE</b></li>
         <li><b>Tron</b></li>
         <li><b>Flow</b></li>
         <li><b>Binance Smart Chain</b></li>
         </ul>
+        <br/>
+        For Solana, NFTs are not deployed, only minted right away. Newly created NFT creates new address on the blockchain and owner of the NFT owns with it's private key the account of the NFT.
+        <br/>
         This operation works in two modes.
 
         First mode works just like other NFT endpoints. Every time the funds are transferred, the transaction must be signed with the corresponding private key.
@@ -279,6 +283,8 @@ paths:
                 - $ref: "#/components/schemas/MintNftKMSTron"
                 - $ref: "#/components/schemas/MintNft"
                 - $ref: "#/components/schemas/MintNftKMS"
+                - $ref: "#/components/schemas/MintNftSolana"
+                - $ref: "#/components/schemas/MintNftSolanaKMS"
                 - $ref: "#/components/schemas/MintNftFlowPK"
                 - $ref: "#/components/schemas/MintNftFlowMnemonic"
                 - $ref: "#/components/schemas/MintNftFlowKMS"
@@ -291,6 +297,7 @@ paths:
                 oneOf:
                   - $ref: "#/components/schemas/TransactionHashKMS"
                   - $ref: "#/components/schemas/FlowMintedResult"
+                  - $ref: "#/components/schemas/SolanaMintedResult"
                   - $ref: "#/components/schemas/SignatureId"
           description: OK
         400:
@@ -328,6 +335,7 @@ paths:
         <li><b>Tron</b></li>
         <li><b>Binance Smart Chain</b></li>
         <li><b>Algorand</b></li>
+        <li><b>Solana</b></li>
         </ul>
         This operation needs the private key of the blockchain address. Every time the funds are transferred, the transaction must be signed with the corresponding private key.
         No one should ever send it's own private keys to the internet because there is a strong possibility of stealing keys and loss of funds. In this method, it is possible to enter privateKey
@@ -356,11 +364,13 @@ paths:
                 - $ref: "#/components/schemas/TransferNft"
                 - $ref: "#/components/schemas/TransferNftCelo"
                 - $ref: "#/components/schemas/TransferNftTron"
+                - $ref: "#/components/schemas/TransferNftSolana"
+                - $ref: "#/components/schemas/TransferNftFlowPK"
+                - $ref: "#/components/schemas/TransferNftFlowMnemonic"
                 - $ref: "#/components/schemas/TransferNftKMS"
                 - $ref: "#/components/schemas/TransferNftKMSCelo"
                 - $ref: "#/components/schemas/TransferNftKMSTron"
-                - $ref: "#/components/schemas/TransferNftFlowPK"
-                - $ref: "#/components/schemas/TransferNftFlowMnemonic"
+                - $ref: "#/components/schemas/TransferNftSolanaKMS"
                 - $ref: "#/components/schemas/TransferNftFlowKMS"
         required: true
       responses:
@@ -1012,7 +1022,7 @@ paths:
   /v3/nft/address/balance/{chain}/{address}:
     get:
       description: |
-        <h4>1 credit per API call.</h4><br/><p>Get NFTs on address. Returns all tokenIDs of all NFT contracts this address holds.</p>
+        <h4>1 credit per API call.</h4><br/><p>Get NFTs on address. Returns all NFTs this address holds.</p>
       operationId: NftGetTokensByAddressErc721
       parameters:
         - description: Blockchain to work with
@@ -1024,6 +1034,7 @@ paths:
             example: ALGO
             enum:
               - ALGO
+              - SOL
         - description: "Account address"
           in: path
           name: address
@@ -1043,10 +1054,10 @@ paths:
                     contractAddress:
                       type: string
                       example: "43821281"
-                      description: Contract address of the NFT. In Algorand case, it will be asset-id.
+                      description: Contract address of the NFT. In Algorand case, it will be asset-id. In Solana case, this is accound address of the minted NFT.
                     balances:
                       type: string
-                      description: amount.
+                      description: Amount of tokens available. It is always 1 or 0 for NFTs.
                       example: "1"
           description: OK
         400:
@@ -1246,13 +1257,6 @@ paths:
           schema:
             type: string
             example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
-        - description: Account holding this token. FLOW only.
-          in: query
-          required: false
-          name: account
-          schema:
-            type: string
-            example: "0xc1b45bc27b9c61c3"
         - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
           in: header
           name: x-testnet-type
@@ -1312,15 +1316,16 @@ paths:
             enum:
               - ETH
               - MATIC
+              - SOL
               - ONE
               - CELO
               - TRON
               - FLOW
               - BSC
-        - description: "Token ID"
+        - description: "Token ID, required for all except SOL"
           in: path
           name: token
-          required: true
+          required: false
           schema:
             type: string
             example: "1"
@@ -1394,14 +1399,15 @@ paths:
             enum:
               - ETH
               - MATIC
+              - SOL
               - ONE
               - CELO
               - TRON
               - BSC
-        - description: "Token ID"
+        - description: "Token ID, required for all except SOL"
           in: path
           name: token
-          required: true
+          required: false
           schema:
             type: string
             example: "1"
@@ -1439,7 +1445,9 @@ paths:
                       example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
                   values:
                     type: array
-                    description: Values of the royalties, which will be paid to the authors with every token transfer. Amount is in native asset of the blockchain.
+                    description: |
+                      Values of the royalties, which will be paid to the authors with every token transfer.
+                      Amount is in native asset of the blockchain or in percents for SOL NFTs.
                     items:
                       type: string
                       example: "0.2"
@@ -1610,6 +1618,21 @@ components:
           type: number
           description: ID of the minted token
           example: 12345
+    SolanaMintedResult:
+      type: object
+      properties:
+        txId:
+          type: string
+          description: Transaction ID
+          example: "4kiRkAWjjr5t3rBKmYQ5d2e3xjgnRRttB5GtUz2F4sz5wwC7NnV74qCZ1KN1b37qsnjkKknsJPGXdcPhzHpkiMAs"
+        nftAddress:
+          type: string
+          description: Address of the minted NFT contract
+          example: "4afZBmAneN2j6gDHH8zdrNWkCqfMC3XPH2cpFKtYMSVe"
+        nftAccountAddress:
+          type: string
+          description: Address of the account owned by a mint recipient, which holds the minted NFT
+          example: "A8BSHPJcB5ZGCT6yo6pz2RYqnypTSpzTAFSBhtTQmsEE"
     MintMultipleNftCelo:
       type: object
       properties:
@@ -3682,6 +3705,85 @@ components:
         - contractAddress
         - tokenId
         - fromPrivateKey
+    TransferNftSolana:
+      type: object
+      properties:
+        chain:
+          type: string
+          example: SOL
+          description: Chain to work with.
+          enum:
+            - SOL
+        from:
+          maxLength: 44
+          minLength: 44
+          description: Blockchain address to send NFT token from. From this address, transaction fee will be paid.
+          example: "FykfMwA9WNShzPJbbb9DNXsfgDgS3XZzWiFgrVXfWoPJ"
+          type: string
+        to:
+          maxLength: 44
+          minLength: 44
+          description: Blockchain address to send NFT token to
+          example: "FykfMwA9WNShzPJbbb9DNXsfgDgS3XZzWiFgrVXfWoPJ"
+          type: string
+        contractAddress:
+          maxLength: 44
+          minLength: 44
+          description: Address of NFT token
+          example: "3tzudv5KaoqmieWiBUqzWokKEtTvx1wQMapVKeH7CHaq"
+          type: string
+        fromPrivateKey:
+          type: string
+          maxLength: 128
+          example: "3abc79a31093e4cfa4a724e94a44906cbbc3a32e2f75f985a28616676a5dbaf1de8d82a7e1d0561bb0e1b729c7a9b9b1708cf2803ad0ca928a332587ace391ad"
+          minLength: 128
+          description: Private key of sender address. Private key, or signature Id must be present.
+      required:
+        - to
+        - from
+        - chain
+        - contractAddress
+        - fromPrivateKey
+    TransferNftSolanaKMS:
+      type: object
+      properties:
+        chain:
+          type: string
+          example: SOL
+          description: Chain to work with.
+          enum:
+            - SOL
+        from:
+          maxLength: 44
+          minLength: 44
+          description: Blockchain address to send NFT token from. From this address, transaction fee will be paid.
+          example: "FykfMwA9WNShzPJbbb9DNXsfgDgS3XZzWiFgrVXfWoPJ"
+          type: string
+        to:
+          maxLength: 44
+          minLength: 44
+          description: Blockchain address to send NFT token to
+          example: "FykfMwA9WNShzPJbbb9DNXsfgDgS3XZzWiFgrVXfWoPJ"
+          type: string
+        contractAddress:
+          maxLength: 44
+          minLength: 44
+          description: Address of NFT token
+          example: "3tzudv5KaoqmieWiBUqzWokKEtTvx1wQMapVKeH7CHaq"
+          type: string
+        signatureId:
+          type: string
+          minLength: 36
+          maxLength: 36
+          format: uuid
+          example: 26d3883e-4e17-48b3-a0ee-09a3e484ac83
+          description: Identifier of the private key associated in signing application. Private key, or signature Id must be present.
+      required:
+        - to
+        - from
+        - chain
+        - contractAddress
+        - signatureId
     DeployNft:
       type: object
       properties:
@@ -3953,17 +4055,12 @@ components:
             type: string
             description: Value of the royalty to be paid.
             example: "0.5"
-        index:
-          type: number
-          minimum: 0
-          description: If signatureId is mnemonic-based, this is the index to the specific address from that mnemonic.
-        signatureId:
+        fromPrivateKey:
           type: string
-          minLength: 36
-          maxLength: 36
-          format: uuid
-          example: 26d3883e-4e17-48b3-a0ee-09a3e484ac83
-          description: Identifier of the private key associated in signing application. Private key, or signature Id must be present.
+          maxLength: 66
+          example: "0x05e150c73f1920ec14caa1e0b6aa09940899678051a78542840c2668ce5080c2"
+          minLength: 66
+          description: Private key of sender address. Private key, or signature Id must be present.
         nonce:
           type: number
           minimum: 0
@@ -3989,6 +4086,7 @@ components:
         - to
         - chain
         - url
+        - fromPrivateKey
         - tokenId
     MintNftKMS:
       type: object
@@ -4090,6 +4188,173 @@ components:
         - contractAddress
         - signatureId
         - tokenId
+    MintNftSolana:
+      type: object
+      properties:
+        chain:
+          type: string
+          example: SOL
+          description: Chain to work with.
+          enum:
+            - SOL
+        to:
+          maxLength: 44
+          minLength: 44
+          description: Blockchain address to send NFT token to
+          example: "FykfMwA9WNShzPJbbb9DNXsfgDgS3XZzWiFgrVXfWoPJ"
+          type: string
+        from:
+          maxLength: 44
+          minLength: 44
+          description: Blockchain address to mint NFT token from. From this account, transaction fee will be paid.
+          example: "FykfMwA9WNShzPJbbb9DNXsfgDgS3XZzWiFgrVXfWoPJ"
+          type: string
+        fromPrivateKey:
+          type: string
+          maxLength: 128
+          example: "3abc79a31093e4cfa4a724e94a44906cbbc3a32e2f75f985a28616676a5dbaf1de8d82a7e1d0561bb0e1b729c7a9b9b1708cf2803ad0ca928a332587ace391ad"
+          minLength: 128
+          description: Private key of sender address.
+        metadata:
+          type: object
+          required:
+            - name
+            - symbol
+            - uri
+            - sellerFeeBasisPoints
+          properties:
+            name:
+              type: string
+              description: Name of the NFT token.
+              example: My NFT.
+              maxLength: 255
+            symbol:
+              type: string
+              description: Symbol of the NFT token.
+              example: NFT_SYMBOL
+              maxLength: 255
+            sellerFeeBasisPoints:
+              type: number
+              description: Basis points of the seller fee.
+              example: 0
+            uri:
+              description: Metadata of the token. See https://eips.ethereum.org/EIPS/eip-721#specification for more details.
+              example: "https://my_token_data.com"
+              type: string
+              maxLength: 500
+            creators:
+              type: array
+              description: Royalty receivers for NFT transfers.
+              items:
+                required:
+                  - address
+                  - verified
+                  - share
+                properties:
+                  address:
+                    type: string
+                    description: Address of the creator.
+                    maxLength: 44
+                    minLength: 44
+                    example: "FykfMwA9WNShzPJbbb9DNXsfgDgS3XZzWiFgrVXfWoPJ"
+                  verified:
+                    type: boolean
+                    description: If the creator was verified.
+                    example: 1
+                  share:
+                    type: number
+                    description: How much percent should be sent to this creator.
+                    example: 10
+      required:
+        - to
+        - chain
+        - fromPrivateKey
+        - from
+        - metadata
+    MintNftSolanaKMS:
+      type: object
+      properties:
+        chain:
+          type: string
+          example: SOL
+          description: Chain to work with.
+          enum:
+            - SOL
+        to:
+          maxLength: 44
+          minLength: 44
+          description: Blockchain address to send NFT token to
+          example: "FykfMwA9WNShzPJbbb9DNXsfgDgS3XZzWiFgrVXfWoPJ"
+          type: string
+        from:
+          maxLength: 44
+          minLength: 44
+          description: Blockchain address to mint NFT token from. From this account, transaction fee will be paid.
+          example: "FykfMwA9WNShzPJbbb9DNXsfgDgS3XZzWiFgrVXfWoPJ"
+          type: string
+        signatureId:
+          type: string
+          minLength: 36
+          maxLength: 36
+          format: uuid
+          example: 26d3883e-4e17-48b3-a0ee-09a3e484ac83
+          description: Identifier of the private key associated in signing application. Private key, or signature Id must be present.
+        metadata:
+          type: object
+          required:
+            - name
+            - symbol
+            - uri
+            - sellerFeeBasisPoints
+          properties:
+            name:
+              type: string
+              description: Name of the NFT token.
+              example: My NFT.
+              maxLength: 255
+            symbol:
+              type: string
+              description: Symbol of the NFT token.
+              example: NFT_SYMBOL
+              maxLength: 255
+            sellerFeeBasisPoints:
+              type: number
+              description: Basis points of the seller fee.
+              example: 0
+            uri:
+              description: Metadata of the token. See https://eips.ethereum.org/EIPS/eip-721#specification for more details.
+              example: "https://my_token_data.com"
+              type: string
+              maxLength: 500
+            creators:
+              type: array
+              description: Royalty receivers for NFT transfers.
+              items:
+                required:
+                  - address
+                  - verified
+                  - share
+                properties:
+                  address:
+                    type: string
+                    description: Address of the creator.
+                    maxLength: 44
+                    minLength: 44
+                    example: "FykfMwA9WNShzPJbbb9DNXsfgDgS3XZzWiFgrVXfWoPJ"
+                  verified:
+                    type: boolean
+                    description: If the creator was verified.
+                    example: 1
+                  share:
+                    type: number
+                    description: How much percent should be sent to this creator.
+                    example: 10
+      required:
+        - to
+        - chain
+        - signatureId
+        - metadata
+        - from
     MintMultipleNft:
       type: object
       properties:

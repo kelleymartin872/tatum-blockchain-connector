@@ -28,27 +28,29 @@ import {
     OneDeploy721, OneBurn721, OneMintMultiple721, OneUpdateCashback721, TronMintTrc721, OneMint721, OneTransfer721,
     DeployErc721, BurnErc721, TransferErc721
 } from '@tatumio/tatum';
-import {PathTokenIdContractAddressNonceChain} from './dto/PathTokenIdContractAddressNonceChain';
-import {PathAddressContractAddressNonceChain} from './dto/PathAddressContractAddressNonceChain';
+import {PathTokenIdContractAddressChain} from './dto/PathTokenIdContractAddressChain';
 import {ChainEgldEsdtTransaction} from './dto/ChainEgldEsdtTransaction'
 import {PathChainTxId} from './dto/PathChainTxId';
+import {PathAddressContractAddressChain} from "./dto/PathAddressContractAddressChain";
+import {SolanaMintNft} from "@tatumio/tatum-solana";
 
 export abstract class NftController {
     protected constructor(protected readonly service: NftService) {
     }
+
     @Get('/provenance/:chain/:contractAddress/:tokenId')
     public async getProvenanceData(@Param() path: any) {
-        try{
+        try {
             return await this.service.getProvenanceData(path.chain, path.contractAddress, path.tokenId);
-        }catch(e){
+        } catch (e) {
             throw new NftError(`Unexpected error occurred. Reason: ${e.response?.message || e.response?.data || e.message || e}`, 'nft.error');
         }
     }
 
-    @Get('/balance/:chain/:contractAddress/:address/:nonce?')
-    public async getBalanceErc721(@Param() path: PathAddressContractAddressNonceChain) {
+    @Get('/balance/:chain/:contractAddress/:address')
+    public async getBalanceErc721(@Param() path: PathAddressContractAddressChain, @Query('nonce') nonce?: string) {
         try {
-            return await this.service.getTokensOfOwner(path.chain, path.address, path.contractAddress, path.nonce);
+            return await this.service.getTokensOfOwner(path.chain, path.address, path.contractAddress, nonce);
         } catch (e) {
             throw new NftError(`Unexpected error occurred. Reason: ${e.response?.message || e.response?.data || e.message || e}`, 'nft.error');
         }
@@ -72,19 +74,19 @@ export abstract class NftController {
         }
     }
 
-    @Get('/metadata/:chain/:contractAddress/:tokenId/:nonce?')
-    public async getMetadataErc721(@Param() path: PathTokenIdContractAddressNonceChain, @Query('account') account: string) {
+    @Get('/metadata/:chain/:contractAddress/:tokenId?')
+    public async getMetadataErc721(@Param() path: PathTokenIdContractAddressChain, @Query('account') account: string, @Query('nonce') nonce?: string) {
         try {
-            return await this.service.getMetadataErc721(path.chain, path.tokenId, path.contractAddress, account, path.nonce);
+            return await this.service.getMetadataErc721(path.chain, path.tokenId, path.contractAddress, account, nonce);
         } catch (e) {
             throw new NftError(`Unexpected error occurred. Reason: ${e.response?.message || e.response?.data || e.message || e}`, 'nft.error');
         }
     }
 
-    @Get('/royalty/:chain/:contractAddress/:tokenId/:nonce?')
-    public async getRoyaltyErc721(@Param() path: PathTokenIdContractAddressNonceChain) {
+    @Get('/royalty/:chain/:contractAddress/:tokenId?')
+    public async getRoyaltyErc721(@Param() path: PathTokenIdContractAddressChain, @Query('nonce') nonce?: string) {
         try {
-            return await this.service.getRoyaltyErc721(path.chain, path.tokenId, path.contractAddress, path.nonce);
+            return await this.service.getRoyaltyErc721(path.chain, path.tokenId, path.contractAddress, nonce);
         } catch (e) {
             throw new NftError(`Unexpected error occurred. Reason: ${e.response?.message || e.response?.data || e.message || e}`, 'nft.error');
         }
@@ -111,7 +113,7 @@ export abstract class NftController {
     @Post('/mint')
     @HttpCode(HttpStatus.OK)
     public async mintErc721(
-        @Body() body: CeloMintErc721 | EthMintErc721 | FlowMintNft | TronMintTrc721 | OneMint721 | ChainEgldEsdtTransaction
+        @Body() body: CeloMintErc721 | EthMintErc721 | FlowMintNft | TronMintTrc721 | OneMint721 | ChainEgldEsdtTransaction | SolanaMintNft
     ) {
         try {
             return await this.service.mintErc721(body);

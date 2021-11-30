@@ -300,6 +300,9 @@ paths:
         or signatureId. PrivateKey should be used only for quick development on testnet versions of blockchain when there is no risk of losing funds. In production,
         <a href="https://github.com/tatumio/tatum-kms" target="_blank">Tatum KMS</a> should be used for the highest security standards, and signatureId should be present in the request.
         Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
+        Algorand is unique a way that the receiving account should be ready before sending the FT(Erc20) asset. 
+        To perform this, the receiving account should transfer the FT(Erc20) asset with 0 amount to itself.
+        During the process, it's using the same API as the main transaction: the only difference is that the "fromPrivateKey" should be the privateKey of the receivging account.
         </p>
       parameters:
         - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."

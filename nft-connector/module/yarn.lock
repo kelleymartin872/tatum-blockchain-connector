@@ -1608,6 +1608,20 @@
     reflect-metadata "^0.1.13"
     web3 "1.4.0"
 
+"@tatumio/tatum-core@^2.0.0-alpha.63":
+  version "2.0.0-alpha.63"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum-core/-/tatum-core-2.0.0-alpha.63.tgz#01fd948d30e24a43d4a534c2b0137ca8efe84c3c"
+  integrity sha512-PnagBoPDP2UcTeJM+6cJv/43tomC4bo9/tuehMq0PTC1AvFuZ2yGyXW1zgi3+nFZTwxffbWxpPuDnB1tBXjTVw==
+  dependencies:
+    axios "^0.21.1"
+    axios-retry "^3.1.9"
+    bignumber.js "^9.0.0"
+    class-transformer "^0.2.3"
+    class-validator "0.13.0"
+    form-data "^4.0.0"
+    reflect-metadata "^0.1.13"
+    web3 "1.4.0"
+
 "@tatumio/tatum-defi@^2.0.0-alpha.59":
   version "2.0.0-alpha.59"
   resolved "https://registry.yarnpkg.com/@tatumio/tatum-defi/-/tatum-defi-2.0.0-alpha.59.tgz#3d4525581e170bd034ab82a9cf40e0ce9f19e531"
@@ -1617,12 +1631,44 @@
     bignumber.js "^9.0.0"
     web3 "1.4.0"
 
+"@tatumio/tatum-defi@^2.0.0-alpha.63":
+  version "2.0.0-alpha.63"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum-defi/-/tatum-defi-2.0.0-alpha.63.tgz#c6e50593080d40898999c73c2c8e6a8ae7de1f53"
+  integrity sha512-3DpfTQDSfVqONkucsMRxRV5lbp8GMKFgc73u9ykRl6nJi821owHJkvXtU/IlOAEmRBdpDBJv3ELEWAKwJTVNug==
+  dependencies:
+    "@tatumio/tatum-core" "^2.0.0-alpha.63"
+    bignumber.js "^9.0.0"
+    web3 "1.4.0"
+
+"@tatumio/tatum-kcc@^2.0.0-alpha.59":
+  version "2.0.0-alpha.63"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum-kcc/-/tatum-kcc-2.0.0-alpha.63.tgz#8aa98a9e7bf29e1f72988c4f03a53704f2632c6c"
+  integrity sha512-ozgsbh4rYIyGTnt4c3qVew9fHObzUHMIgSUI1cbwAUMxyyNoYAumvX5BZkrHRBvFz+mLD8iMASjLbJKtDHnnHA==
+  dependencies:
+    "@tatumio/tatum-core" "^2.0.0-alpha.63"
+    "@tatumio/tatum-defi" "^2.0.0-alpha.63"
+    "@tatumio/tatum-ledger" "^2.0.0-alpha.63"
+    bignumber.js "^9.0.0"
+    bip39 "^3.0.2"
+    class-transformer "^0.2.3"
+    ethereumjs-wallet "^1.0.0"
+    web3 "1.4.0"
+    web3-core "1.4.0"
+    web3-utils "1.4.0"
+
 "@tatumio/tatum-ledger@^2.0.0-alpha.59":
   version "2.0.0-alpha.59"
   resolved "https://registry.yarnpkg.com/@tatumio/tatum-ledger/-/tatum-ledger-2.0.0-alpha.59.tgz#d004d746af65989b21aa3dd4583a6f5dba06d120"
   integrity sha512-80UewYiCPP1HsV7WNYmiwkObS3+BO1x/pbPl07Z7vFJtJIeflf9T/PzJjjeCdTOrB8EBleJ41Cu9p0W3FG5ZSg==
   dependencies:
     "@tatumio/tatum-core" "^2.0.0-alpha.59"
+
+"@tatumio/tatum-ledger@^2.0.0-alpha.63":
+  version "2.0.0-alpha.63"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum-ledger/-/tatum-ledger-2.0.0-alpha.63.tgz#f9c3295fac9a42fe93d404b280e20b5cf23e8482"
+  integrity sha512-IfqdTWltBm/gZnEEEQQ33FK9YdGOAKZxuIesMgTYtUHkDZzsQRS06oBM+2WHPZJtsKclWjRGXXDyFf6pTJbUiQ==
+  dependencies:
+    "@tatumio/tatum-core" "^2.0.0-alpha.63"
 
 "@tatumio/tatum-solana@^2.0.0-alpha.59":
   version "2.0.0-alpha.59"
@@ -1636,10 +1682,10 @@
     "@tatumio/tatum-ledger" "^2.0.0-alpha.59"
     reflect-metadata "^0.1.13"
 
-"@tatumio/tatum@^1.29.19":
-  version "1.29.20"
-  resolved "https://registry.yarnpkg.com/@tatumio/tatum/-/tatum-1.29.20.tgz#b29ccb168e52fc8491f707a8462a4b80b7dde25b"
-  integrity sha512-r7p+jUq9sbyjAfAREcjOw9u9iYZJDaSmlK/CIyhHYrnN7rlo1+V67fQtKL4WKdXMG6JwuoaduNW5DxICvAt5PQ==
+"@tatumio/tatum@^1.29.21":
+  version "1.29.21"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum/-/tatum-1.29.21.tgz#0fdca83f8e3da736fa5605cb8dc1fdf9d0675b76"
+  integrity sha512-kjPuHFlTpY/ttVa5HR+67jRtnbtLqcHE08R7k2i5ocauq8g3Q5ZiCtTX+BWnmDgf6rfaSDTF9wdk3eu5dhX+zg==
   dependencies:
     "@binance-chain/javascript-sdk" "^4.1.1"
     "@celo-tools/celo-ethers-wrapper" "0.0.5"

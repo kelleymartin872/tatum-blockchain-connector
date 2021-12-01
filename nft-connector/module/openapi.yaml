@@ -344,7 +344,7 @@ paths:
         Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
         Algorand is unique a way that the receiving account should be ready before sending the NFT asset. 
         To perform this, the receiving account should transfer the NFT asset with 0 amount to itself.
-        During the process, it's using the same API as the main transaction: the only difference is that the "fromPrivateKey" should be the privateKey of the receivging account.
+        During the process, it's using the same API as the main transaction: the only difference is that the "fromPrivateKey" should be the privateKey of the receiving account.
         </p>
       operationId: NftTransferErc721
       parameters:

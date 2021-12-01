@@ -4,6 +4,21 @@ import BigNumber from 'bignumber.js';
 import * as fcl from '@onflow/fcl';
 import * as sdk from '@onflow/sdk';
 import {Currency as C, mintSolanaNft, SolanaMintNft, transferSolanaNft} from '@tatumio/tatum-solana';
+
+import {
+    TransferErc721 as CoreTransferErc721, 
+    MintErc721 as CoreMintErc721,
+    BurnErc721 as CoreBurnErc721,
+    DeployErc721 as CoreDeployErc721,
+} from '@tatumio/tatum-core';
+import {
+    prepareKccBurnErc721SignedTransaction,
+    prepareKccDeployErc721SignedTransaction,
+    prepareKccMintErc721SignedTransaction, 
+    prepareKccTransferErc721SignedTransaction,
+    prepareKccUpdateCashbackForAuthorErc721SignedTransaction
+} from '@tatumio/tatum-kcc';
+
 import {Connection, programs} from '@metaplex/js';
 import {NftError} from './NftError';
 import {HarmonyAddress} from '@harmony-js/crypto';
@@ -154,7 +169,7 @@ export abstract class NftService {
 
     protected abstract deployFlowNft(testnet: boolean, body: FlowDeployNft): Promise<TransactionHash>;
 
-    protected abstract getMintBuiltInData(body: CeloMintErc721 | EthMintErc721 | TronMintTrc721 | OneMint721): Promise<CeloMintErc721 | EthMintErc721 | TronMintTrc721 | OneMint721 | undefined>;
+    protected abstract getMintBuiltInData(body: CeloMintErc721 | EthMintErc721 | TronMintTrc721 | OneMint721): Promise<CeloMintErc721 | EthMintErc721 | TronMintTrc721 | OneMint721 | CoreMintErc721 | undefined>;
 
     public async getMetadataErc721(chain: Currency, token: string, contractAddress: string, account?: string, nonce?: string): Promise<{ data?: string, onchainData?: any }> {
         if (chain === Currency.FLOW) {
@@ -386,7 +401,7 @@ export abstract class NftService {
     }
 
     public async transferErc721(
-        body: CeloTransferErc721 | EthTransferErc721 | FlowTransferNft | TronTransferTrc721 | OneTransfer721 | ChainEgldEsdtTransaction | TransferErc721
+        body: CeloTransferErc721 | EthTransferErc721 | FlowTransferNft | TronTransferTrc721 | OneTransfer721 | ChainEgldEsdtTransaction | TransferErc721 | CoreTransferErc721
     ): Promise<TransactionHash | { signatureId: string }> {
         const testnet = await this.isTestnet();
         let txData;
@@ -401,6 +416,9 @@ export abstract class NftService {
                 break;
             case Currency.MATIC:
                 txData = await preparePolygonTransferErc721SignedTransaction(testnet, body as EthTransferErc721, provider);
+                break;
+            case Currency.KCS:
+                txData = await prepareKccTransferErc721SignedTransaction(body as CoreTransferErc721, provider);
                 break;
             case C.SOL.toString():
                 txData = await transferSolanaNft(body as TransferErc721, provider);
@@ -443,7 +461,7 @@ export abstract class NftService {
     }
 
     public async mintErc721(
-        body: CeloMintErc721 | EthMintErc721 | FlowMintNft | TronMintTrc721 | OneMint721 | ChainEgldEsdtTransaction | SolanaMintNft
+        body: CeloMintErc721 | EthMintErc721 | FlowMintNft | TronMintTrc721 | OneMint721 | ChainEgldEsdtTransaction | SolanaMintNft | CoreMintErc721
     ): Promise<TransactionHash | { signatureId: string } | { txId: string, tokenId: number }> {
         const testnet = await this.isTestnet();
         let txData;
@@ -473,6 +491,17 @@ export abstract class NftService {
                         txData = await preparePolygonMintErc721SignedTransaction(testnet, (builtInBody || body) as EthMintErc721, provider);
                     } else {
                         txData = await preparePolygonMintCashbackErc721SignedTransaction(testnet, (builtInBody || body) as EthMintErc721, provider);
+                    }
+                }
+                break;
+            }
+            case Currency.KCS: {
+                const builtInBody = await this.getMintBuiltInData(body as CoreMintErc721)
+                if ((body as CoreMintErc721).provenance) {
+                } else {
+                    if (!(body as CoreMintErc721).authorAddresses) {
+                        txData = await prepareKccMintErc721SignedTransaction((builtInBody || body) as CoreMintErc721, provider);
+                    } else {
                     }
                 }
                 break;
@@ -676,6 +705,9 @@ export abstract class NftService {
             case Currency.MATIC:
                 txData = await preparePolygonUpdateCashbackForAuthorErc721SignedTransaction(testnet, body, (await this.getNodesUrl(chain, testnet))[0]);
                 break;
+            case Currency.KCS:
+                txData = await prepareKccUpdateCashbackForAuthorErc721SignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
+                break;
             case Currency.ONE:
                 txData = await prepareOneUpdateCashbackForAuthor721SignedTransaction(testnet, body as OneUpdateCashback721, (await this.getNodesUrl(chain, testnet))[0]);
                 break;
@@ -705,7 +737,7 @@ export abstract class NftService {
     }
 
     public async burnErc721(
-        body: CeloBurnErc721 | EthBurnErc721 | FlowBurnNft | TronBurnTrc721 | OneBurn721 | ChainEgldEsdtTransaction | BurnErc721
+        body: CeloBurnErc721 | EthBurnErc721 | FlowBurnNft | TronBurnTrc721 | OneBurn721 | ChainEgldEsdtTransaction | BurnErc721 | CoreBurnErc721
     ): Promise<TransactionHash | { signatureId: string }> {
         const testnet = await this.isTestnet();
         let txData;
@@ -717,6 +749,9 @@ export abstract class NftService {
                 break;
             case Currency.MATIC:
                 txData = await preparePolygonBurnErc721SignedTransaction(testnet, body as EthBurnErc721, provider);
+                break;
+            case Currency.KCS:
+                txData = await prepareKccBurnErc721SignedTransaction(body as CoreBurnErc721, provider);
                 break;
             case Currency.ONE:
                 txData = await prepareOneBurn721SignedTransaction(testnet, body as OneBurn721, provider);
@@ -758,7 +793,7 @@ export abstract class NftService {
     }
 
     public async deployErc721(
-        body: CeloDeployErc721 | EthDeployErc721 | FlowDeployNft | TronDeployTrc721 | OneDeploy721 | ChainEgldEsdtTransaction | DeployErc721
+        body: CeloDeployErc721 | EthDeployErc721 | FlowDeployNft | TronDeployTrc721 | OneDeploy721 | ChainEgldEsdtTransaction | DeployErc721 | CoreDeployErc721
     ): Promise<TransactionHash | { signatureId: string }> {
         const testnet = await this.isTestnet();
         let txData;
@@ -770,6 +805,9 @@ export abstract class NftService {
                 break;
             case Currency.MATIC:
                 txData = await preparePolygonDeployErc721SignedTransaction(testnet, body as EthDeployErc721, provider);
+                break;
+            case Currency.KCS:
+                txData = await prepareKccDeployErc721SignedTransaction(body as CoreDeployErc721, provider);
                 break;
             case Currency.ONE:
                 txData = await prepareOneDeploy721SignedTransaction(testnet, body as OneDeploy721, provider);

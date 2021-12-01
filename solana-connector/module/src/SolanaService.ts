@@ -39,21 +39,21 @@ export abstract class SolanaService {
         return getSolanaClient(await this.getFirstNodeUrl(testnet));
     }
 
-    public async broadcast(txData: string, signatureId?: string): Promise<{
+    public async broadcast(txData: string | { txId: string, nftAddress: string, nftAccountAddress: string }, signatureId?: string): Promise<{
         txId: string,
         failed?: boolean,
     }> {
         this.logger.info(`Broadcast tx for SOL with data '${txData}'`);
         if (signatureId) {
             try {
-                await this.completeKMSTransaction(txData, signatureId);
+                await this.completeKMSTransaction(typeof txData === 'string' ? txData : txData.txId, signatureId);
             } catch (e) {
                 this.logger.error(e);
-                return {txId: txData, failed: true};
+                return typeof txData === 'string' ? {txId: txData, failed: true} : {...txData, failed: true};
             }
         }
 
-        return {txId: txData};
+        return typeof txData === 'string' ? {txId: txData} : txData;
     }
 
     public async getCurrentBlock(testnet?: boolean): Promise<number> {

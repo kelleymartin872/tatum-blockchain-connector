@@ -2,6 +2,12 @@ import {BadRequestException, Body, Get, HttpCode, HttpStatus, Param, Post, Put, 
 import {NftService} from './NftService';
 import {NftError} from './NftError';
 import {
+    TransferErc721 as CoreTransferErc721, 
+    MintErc721 as CoreMintErc721,
+    BurnErc721 as CoreBurnErc721,
+    DeployErc721 as CoreDeployErc721,
+} from '@tatumio/tatum-core';
+import {
     AddMinter,
     CeloBurnErc721,
     CeloDeployErc721,
@@ -95,7 +101,7 @@ export abstract class NftController {
     @Post('/transaction')
     @HttpCode(HttpStatus.OK)
     public async transactionErc721(
-        @Body() body: CeloTransferErc721 | EthTransferErc721 | FlowTransferNft | TronTransferTrc721 | OneTransfer721 | ChainEgldEsdtTransaction | TransferErc721
+        @Body() body: CeloTransferErc721 | EthTransferErc721 | FlowTransferNft | TronTransferTrc721 | OneTransfer721 | ChainEgldEsdtTransaction | TransferErc721 | CoreTransferErc721
     ) {
         try {
             return await this.service.transferErc721(body);
@@ -113,7 +119,7 @@ export abstract class NftController {
     @Post('/mint')
     @HttpCode(HttpStatus.OK)
     public async mintErc721(
-        @Body() body: CeloMintErc721 | EthMintErc721 | FlowMintNft | TronMintTrc721 | OneMint721 | ChainEgldEsdtTransaction | SolanaMintNft
+        @Body() body: CeloMintErc721 | EthMintErc721 | FlowMintNft | TronMintTrc721 | OneMint721 | ChainEgldEsdtTransaction | SolanaMintNft | CoreMintErc721
     ) {
         try {
             return await this.service.mintErc721(body);
@@ -181,7 +187,7 @@ export abstract class NftController {
     @Post('/burn')
     @HttpCode(HttpStatus.OK)
     public async burnErc721(
-        @Body() body: CeloBurnErc721 | TronBurnTrc721 | EthBurnErc721 | FlowBurnNft | OneBurn721 | ChainEgldEsdtTransaction | BurnErc721
+        @Body() body: CeloBurnErc721 | TronBurnTrc721 | EthBurnErc721 | FlowBurnNft | OneBurn721 | ChainEgldEsdtTransaction | BurnErc721 | CoreBurnErc721
     ) {
         try {
             return await this.service.burnErc721(body);
@@ -199,7 +205,7 @@ export abstract class NftController {
     @Post('/deploy')
     @HttpCode(HttpStatus.OK)
     public async deployErc721(
-        @Body() body: CeloDeployErc721 | TronDeployTrc721 | EthDeployErc721 | FlowDeployNft | OneDeploy721 | ChainEgldEsdtTransaction | DeployErc721
+        @Body() body: CeloDeployErc721 | TronDeployTrc721 | EthDeployErc721 | FlowDeployNft | OneDeploy721 | ChainEgldEsdtTransaction | DeployErc721 | CoreDeployErc721
     ) {
         try {
             return await this.service.deployErc721(body);

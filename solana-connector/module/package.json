@@ -1,6 +1,6 @@
 {
   "name": "@tatumio/solana-connector",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Solana Connector for Tatum API",
   "license": "MIT",
   "files": [

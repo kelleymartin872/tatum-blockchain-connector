@@ -129,7 +129,11 @@ paths:
         - Blockchain / Solana
   /v3/solana/block/{height}:
     get:
-      description: "<h4>1 credit per API call.</h4><br/><p>Get Solana block by block hash or block number.</p>"
+      description: |
+      <h4>1 credit per API call.</h4><br/>
+      <p>Get Solana block by block hash or block number. <br/>
+      You can find full data description here - <a target="blank" href="https://docs.solana.com/developing/clients/jsonrpc-api#getblock">https://docs.solana.com/developing/clients/jsonrpc-api#getblock</a>
+      </p>
       operationId: SolanaGetBlock
       parameters:
         - description: "Block number"
@@ -196,7 +200,10 @@ paths:
         - Blockchain / Solana
   /v3/solana/transaction/{hash}:
     get:
-      description: "<h4>2 credit per API call.</h4><br/><p>Get Solana transaction by transaction hash.</p>"
+      description: |
+        <h4>2 credit per API call.</h4><br/><p>Get Solana transaction by transaction hash.<br/>
+        You can find full data description here - <a target="blank" href="https://docs.solana.com/developing/clients/jsonrpc-api#gettransaction">https://docs.solana.com/developing/clients/jsonrpc-api#gettransaction</a>
+        </p>
       operationId: SolanaGetTransaction
       parameters:
         - description: "Transaction hash"
@@ -296,7 +303,6 @@ components:
   schemas:
     SolanaBlock:
       type: object
-      description: You can find full data description here - <a target="blank" href="https://docs.solana.com/developing/clients/jsonrpc-api#getblock">https://docs.solana.com/developing/clients/jsonrpc-api#getblock</a>
       properties:
         blockHeight:
           type: number
@@ -428,7 +434,6 @@ components:
                       example: 5FPSzkTsjZDBigU3ZagvkcwSPimt4K6voqrN9uUNVzWDBeRXWVH3uMarDPpSfrS7sFQeyKyDd5KpbdCrL3EWEP59
     SolanaTx:
       type: object
-      description: You can find full data description here - <a target="blank" href="https://docs.solana.com/developing/clients/jsonrpc-api#gettransaction">https://docs.solana.com/developing/clients/jsonrpc-api#gettransaction</a>
       properties:
         blockTime:
           type: number

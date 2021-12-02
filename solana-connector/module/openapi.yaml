@@ -130,10 +130,10 @@ paths:
   /v3/solana/block/{height}:
     get:
       description: |
-      <h4>1 credit per API call.</h4><br/>
-      <p>Get Solana block by block hash or block number. <br/>
-      You can find full data description here - <a target="blank" href="https://docs.solana.com/developing/clients/jsonrpc-api#getblock">https://docs.solana.com/developing/clients/jsonrpc-api#getblock</a>
-      </p>
+        <h4>1 credit per API call.</h4><br/>
+        <p>Get Solana block by block hash or block number. <br/>
+        You can find full data description here - <a target="blank" href="https://docs.solana.com/developing/clients/jsonrpc-api#getblock">https://docs.solana.com/developing/clients/jsonrpc-api#getblock</a>
+        </p>
       operationId: SolanaGetBlock
       parameters:
         - description: "Block number"

@@ -66,10 +66,20 @@ import {
     getAlgoClient,
     prepareAlgoCreateFractionalNFTSignedTransaction
 } from '@tatumio/tatum';
+import { 
+    TransferMultiToken as CoreTransferMultiToken,
+    TransferMultiTokenBatch as CoreTransferMultiTokenBatch,
+    MintMultiToken as CoreMintMultiToken,
+    MintMultiTokenBatch as CoreMintMultiTokenBatch,
+    BurnMultiToken as CoreBurnMultiToken,
+    BurnMultiTokenBatch as CoreburnMultiTokenBatch,
+    DeployMultiToken as CoreDeployMultiToken,
+} from '@tatumio/tatum-core';
 import erc1155_abi from '@tatumio/tatum/dist/src/contracts/erc1155/erc1155_abi';
 import Web3 from 'web3';
 import {Transaction, TransactionReceipt} from 'web3-eth';
 import {HarmonyAddress} from '@harmony-js/crypto';
+import { prepareKccBatchTransferMultiTokenSignedTransaction, prepareKccBurnMultiTokenBatchSignedTransaction, prepareKccBurnMultiTokenSignedTransaction, prepareKccDeployMultiTokenSignedTransaction, prepareKccMintMultiTokenBatchSignedTransaction, prepareKccMintMultiTokenSignedTransaction, prepareKccTransferMultiTokenSignedTransaction } from '@tatumio/tatum-kcc';
 
 export abstract class MultiTokenService {
 
@@ -135,7 +145,7 @@ export abstract class MultiTokenService {
         }
     }
 
-    public async transferMultiToken(body: CeloTransferMultiToken | TransferMultiToken | OneTransferMultiToken): Promise<TransactionHash | { signatureId: string }> {
+    public async transferMultiToken(body: CeloTransferMultiToken | TransferMultiToken | OneTransferMultiToken | CoreTransferMultiToken): Promise<TransactionHash | { signatureId: string }> {
         const testnet = await this.isTestnet();
         let txData;
         const {chain} = body;
@@ -145,6 +155,9 @@ export abstract class MultiTokenService {
                 break;
             case Currency.MATIC:
                 txData = await preparePolygonTransferMultiTokenSignedTransaction(testnet, body, (await this.getNodesUrl(chain, testnet))[0]);
+                break;
+            case Currency.KCS:
+                txData = await prepareKccTransferMultiTokenSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
                 break;
             case Currency.BSC:
                 txData = await prepareBscTransferMultiTokenSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
@@ -179,7 +192,7 @@ export abstract class MultiTokenService {
         }
     }
 
-    public async transferMultiTokenBatch(body: CeloTransferMultiTokenBatch | TransferMultiTokenBatch | OneTransferMultiTokenBatch): Promise<TransactionHash | { signatureId: string }> {
+    public async transferMultiTokenBatch(body: CeloTransferMultiTokenBatch | TransferMultiTokenBatch | OneTransferMultiTokenBatch | CoreTransferMultiTokenBatch): Promise<TransactionHash | { signatureId: string }> {
         const testnet = await this.isTestnet();
         let txData;
         const {chain} = body;
@@ -189,6 +202,9 @@ export abstract class MultiTokenService {
                 break;
             case Currency.MATIC:
                 txData = await preparePolygonBatchTransferMultiTokenSignedTransaction(testnet, body, (await this.getNodesUrl(chain, testnet))[0]);
+                break;
+            case Currency.KCS:
+                txData = await prepareKccBatchTransferMultiTokenSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
                 break;
             case Currency.BSC:
                 txData = await prepareBscBatchTransferMultiTokenSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
@@ -209,7 +225,7 @@ export abstract class MultiTokenService {
         }
     }
 
-    public async mintMultiToken(body: CeloMintMultiToken | MintMultiToken | OneMintMultiToken): Promise<TransactionHash | { signatureId: string }> {
+    public async mintMultiToken(body: CeloMintMultiToken | MintMultiToken | OneMintMultiToken | CoreMintMultiToken): Promise<TransactionHash | { signatureId: string }> {
         const testnet = await this.isTestnet();
         let txData;
         const {chain} = body;
@@ -220,6 +236,9 @@ export abstract class MultiTokenService {
                 break;
             case Currency.MATIC:
                 txData = await preparePolygonMintMultiTokenSignedTransaction(testnet, body, provider);
+                break;
+            case Currency.KCS:
+                txData = await prepareKccMintMultiTokenSignedTransaction(body, provider);
                 break;
             case Currency.BSC:
                 txData = await prepareBscMintMultiTokenSignedTransaction(body, provider);
@@ -243,7 +262,7 @@ export abstract class MultiTokenService {
         }
     }
 
-    public async mintMultiTokenBatch(body: CeloMintMultiTokenBatch | MintMultiTokenBatch | OneMintMultiTokenBatch): Promise<TransactionHash | { signatureId: string }> {
+    public async mintMultiTokenBatch(body: CeloMintMultiTokenBatch | MintMultiTokenBatch | OneMintMultiTokenBatch | CoreMintMultiTokenBatch): Promise<TransactionHash | { signatureId: string }> {
         const testnet = await this.isTestnet();
         let txData;
         const {chain} = body;
@@ -254,6 +273,9 @@ export abstract class MultiTokenService {
                 break;
             case Currency.MATIC:
                 txData = await preparePolygonMintMultiTokenBatchSignedTransaction(testnet, body, provider);
+                break;
+            case Currency.KCS:
+                txData = await prepareKccMintMultiTokenBatchSignedTransaction(body, provider);
                 break;
             case Currency.BSC:
                 txData = await prepareBscMintMultiTokenBatchSignedTransaction(body, provider);
@@ -274,7 +296,7 @@ export abstract class MultiTokenService {
         }
     }
 
-    public async burnMultiToken(body: CeloBurnMultiToken | EthBurnMultiToken | OneBurnMultiToken | BurnMultiToken): Promise<TransactionHash | { signatureId: string }> {
+    public async burnMultiToken(body: CeloBurnMultiToken | EthBurnMultiToken | OneBurnMultiToken | BurnMultiToken | CoreBurnMultiToken): Promise<TransactionHash | { signatureId: string }> {
         const testnet = await this.isTestnet();
         let txData;
         const {chain} = body;
@@ -284,6 +306,9 @@ export abstract class MultiTokenService {
                 break;
             case Currency.MATIC:
                 txData = await preparePolygonBurnMultiTokenSignedTransaction(testnet, body, (await this.getNodesUrl(chain, testnet))[0]);
+                break;
+            case Currency.KCS:
+                txData = await prepareKccBurnMultiTokenSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
                 break;
             case Currency.BSC:
                 txData = await prepareBscBurnMultiTokenSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
@@ -306,7 +331,7 @@ export abstract class MultiTokenService {
         }
     }
 
-    public async burnMultiTokenBatch(body: CeloBurnMultiTokenBatch | EthBurnMultiTokenBatch | OneBurnMultiTokenBatch): Promise<TransactionHash | { signatureId: string }> {
+    public async burnMultiTokenBatch(body: CeloBurnMultiTokenBatch | EthBurnMultiTokenBatch | OneBurnMultiTokenBatch | CoreburnMultiTokenBatch): Promise<TransactionHash | { signatureId: string }> {
         const testnet = await this.isTestnet();
         let txData;
         const {chain} = body;
@@ -316,6 +341,9 @@ export abstract class MultiTokenService {
                 break;
             case Currency.MATIC:
                 txData = await preparePolygonBurnMultiTokenBatchSignedTransaction(testnet, body, (await this.getNodesUrl(chain, testnet))[0]);
+                break;
+            case Currency.KCS:
+                txData = await prepareKccBurnMultiTokenBatchSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
                 break;
             case Currency.BSC:
                 txData = await prepareBscBurnMultiTokenBatchSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
@@ -336,7 +364,7 @@ export abstract class MultiTokenService {
         }
     }
 
-    public async deployMultiToken(body: CeloDeployMultiToken | EthDeployMultiToken | OneDeployMultiToken): Promise<TransactionHash | { signatureId: string }> {
+    public async deployMultiToken(body: CeloDeployMultiToken | EthDeployMultiToken | OneDeployMultiToken | CoreDeployMultiToken): Promise<TransactionHash | { signatureId: string }> {
         const testnet = await this.isTestnet();
         let txData;
         const {chain} = body;
@@ -346,6 +374,9 @@ export abstract class MultiTokenService {
                 break;
             case Currency.MATIC:
                 txData = await preparePolygonDeployMultiTokenSignedTransaction(testnet, body, (await this.getNodesUrl(chain, testnet))[0]);
+                break;
+            case Currency.KCS:
+                txData = await prepareKccDeployMultiTokenSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
                 break;
             case Currency.BSC:
                 txData = await prepareBscDeployMultiTokenSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);

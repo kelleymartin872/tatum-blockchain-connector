@@ -13,15 +13,21 @@ import {
   EgldEsdtTransaction,
 } from '@tatumio/tatum';
 
+import {
+  BurnErc20 as CoreBurnErc20,
+  DeployErc20 as CoreDeployErc20,
+  MintErc20 as CoreMintErc20,
+  TransferErc20 as CoreTransferErc20
+} from '@tatumio/tatum-core'
 export class ChainBurnErc20 extends BurnErc20 {
   @IsNotEmpty()
-  @IsIn([Currency.ETH, Currency.BSC, Currency.XDC, Currency.ONE, Currency.MATIC, Currency.ALGO])
+  @IsIn([Currency.ETH, Currency.BSC, Currency.XDC, Currency.ONE, Currency.MATIC, Currency.ALGO, Currency.KCS])
   public chain: Currency;
 }
 
 export class ChainDeployErc20 extends DeployErc20 {
   @IsNotEmpty()
-  @IsIn([Currency.ETH, Currency.BSC, Currency.XDC, Currency.ONE, Currency.ALGO])
+  @IsIn([Currency.ETH, Currency.BSC, Currency.XDC, Currency.ONE, Currency.ALGO, Currency.KCS])
   public chain: Currency;
 }
 
@@ -94,4 +100,28 @@ export class ChainEgldEsdtTransaction extends EgldEsdtTransaction {
   @IsNotEmpty()
   @IsIn([Currency.EGLD])
   public chain: Currency;
+}
+
+export class ChainBurnKccErc20 extends CoreBurnErc20 {
+  @IsNotEmpty()
+  @IsIn([Currency.KCS])
+  public chain: Currency
+}
+
+export class ChainDeployKccErc20 extends CoreDeployErc20 {
+  @IsNotEmpty()
+  @IsIn([Currency.KCS])
+  public chain: Currency
+}
+
+export class ChainMintKccErc20 extends CoreMintErc20 {
+  @IsNotEmpty()
+  @IsIn([Currency.KCS])
+  public chain: Currency
+}
+
+export class ChainTransferKccErc20 extends CoreTransferErc20 {
+  @IsNotEmpty()
+  @IsIn([Currency.KCS])
+  public chain: Currency
 }

@@ -15,7 +15,11 @@ import {
     ChainTransferHrm20,
     ChainTransferPolygonErc20,
     ChainEgldEsdtTransaction,
-    ChainTransferAlgoErc20
+    ChainTransferAlgoErc20,
+    ChainBurnKccErc20,
+    ChainDeployKccErc20,
+    ChainMintKccErc20,
+    ChainTransferKccErc20
 } from './Erc20Base';
 import {HarmonyAddress} from '@harmony-js/crypto';
 import {
@@ -73,7 +77,18 @@ import {
     getAlgoClient
 } from '@tatumio/tatum';
 import erc20_abi from '@tatumio/tatum/dist/src/contracts/erc20/token_abi';
-
+import {
+    TransferErc20 as CoreTransferErc20,
+    BurnErc20 as CoreBurnErc20,
+    DeployErc20 as CoreDeployErc20,
+    MintErc20 as CoreMintErc20
+} from '@tatumio/tatum-core'
+import {
+    prepareKccTransferErc20SignedTransaction,
+    prepareKccBurnErc20SignedTransaction,
+    prepareKccMintErc20SignedTransaction,
+    prepareKccDeployErc20SignedTransaction
+} from '@tatumio/tatum-kcc'
 export abstract class Erc20Service {
 
     protected constructor(protected readonly logger: PinoLogger) {
@@ -96,7 +111,7 @@ export abstract class Erc20Service {
     }
 
     private async getClient(chain: Currency, testnet: boolean) {
-        if ([Currency.ETH, Currency.BSC, Currency.CELO, Currency.XDC, Currency.ONE, Currency.MATIC].includes(chain)) {
+        if ([Currency.ETH, Currency.BSC, Currency.CELO, Currency.XDC, Currency.ONE, Currency.MATIC, Currency.KCS].includes(chain)) {
             return new Web3((await this.getFirstNodeUrl(chain, testnet)));
         } else if (chain === Currency.ALGO) {
             return await getAlgoClient(await this.isTestnet(), await this.getFirstNodeUrl(chain, testnet));
@@ -112,6 +127,7 @@ export abstract class Erc20Service {
             case Currency.BSC:
             case Currency.CELO:
             case Currency.MATIC:
+            case Currency.KCS:
                 contractOrAddress = contractAddress;
                 break;
             case Currency.ONE:
@@ -135,7 +151,7 @@ export abstract class Erc20Service {
     }
 
     public async transferErc20(body: ChainTransferEthErc20 | ChainTransferBscBep20 | ChainTransferCeloErc20Token |
-        ChainTransferErc20 | ChainTransferHrm20 | ChainTransferPolygonErc20 | ChainEgldEsdtTransaction | ChainTransferAlgoErc20):
+        ChainTransferErc20 | ChainTransferHrm20 | ChainTransferPolygonErc20 | ChainEgldEsdtTransaction | ChainTransferAlgoErc20 | ChainTransferKccErc20):
         Promise<TransactionHash | { signatureId: string }> {
         const testnet = await this.isTestnet();
         const {chain, ..._body} = body;
@@ -153,6 +169,9 @@ export abstract class Erc20Service {
                 break;
             case Currency.MATIC:
                 txData = await preparePolygonTransferErc20SignedTransaction(testnet, _body as TransferErc20, (await this.getFirstNodeUrl(chain, testnet)));
+                break;
+            case Currency.KCS:
+                txData = await prepareKccTransferErc20SignedTransaction(_body as CoreTransferErc20, (await this.getFirstNodeUrl(chain, testnet)));
                 break;
             case Currency.BSC:
                 txData = await prepareCustomBep20SignedTransaction(_body as TransferErc20, (await this.getFirstNodeUrl(chain, testnet)));
@@ -179,7 +198,7 @@ export abstract class Erc20Service {
         }
     }
 
-    public async burnErc20(body: ChainBurnErc20 | ChainBurnCeloErc20 | ChainEgldEsdtTransaction): Promise<TransactionHash | { signatureId: string }> {
+    public async burnErc20(body: ChainBurnErc20 | ChainBurnCeloErc20 | ChainEgldEsdtTransaction | ChainBurnKccErc20): Promise<TransactionHash | { signatureId: string }> {
         const testnet = await this.isTestnet();
         const {chain, ..._body} = body;
         let txData;
@@ -192,6 +211,9 @@ export abstract class Erc20Service {
                 break;
             case Currency.MATIC:
                 txData = await preparePolygonBurnErc20SignedTransaction(testnet, _body as BurnErc20, (await this.getFirstNodeUrl(chain, testnet)));
+                break;
+            case Currency.KCS:
+                txData = await prepareKccBurnErc20SignedTransaction(_body as CoreBurnErc20, (await this.getFirstNodeUrl(chain, testnet)));
                 break;
             case Currency.BSC:
                 txData = await prepareBurnBep20SignedTransaction(_body as BurnErc20, (await this.getFirstNodeUrl(chain, testnet)));
@@ -218,7 +240,7 @@ export abstract class Erc20Service {
         }
     }
 
-    public async mintErc20(body: ChainMintErc20 | ChainMintCeloErc20 | ChainEgldEsdtTransaction): Promise<TransactionHash | { signatureId: string }> {
+    public async mintErc20(body: ChainMintErc20 | ChainMintCeloErc20 | ChainEgldEsdtTransaction | ChainMintKccErc20): Promise<TransactionHash | { signatureId: string }> {
         const testnet = await this.isTestnet();
         const {chain, ..._body} = body;
         let txData;
@@ -231,6 +253,9 @@ export abstract class Erc20Service {
                 break;
             case Currency.MATIC:
                 txData = await preparePolygonMintErc20SignedTransaction(testnet, _body as MintErc20, (await this.getFirstNodeUrl(chain, testnet)));
+                break;
+            case Currency.KCS:
+                txData = await prepareKccMintErc20SignedTransaction(_body as CoreMintErc20, (await this.getFirstNodeUrl(chain, testnet)));
                 break;
             case Currency.BSC:
                 txData = await prepareMintBep20SignedTransaction(_body as MintErc20, (await this.getFirstNodeUrl(chain, testnet)));
@@ -254,7 +279,7 @@ export abstract class Erc20Service {
         }
     }
 
-    public async deployErc20(body: ChainDeployErc20 | ChainDeployCeloErc20 | ChainEgldEsdtTransaction): Promise<TransactionHash | { signatureId: string }> {
+    public async deployErc20(body: ChainDeployErc20 | ChainDeployCeloErc20 | ChainEgldEsdtTransaction | ChainDeployKccErc20): Promise<TransactionHash | { signatureId: string }> {
         const testnet = await this.isTestnet();
         const {chain, ..._body} = body;
         let txData;
@@ -267,6 +292,9 @@ export abstract class Erc20Service {
                 break;
             case Currency.MATIC:
                 txData = await preparePolygonDeployErc20SignedTransaction(testnet, _body as DeployErc20, (await this.getFirstNodeUrl(chain, testnet)));
+                break;
+            case Currency.KCS:
+                txData = await prepareKccDeployErc20SignedTransaction(_body as CoreDeployErc20, (await this.getFirstNodeUrl(chain, testnet)));
                 break;
             case Currency.BSC:
                 txData = await prepareDeployBep20SignedTransaction(_body as DeployErc20, (await this.getFirstNodeUrl(chain, testnet)));

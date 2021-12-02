@@ -833,92 +833,91 @@ paths:
       summary: Get Transaction
       tags:
         - Blockchain / Multi Token (ERC-1155)
-#  /v3/multitoken/address/balance/{chain}/{address}:
-#    get:
-#      description: |
-#        <h4>1 credit per API call.</h4><br/><p>Get Multi Tokens on address. Returns all tokenIDs of all contracts this address holds.</p>
-#      operationId: MultiTokenGetAddressBalance
-#      parameters:
-#        - description: Blockchain to work with
-#          in: path
-#          name: chain
-#          required: true
-#          schema:
-#            type: string
-#            enum:
-#              - ETH
-#              - MATIC
-#              - CELO
-#            example: ETH
-#        - description: "Blockchain address"
-#          in: path
-#          name: address
-#          required: true
-#          schema:
-#            type: string
-#            example: "0x3223AEB8404C7525FcAA6C512f91e287AE9FfE7B"
-#        - description: "Type of testnet. Defaults to ropsten. Valid only for ETH invocations."
-#          in: header
-#          name: x-testnet-type
-#          required: false
-#          schema:
-#            default: ropsten
-#            type: string
-#            enum:
-#              - ethereum-ropsten
-#              - ethereum-rinkeby
-#            maxLength: 10
-#      responses:
-#        200:
-#          content:
-#            application/json:
-#              schema:
-#                type: array
-#                items:
-#                  type: object
-#                  properties:
-#                    contractAddress:
-#                      type: string
-#                      example: "0x771987a5add0ef1ce303aa069df82dd7f8fbb33b"
-#                      description: Contract address of the Multi Token
-#                    balances:
-#                      type: array
-#                      items:
-#                        type: object
-#                        properties:
-#                          tokenId:
-#                            type: string
-#                            description: Token ID.
-#                            example: "10"
-#                          amount:
-#                            type: string
-#                            description: Number of tokens held by the address.
-#                            example: "17"
-#          description: OK
-#        400:
-#          <<: *API400
-#        401:
-#          <<: *API401
-#        403:
-#          description: Forbidden. The request is authenticated, but it is not possible to required perform operation due to logical error or invalid permissions.
-#          content:
-#            application/json:
-#              schema:
-#                $ref: "#/components/schemas/Error403Celo"
-#        500:
-#          <<: *API500
-#      security:
-#        - X-Api-Key: [ ]
-#      x-code-samples:
-#      summary: Get Multi Tokens by Address
-#      tags:
-#        - Blockchain / Multi Token (ERC-1155)
+  /v3/multitoken/address/balance/{chain}/{address}:
+    get:
+      description: |
+        <h4>1 credit per API call.</h4><br/><p>Get Multi Tokens on address. Returns all tokenIDs of all contracts this address holds.</p>
+      operationId: MultiTokenGetAddressBalance
+      parameters:
+        - description: Blockchain to work with
+          in: path
+          name: chain
+          required: true
+          schema:
+            type: string
+            enum:
+              - ETH
+              - MATIC
+              - CELO
+            example: ETH
+        - description: "Blockchain address"
+          in: path
+          name: address
+          required: true
+          schema:
+            type: string
+            example: "0x3223AEB8404C7525FcAA6C512f91e287AE9FfE7B"
+        - description: "Type of testnet. Defaults to ropsten. Valid only for ETH invocations."
+          in: header
+          name: x-testnet-type
+          required: false
+          schema:
+            default: ropsten
+            type: string
+            enum:
+              - ethereum-ropsten
+              - ethereum-rinkeby
+            maxLength: 10
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    contractAddress:
+                      type: string
+                      example: "0x771987a5add0ef1ce303aa069df82dd7f8fbb33b"
+                      description: Contract address of the Multi Token
+                    balances:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          tokenId:
+                            type: string
+                            description: Token ID.
+                            example: "10"
+                          amount:
+                            type: string
+                            description: Number of tokens held by the address.
+                            example: "17"
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        403:
+          description: Forbidden. The request is authenticated, but it is not possible to required perform operation due to logical error or invalid permissions.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error403Celo"
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Get Multi Tokens by Address
+      tags:
+        - Blockchain / Multi Token (ERC-1155)
   /v3/multitoken/balance/{chain}/{contractAddress}/{address}/{tokenId}:
     get:
-#      deprecated: true
+      deprecated: true
       description: |
-#        <h4>1 credit per API call.</h4><br/><p>Get Multi Tokens on Account. Returns tokenIDs of tokens Account holds. This method is deprecated, use <a href="#operation/MultiTokenGetAddressBalance">Get contract address</a> instead.</p>
-        <h4>1 credit per API call.</h4><br/><p>Get Multi Tokens on Account. Returns tokenIDs of tokens Account holds.</p>
+        <h4>1 credit per API call.</h4><br/><p>Get Multi Tokens on Account. Returns tokenIDs of tokens Account holds. This method is deprecated, use <a href="#operation/MultiTokenGetAddressBalance">Get contract address</a> instead.</p>
       operationId: MultiTokenGetBalance
       parameters:
         - description: Blockchain to work with

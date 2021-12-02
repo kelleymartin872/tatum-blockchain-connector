@@ -272,9 +272,7 @@ paths:
               schema:
                 oneOf:
                   - $ref: "#/components/schemas/Error403SolanaBroadcast"
-                  - $ref: "#/components/schemas/Error403SolanaGasPrice"
                   - $ref: "#/components/schemas/Error403SolanaTxBody"
-                  - $ref: "#/components/schemas/Error403SolanaGasCalculation"
                   - $ref: "#/components/schemas/Error403SolanaTxHash"
                   - $ref: "#/components/schemas/Error403SolanaTxSign"
         500:

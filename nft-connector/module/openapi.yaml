@@ -329,6 +329,7 @@ paths:
         <ul>
         <li><b>Ethereum</b></li>
         <li><b>Polygon (Matic)</b></li>
+        <li><b>Kcc (KCS)</b></li>
         <li><b>Flow</b></li>
         <li><b>Celo</b></li>
         <li><b>Harmony.ONE</b></li>
@@ -906,6 +907,7 @@ paths:
               - TRON
               - FLOW
               - MATIC
+              - KCS
               - BSC
         - description: "Transaction hash"
           in: path
@@ -970,6 +972,7 @@ paths:
             enum:
               - ETH
               - MATIC
+              - KCS
               - ONE
               - CELO
               - TRON
@@ -1168,6 +1171,7 @@ paths:
             enum:
               - ETH
               - MATIC
+              - KCS
               - ONE
               - CELO
               - TRON
@@ -1241,6 +1245,7 @@ paths:
             enum:
               - ETH
               - MATIC
+              - KCS
               - ONE
               - CELO
               - BSC
@@ -1318,6 +1323,7 @@ paths:
             enum:
               - ETH
               - MATIC
+              - KCS
               - SOL
               - ONE
               - CELO
@@ -1401,6 +1407,7 @@ paths:
             enum:
               - ETH
               - MATIC
+              - KCS
               - SOL
               - ONE
               - CELO
@@ -3641,6 +3648,7 @@ components:
           enum:
             - ETH
             - MATIC
+            - KCS
             - ONE
             - BSC
             - ALGO
@@ -3796,6 +3804,7 @@ components:
           enum:
             - ETH
             - MATIC
+            - KCS
             - ONE
             - BSC
             - ALGO
@@ -3857,6 +3866,7 @@ components:
           enum:
             - ETH
             - MATIC
+            - KCS
             - ONE
             - BSC
         name:
@@ -3926,6 +3936,7 @@ components:
           enum:
             - ETH
             - MATIC
+            - KCS
             - ONE
             - BSC
         to:
@@ -4006,6 +4017,7 @@ components:
           enum:
             - ETH
             - MATIC
+            - KCS
             - ONE
             - BSC
         tokenId:
@@ -4100,6 +4112,7 @@ components:
           enum:
             - ETH
             - MATIC
+            - KCS
             - ONE
             - BSC
         tokenId:
@@ -4367,6 +4380,7 @@ components:
           enum:
             - ETH
             - MATIC
+            - KCS
             - ONE
             - BSC
         to:
@@ -4461,6 +4475,7 @@ components:
           enum:
             - ETH
             - MATIC
+            - KCS
             - ONE
             - BSC
         to:
@@ -4560,6 +4575,7 @@ components:
           enum:
             - ETH
             - MATIC
+            - KCS
             - ONE
             - BSC
             - ALGO
@@ -4618,6 +4634,7 @@ components:
           enum:
             - ETH
             - MATIC
+            - KCS
             - CELO
             - ONE
             - BSC
@@ -4683,6 +4700,7 @@ components:
           enum:
             - ETH
             - MATIC
+            - KCS
             - ONE
             - BSC
         tokenId:
@@ -4750,6 +4768,7 @@ components:
           enum:
             - ETH
             - MATIC
+            - KCS
             - ONE
             - BSC
         tokenId:
@@ -4812,6 +4831,7 @@ components:
           enum:
             - ETH
             - MATIC
+            - KCS
             - ONE
             - BSC
         tokenId:
@@ -4874,6 +4894,7 @@ components:
           enum:
             - ETH
             - MATIC
+            - KCS
             - CELO
             - ONE
             - BSC

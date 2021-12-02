@@ -1593,7 +1593,7 @@
     bignumber.js "^9.0.0"
     web3 "1.4.0"
 
-"@tatumio/tatum-kcc@^2.0.0-alpha.59":
+"@tatumio/tatum-kcc@^2.0.0-alpha.69":
   version "2.0.0-alpha.70"
   resolved "https://registry.yarnpkg.com/@tatumio/tatum-kcc/-/tatum-kcc-2.0.0-alpha.70.tgz#de80d2ce150407fe23971c0b045b75790dfc389b"
   integrity sha512-cUR6a/vSBJZJKhgeiGGce+LZjeZJKomKmSFTk65kGbhr9AyIeBt8kqz+FjXpZhhDHfOCf3x8sS8W7XvKTCqpRw==

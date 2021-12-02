@@ -1608,10 +1608,10 @@
     reflect-metadata "^0.1.13"
     web3 "1.4.0"
 
-"@tatumio/tatum-core@^2.0.0-alpha.63":
-  version "2.0.0-alpha.63"
-  resolved "https://registry.yarnpkg.com/@tatumio/tatum-core/-/tatum-core-2.0.0-alpha.63.tgz#01fd948d30e24a43d4a534c2b0137ca8efe84c3c"
-  integrity sha512-PnagBoPDP2UcTeJM+6cJv/43tomC4bo9/tuehMq0PTC1AvFuZ2yGyXW1zgi3+nFZTwxffbWxpPuDnB1tBXjTVw==
+"@tatumio/tatum-core@^2.0.0-alpha.70":
+  version "2.0.0-alpha.70"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum-core/-/tatum-core-2.0.0-alpha.70.tgz#162c9c648959a688b9d3cd391f6e3de814769b57"
+  integrity sha512-j+wsXWeT0pyqCsyA8LNSToNpoJ0sR8UQ1wYc6Gi154sn9EEuctRQstUmS7aM+XPDLgdlSB/A1yVEkSVi/lDHjw==
   dependencies:
     axios "^0.21.1"
     axios-retry "^3.1.9"
@@ -1631,23 +1631,23 @@
     bignumber.js "^9.0.0"
     web3 "1.4.0"
 
-"@tatumio/tatum-defi@^2.0.0-alpha.63":
-  version "2.0.0-alpha.63"
-  resolved "https://registry.yarnpkg.com/@tatumio/tatum-defi/-/tatum-defi-2.0.0-alpha.63.tgz#c6e50593080d40898999c73c2c8e6a8ae7de1f53"
-  integrity sha512-3DpfTQDSfVqONkucsMRxRV5lbp8GMKFgc73u9ykRl6nJi821owHJkvXtU/IlOAEmRBdpDBJv3ELEWAKwJTVNug==
+"@tatumio/tatum-defi@^2.0.0-alpha.70":
+  version "2.0.0-alpha.70"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum-defi/-/tatum-defi-2.0.0-alpha.70.tgz#08f2716379fc14e841df23b947fb88e388de0a74"
+  integrity sha512-L4B6NJMlELXRc1IYNdhLJVDQyrDQjMos1d+433hycStyc2Q3SllAVTvcruTA7FpFk2AnHATPfghiJjnGhRxvJw==
   dependencies:
-    "@tatumio/tatum-core" "^2.0.0-alpha.63"
+    "@tatumio/tatum-core" "^2.0.0-alpha.70"
     bignumber.js "^9.0.0"
     web3 "1.4.0"
 
-"@tatumio/tatum-kcc@^2.0.0-alpha.59":
-  version "2.0.0-alpha.63"
-  resolved "https://registry.yarnpkg.com/@tatumio/tatum-kcc/-/tatum-kcc-2.0.0-alpha.63.tgz#8aa98a9e7bf29e1f72988c4f03a53704f2632c6c"
-  integrity sha512-ozgsbh4rYIyGTnt4c3qVew9fHObzUHMIgSUI1cbwAUMxyyNoYAumvX5BZkrHRBvFz+mLD8iMASjLbJKtDHnnHA==
+"@tatumio/tatum-kcc@^2.0.0-alpha.69":
+  version "2.0.0-alpha.70"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum-kcc/-/tatum-kcc-2.0.0-alpha.70.tgz#de80d2ce150407fe23971c0b045b75790dfc389b"
+  integrity sha512-cUR6a/vSBJZJKhgeiGGce+LZjeZJKomKmSFTk65kGbhr9AyIeBt8kqz+FjXpZhhDHfOCf3x8sS8W7XvKTCqpRw==
   dependencies:
-    "@tatumio/tatum-core" "^2.0.0-alpha.63"
-    "@tatumio/tatum-defi" "^2.0.0-alpha.63"
-    "@tatumio/tatum-ledger" "^2.0.0-alpha.63"
+    "@tatumio/tatum-core" "^2.0.0-alpha.70"
+    "@tatumio/tatum-defi" "^2.0.0-alpha.70"
+    "@tatumio/tatum-ledger" "^2.0.0-alpha.70"
     bignumber.js "^9.0.0"
     bip39 "^3.0.2"
     class-transformer "^0.2.3"
@@ -1663,12 +1663,12 @@
   dependencies:
     "@tatumio/tatum-core" "^2.0.0-alpha.59"
 
-"@tatumio/tatum-ledger@^2.0.0-alpha.63":
-  version "2.0.0-alpha.63"
-  resolved "https://registry.yarnpkg.com/@tatumio/tatum-ledger/-/tatum-ledger-2.0.0-alpha.63.tgz#f9c3295fac9a42fe93d404b280e20b5cf23e8482"
-  integrity sha512-IfqdTWltBm/gZnEEEQQ33FK9YdGOAKZxuIesMgTYtUHkDZzsQRS06oBM+2WHPZJtsKclWjRGXXDyFf6pTJbUiQ==
+"@tatumio/tatum-ledger@^2.0.0-alpha.70":
+  version "2.0.0-alpha.70"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum-ledger/-/tatum-ledger-2.0.0-alpha.70.tgz#2a3f9de1c0d4024786a47543a064e8c2d047e756"
+  integrity sha512-ZiCcwOIoQcP2HnL5FCOw5PQMic2jQJx9uhdfJux7WaD9WLnNAsp9FhhDo+XQ5hvP0X2M41TFqCXE96AcZ52wJg==
   dependencies:
-    "@tatumio/tatum-core" "^2.0.0-alpha.63"
+    "@tatumio/tatum-core" "^2.0.0-alpha.70"
 
 "@tatumio/tatum-solana@^2.0.0-alpha.59":
   version "2.0.0-alpha.59"
@@ -1682,10 +1682,10 @@
     "@tatumio/tatum-ledger" "^2.0.0-alpha.59"
     reflect-metadata "^0.1.13"
 
-"@tatumio/tatum@^1.29.21":
-  version "1.29.21"
-  resolved "https://registry.yarnpkg.com/@tatumio/tatum/-/tatum-1.29.21.tgz#0fdca83f8e3da736fa5605cb8dc1fdf9d0675b76"
-  integrity sha512-kjPuHFlTpY/ttVa5HR+67jRtnbtLqcHE08R7k2i5ocauq8g3Q5ZiCtTX+BWnmDgf6rfaSDTF9wdk3eu5dhX+zg==
+"@tatumio/tatum@^1.29.23":
+  version "1.29.23"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum/-/tatum-1.29.23.tgz#eabbdd79f5fb70125d76954b8f841a47351ca5f2"
+  integrity sha512-EEZaPc91mqId09foh/fU692bfI/ZK6Z0iEgOAK1wmK9N4bzujzfMjkoJV8gzWUr9mf80eY6z7DFptfu+akz8iQ==
   dependencies:
     "@binance-chain/javascript-sdk" "^4.1.1"
     "@celo-tools/celo-ethers-wrapper" "0.0.5"

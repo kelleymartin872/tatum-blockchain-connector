@@ -99,7 +99,7 @@ export abstract class SolanaService {
 
     public async sendSOL(body: TransferSolana): Promise<TransactionHash | SignatureId> {
         const transactionData = await sendSolana(body, await this.getFirstNodeUrl(await this.isTestnet()));
-        if (transactionData) {
+        if (body.signatureId) {
             return {
                 signatureId: await this.storeKMSTransaction(JSON.stringify(transactionData), Currency.SOL, [body.signatureId], body.index),
             };

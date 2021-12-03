@@ -4272,7 +4272,7 @@ components:
                     minLength: 44
                     example: "FykfMwA9WNShzPJbbb9DNXsfgDgS3XZzWiFgrVXfWoPJ"
                   verified:
-                    type: boolean
+                    type: number
                     description: If the creator was verified.
                     example: 1
                   share:

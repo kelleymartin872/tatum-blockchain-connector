@@ -7,7 +7,7 @@ info:
 tags:
   - description: |
       <p>Solana is a blockchain network focused on fast transactions and high throughput. It uses a unique method of ordering transactions to improve its speed. Users can pay their transaction fees and interact with smart contracts with SOL, the network's native cryptocurrency.<br/>
-      <b>For now, there is a rate limitation applied for all projects for Solana to 40 req/s for any chain.</b><br/>
+      <b>For now, Solana is in <b>BETA</b> and there is a rate limitation applied for all projects for Solana to 40 req/s on the platform.</b><br/>
       Tatum supports 2 chains:
       <ul><li>Mainnet BETA - a regular live chain
       <li>Devnet - a chain used for testing purposes. Coins on the test chain have no value and can be obtained from

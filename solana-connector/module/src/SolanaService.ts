@@ -39,21 +39,21 @@ export abstract class SolanaService {
         return getSolanaClient(await this.getFirstNodeUrl(testnet));
     }
 
-    public async broadcast(txData: string | { txId: string, nftAddress: string, nftAccountAddress: string }, signatureId?: string): Promise<{
+    public async broadcast(txData: { txId: string, nftAddress?: string, nftAccountAddress?: string }, signatureId?: string): Promise<{
         txId: string,
         failed?: boolean,
     }> {
         this.logger.info(`Broadcast tx for SOL with data '${txData}'`);
         if (signatureId) {
             try {
-                await this.completeKMSTransaction(typeof txData === 'string' ? txData : txData.txId, signatureId);
+                await this.completeKMSTransaction(JSON.stringify(txData), signatureId);
             } catch (e) {
                 this.logger.error(e);
-                return typeof txData === 'string' ? {txId: txData, failed: true} : {...txData, failed: true};
+                return {...txData, failed: true};
             }
         }
 
-        return typeof txData === 'string' ? {txId: txData} : txData;
+        return txData;
     }
 
     public async getCurrentBlock(testnet?: boolean): Promise<number> {
@@ -83,19 +83,6 @@ export abstract class SolanaService {
         }
     }
 
-    private async broadcastOrStoreKMSTransaction({
-                                                     transactionData,
-                                                     signatureId,
-                                                     index
-                                                 }: BroadcastOrStoreKMSTransaction) {
-        if (signatureId) {
-            return {
-                signatureId: await this.storeKMSTransaction(transactionData, Currency.SOL, [signatureId], index),
-            };
-        }
-        return this.broadcast(transactionData);
-    }
-
     public async web3Method(body: any) {
         const node = await this.getFirstNodeUrl(await this.isTestnet());
         return (await axios.post(node, body, {headers: {'Content-Type': 'application/json'}})).data;
@@ -110,12 +97,13 @@ export abstract class SolanaService {
         return {balance: new BigNumber(await connection.getBalance(new PublicKey(address))).dividedBy(1e9).toString()};
     }
 
-    public async sendSOL(transfer: TransferSolana): Promise<TransactionHash | SignatureId> {
-        const transactionData = await sendSolana(transfer, await this.getFirstNodeUrl(await this.isTestnet()));
-        return this.broadcastOrStoreKMSTransaction({
-            transactionData,
-            signatureId: transfer.signatureId,
-            index: transfer.index
-        });
+    public async sendSOL(body: TransferSolana): Promise<TransactionHash | SignatureId> {
+        const transactionData = await sendSolana(body, await this.getFirstNodeUrl(await this.isTestnet()));
+        if (transactionData) {
+            return {
+                signatureId: await this.storeKMSTransaction(JSON.stringify(transactionData), Currency.SOL, [body.signatureId], body.index),
+            };
+        }
+        return this.broadcast({txId: transactionData.txId});
     }
 }

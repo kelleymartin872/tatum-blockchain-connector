@@ -273,6 +273,10 @@ paths:
                     type: string
                     description: Balance of cUSD
                     example: "11.53"
+                  cEur:
+                    type: string
+                    description: Balance of cEUR
+                    example: "11.53"
           description: OK
         400:
           <<: *API400

@@ -10,7 +10,11 @@ import {
     CeloMintMultipleErc721,
     CeloSmartContractMethodInvocation,
     CeloTransferErc721,
+    CEUR_ADDRESS_MAINNET,
+    CEUR_ADDRESS_TESTNET,
     Currency,
+    CUSD_ADDRESS_MAINNET,
+    CUSD_ADDRESS_TESTNET,
     DeployCeloErc20,
     generateAddressFromXPub,
     generatePrivateKeyFromMnemonic,
@@ -33,12 +37,10 @@ import {
     TransferCeloOrCeloErc20Token,
 } from '@tatumio/tatum';
 import erc721_abi from '@tatumio/tatum/dist/src/contracts/erc721/erc721_abi';
-import erc1155_abi from '@tatumio/tatum/dist/src/contracts/erc1155/erc1155_abi';
 import token_abi from '@tatumio/tatum/dist/src/contracts/erc20/token_abi';
 import {fromWei} from 'web3-utils';
 import {Block, Transaction, TransactionReceipt} from 'web3-eth';
 import Web3 from 'web3';
-import {CUSD_ADDRESS_MAINNET, CUSD_ADDRESS_TESTNET} from '@tatumio/tatum/dist/src/constants';
 
 export abstract class CeloService {
 
@@ -96,14 +98,17 @@ export abstract class CeloService {
         return (await this.getClient(t)).eth.getBlockNumber();
     }
 
-    public async getBalance(address: string, testnet?: boolean): Promise<{ celo: string, cUsd: string }> {
+    public async getBalance(address: string, testnet?: boolean): Promise<{ celo: string, cUsd: string, cEur: string }> {
         const t = testnet === undefined ? await this.isTestnet() : testnet;
         const provider = new CeloProvider((await this.getNodesUrl(t))[0]);
         // @ts-ignore
-        const c = new ((await this.getClient(t))).eth.Contract(token_abi, t ? CUSD_ADDRESS_TESTNET : CUSD_ADDRESS_MAINNET);
+        const cUsd = new ((await this.getClient(t))).eth.Contract(token_abi, t ? CUSD_ADDRESS_TESTNET : CUSD_ADDRESS_MAINNET);
+        // @ts-ignore
+        const cEur = new ((await this.getClient(t))).eth.Contract(token_abi, t ? CEUR_ADDRESS_TESTNET : CEUR_ADDRESS_MAINNET);
         return {
             celo: fromWei((await provider.getBalance(address)).toString(), 'ether'),
-            cUsd: fromWei(await c.methods.balanceOf(address).call(), 'ether'),
+            cUsd: fromWei(await cUsd.methods.balanceOf(address).call(), 'ether'),
+            cEur: fromWei(await cEur.methods.balanceOf(address).call(), 'ether'),
         };
     }
 

@@ -132,6 +132,12 @@ paths:
           <<: *API401
         500:
           <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Access Algorand Indexer GET node endpoints
+      tags:
+        - Blockchain / Algorand (ALGO)
     post:
       description: |
         <h4>2 credits per API call.</h4><br/>
@@ -166,6 +172,12 @@ paths:
           <<: *API401
         500:
           <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Access Algorand Indexer POST node endpoints
+      tags:
+        - Blockchain / Algorand (ALGO)
   /node/algod/{xApiKey}:
     get:
       description: |
@@ -201,6 +213,12 @@ paths:
           <<: *API401
         500:
           <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Access Algorand Algod GET node endpoints
+      tags:
+        - Blockchain / Algorand (ALGO)
     post:
       description: |
         <h4>2 credits per API call.</h4><br/>
@@ -235,6 +253,12 @@ paths:
           <<: *API401
         500:
           <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Access Algorand Algod POST node endpoints
+      tags:
+        - Blockchain / Algorand (ALGO)
   /v3/algorand/account/balance/{address}:
     get:
       description: |
@@ -270,7 +294,7 @@ paths:
       security:
         - X-Api-Key: [ ]
       x-code-samples:
-      summary: Get ALgorand Account balance
+      summary: Get Algorand Account balance
       tags:
         - Blockchain / Algorand (ALGO)
   /v3/algorand/block/current:

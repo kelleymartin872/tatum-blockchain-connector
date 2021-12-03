@@ -50,7 +50,7 @@ paths:
         No one should ever send it's own private keys to the internet because there is a strong possibility of stealing keys and loss of funds. In this method, it is possible to enter privateKey
         or signatureId. PrivateKey should be used only for quick development on testnet versions of blockchain when there is no risk of losing funds. In production,
         <a href="https://github.com/tatumio/tatum-kms" target="_blank">Tatum KMS</a> should be used for the highest security standards, and signatureId should be present in the request.
-        Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
+        Alternatively, using the Tatum client library for supported languages.
         </p>
       operationId: NftDeployErc721
       parameters:
@@ -148,7 +148,7 @@ paths:
         No one should ever send it's own private keys to the internet because there is a strong possibility of stealing keys and loss of funds. In this method, it is possible to enter privateKey
         or signatureId. PrivateKey should be used only for quick development on testnet versions of blockchain when there is no risk of losing funds. In production,
         <a href="https://github.com/tatumio/tatum-kms" target="_blank">Tatum KMS</a> should be used for the highest security standards, and signatureId should be present in the request.
-        Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
+        Alternatively, using the Tatum client library for supported languages.
 
         Second mode works without private key or signature id.
         Mint NFT requests use built-in smart contract, private key and token id which are provided by Tatum.
@@ -342,7 +342,7 @@ paths:
         No one should ever send it's own private keys to the internet because there is a strong possibility of stealing keys and loss of funds. In this method, it is possible to enter privateKey
         or signatureId. PrivateKey should be used only for quick development on testnet versions of blockchain when there is no risk of losing funds. In production,
         <a href="https://github.com/tatumio/tatum-kms" target="_blank">Tatum KMS</a> should be used for the highest security standards, and signatureId should be present in the request.
-        Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
+        Alternatively, using the Tatum client library for supported languages.
         Algorand is unique a way that the receiving account should be ready before sending the NFT asset. 
         To perform this, the receiving account should transfer the NFT asset with 0 amount to itself.
         During the process, it's using the same API as the main transaction: the only difference is that the "fromPrivateKey" should be the privateKey of the receiving account.
@@ -424,7 +424,7 @@ paths:
         No one should ever send it's own private keys to the internet because there is a strong possibility of stealing keys and loss of funds. In this method, it is possible to enter privateKey
         or signatureId. PrivateKey should be used only for quick development on testnet versions of blockchain when there is no risk of losing funds. In production,
         <a href="https://github.com/tatumio/tatum-kms" target="_blank">Tatum KMS</a> should be used for the highest security standards, and signatureId should be present in the request.
-        Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
+        Alternatively, using the Tatum client library for supported languages.
         </p>
       operationId: NftMintMultipleErc721
       parameters:
@@ -503,7 +503,7 @@ paths:
         No one should ever send it's own private keys to the internet because there is a strong possibility of stealing keys and loss of funds. In this method, it is possible to enter privateKey
         or signatureId. PrivateKey should be used only for quick development on testnet versions of blockchain when there is no risk of losing funds. In production,
         <a href="https://github.com/tatumio/tatum-kms" target="_blank">Tatum KMS</a> should be used for the highest security standards, and signatureId should be present in the request.
-        Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
+        Alternatively, using the Tatum client library for supported languages.
         </p>
       operationId: NftBurnErc721
       parameters:
@@ -578,7 +578,7 @@ paths:
         No one should ever send it's own private keys to the internet because there is a strong possibility of stealing keys and loss of funds. In this method, it is possible to enter privateKey
         or signatureId. PrivateKey should be used only for quick development on testnet versions of blockchain when there is no risk of losing funds. In production,
         <a href="https://github.com/tatumio/tatum-kms" target="_blank">Tatum KMS</a> should be used for the highest security standards, and signatureId should be present in the request.
-        Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
+        Alternatively, using the Tatum client library for supported languages.
         </p>
       operationId: NftAddMinter
       parameters:
@@ -648,7 +648,7 @@ paths:
         No one should ever send it's own private keys to the internet because there is a strong possibility of stealing keys and loss of funds. In this method, it is possible to enter privateKey
         or signatureId. PrivateKey should be used only for quick development on testnet versions of blockchain when there is no risk of losing funds. In production,
         <a href="https://github.com/tatumio/tatum-kms" target="_blank">Tatum KMS</a> should be used for the highest security standards, and signatureId should be present in the request.
-        Alternatively, using the Tatum client library for supported languages or Tatum Middleware with a custom key management system is possible.
+        Alternatively, using the Tatum client library for supported languages.
         </p>
       operationId: NftUpdateCashbackErc721
       parameters:

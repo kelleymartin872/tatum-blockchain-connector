@@ -1,6 +1,6 @@
 {
   "name": "@tatumio/bsc-connector",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "BSC Connector for Tatum API",
   "license": "MIT",
   "files": [

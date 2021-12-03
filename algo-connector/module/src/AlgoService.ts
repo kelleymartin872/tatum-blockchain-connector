@@ -1,5 +1,5 @@
-import {PinoLogger} from 'nestjs-pino';
-const axios = require('axios');
+import { PinoLogger } from 'nestjs-pino';
+import axios, {AxiosRequestConfig} from 'axios';
 import {
   Currency,
   generateAlgoWallet,
@@ -10,9 +10,9 @@ import {
   prepareAlgoSignedTransaction
 } from '@tatumio/tatum';
 
-import {BroadcastOrStoreKMSTransaction, AlgoNodeType} from '@tatumio/blockchain-connector-common';
-import {AlgoError} from './AlgoError';
-
+import { BroadcastOrStoreKMSTransaction, AlgoNodeType } from '@tatumio/blockchain-connector-common';
+import { AlgoError } from './AlgoError';
+import { Request } from 'express';
 export abstract class AlgoService {
 
   private static mapBlock(block: any) {
@@ -45,7 +45,7 @@ export abstract class AlgoService {
       intraRoundOffset: tx['intra-round-offset'],
       lastValid: tx['last-valid'],
       note: tx.note,
-      paymentTransaction: tx['payment-transaction'] ? {...tx['payment-transaction'], amount: tx['payment-transaction'].amount / 1000000} : tx['payment-transaction'],
+      paymentTransaction: tx['payment-transaction'] ? { ...tx['payment-transaction'], amount: tx['payment-transaction'].amount / 1000000 } : tx['payment-transaction'],
       receiverRewards: tx['receiver-rewards'],
       roundTime: tx['round-time'],
       sender: tx.sender,
@@ -84,19 +84,19 @@ export abstract class AlgoService {
 
   public async sendTransaction(tx: AlgoTransaction) {
     const txData = await prepareAlgoSignedTransaction(await this.isTestnet(), tx, (await this.getNodesUrl(AlgoNodeType.ALGOD))[0]);
-    return this.broadcastOrStoreKMSTransaction({transactionData: txData, signatureId: tx.signatureId, index: tx.index})
+    return this.broadcastOrStoreKMSTransaction({ transactionData: txData, signatureId: tx.signatureId, index: tx.index })
   }
 
-  public async getBalance(address: string){
+  public async getBalance(address: string) {
     const client = await this.getClient();
     const accountInfo = await client.accountInformation(address).do();
     return accountInfo.amount / 1000000;
   }
 
   private async broadcastOrStoreKMSTransaction({
-      transactionData,
-      signatureId,index
-    }: BroadcastOrStoreKMSTransaction) {
+    transactionData,
+    signatureId, index
+  }: BroadcastOrStoreKMSTransaction) {
     if (signatureId) {
       return {
         signatureId: await this.storeKMSTransaction(transactionData, Currency.ALGO, [signatureId], index),
@@ -111,24 +111,24 @@ export abstract class AlgoService {
    * @param txId transaction id
    * @returns confirmed result
    */
-  private async waitForConfirmation (algodClient: any, txId: string) {
+  private async waitForConfirmation(algodClient: any, txId: string) {
     let lastround = (await algodClient.status().do())['last-round'];
     let limit = 0;
     while (limit < 2) {
-        const pendingInfo = await algodClient.pendingTransactionInformation(txId).do();
-        if (pendingInfo['confirmed-round']) {
-            return true;
-        } else if (pendingInfo['pool-error']) {
-            return false;
-        }
-        lastround++;
-        limit++;
-        await algodClient.statusAfterBlock(lastround).do();
+      const pendingInfo = await algodClient.pendingTransactionInformation(txId).do();
+      if (pendingInfo['confirmed-round']) {
+        return true;
+      } else if (pendingInfo['pool-error']) {
+        return false;
+      }
+      lastround++;
+      limit++;
+      await algodClient.statusAfterBlock(lastround).do();
     }
     return false;
   }
 
-  public async broadcast(txData: string, signatureId?: string): Promise<{txId: string,failed?: boolean,}> {
+  public async broadcast(txData: string, signatureId?: string): Promise<{ txId: string, failed?: boolean, }> {
     this.logger.info(`Broadcast tx for ALGO with data '${txData}'`);
     const client = await this.getClient();
     const sendTx = await client.sendRawTransaction(txData).do();
@@ -137,10 +137,10 @@ export abstract class AlgoService {
     if (confirm) {
       if (signatureId) {
         try {
-            await this.completeKMSTransaction(sendTx.txId, signatureId);
+          await this.completeKMSTransaction(sendTx.txId, signatureId);
         } catch (e) {
-            this.logger.error(e);
-            return {txId: sendTx.txId, failed: true};
+          this.logger.error(e);
+          return { txId: sendTx.txId, failed: true };
         }
       }
       return sendTx.txId;
@@ -160,7 +160,7 @@ export abstract class AlgoService {
       const blockInfo = await indexerClient.lookupBlock(roundNumber).do()
       return AlgoService.mapBlock(blockInfo);
     } catch (_) {
-        throw new AlgoError(`Failed Algo get block by round number`, 'algo.error');
+      throw new AlgoError(`Failed Algo get block by round number`, 'algo.error');
     }
   }
 
@@ -174,21 +174,44 @@ export abstract class AlgoService {
     }
   }
 
-  public async getPayTransactions(from: string, to: string, limit?:string, next?: string, testnet?: boolean) {
+  public async getPayTransactions(from: string, to: string, limit?: string, next?: string, testnet?: boolean) {
     const istestnet = testnet || (await this.isTestnet());
     const baseurl = (await this.getNodesUrl(AlgoNodeType.INDEXER))[0];
-    const apiurl = `${baseurl}/v2/transactions?tx-type=pay&after-time=${from}&before-time=${to}` + (limit ? `&limit=${limit}`: '') + (next ? `&next=${next}` : '');
+    const apiurl = `${baseurl}/v2/transactions?tx-type=pay&after-time=${from}&before-time=${to}` + (limit ? `&limit=${limit}` : '') + (next ? `&next=${next}` : '');
     try {
       const res = (await axios({
         method: 'get',
         url: apiurl,
-        headers: istestnet ? (process.env.TATUM_ALGORAND_TESTNET_THIRD_API_KEY ? {} : {'X-API-Key': `${process.env.TATUM_ALGORAND_TESTNET_THIRD_API_KEY}`}) :
-          (process.env.TATUM_ALGORAND_MAINNET_THIRD_API_KEY ? {} : {'X-API-Key': `${process.env.TATUM_ALGORAND_MAINNET_THIRD_API_KEY}`})
+        headers: istestnet ? (process.env.TATUM_ALGORAND_TESTNET_THIRD_API_KEY ? {} : { 'X-API-Key': `${process.env.TATUM_ALGORAND_TESTNET_THIRD_API_KEY}` }) :
+          (process.env.TATUM_ALGORAND_MAINNET_THIRD_API_KEY ? {} : { 'X-API-Key': `${process.env.TATUM_ALGORAND_MAINNET_THIRD_API_KEY}` })
       })).data;
       const transactions = res.transactions.map(AlgoService.mapTransaction);
-      return {nextToken: res['next-token'], transactions: transactions}
+      return { nextToken: res['next-token'], transactions: transactions }
     } catch (_) {
       throw new AlgoError(`Failed Algo get pay transactions by from and to`, 'algo.error');
+    }
+  }
+
+  public async nodeMethod(req: Request, key: string, algoNodeType: AlgoNodeType) {
+    try {
+      const path = req.url;
+      const baseURL = (await this.getNodesUrl(algoNodeType))[0];
+      const [_, url] = path.split(`/${key}/`);
+      const config = {
+        method: req.method || 'GET',
+        url,
+        baseURL,
+        headers: {
+          'content-type': 'application/json',
+          'X-API-Key': key,
+        },
+        ...(Object.keys(req.body).length ? { data: req.body } : {}),
+      };
+
+        return (await axios.request(config as AxiosRequestConfig)).data;
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
     }
   }
 }

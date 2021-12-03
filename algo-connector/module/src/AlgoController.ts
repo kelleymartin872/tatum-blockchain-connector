@@ -1,6 +1,6 @@
-import {Get, Post, HttpCode, HttpStatus, Query, Param, Body, BadRequestException} from '@nestjs/common';
-import {AlgoService} from './AlgoService';
-import {QueryMnemonic, PathAddress} from '@tatumio/blockchain-connector-common';
+import { Get, Post, HttpCode, HttpStatus, Req, Query, Param, Body, BadRequestException } from '@nestjs/common';
+import { AlgoService } from './AlgoService';
+import { QueryMnemonic, PathAddress, AlgoNodeType } from '@tatumio/blockchain-connector-common';
 import { AlgoError } from './AlgoError';
 import { GeneratePrivateKey } from './dto/GeneratePrivateKey';
 import { PathRountNumber } from './dto/PathRoundNumber';
@@ -8,12 +8,77 @@ import { PathTransactionId } from './dto/PathTransactionId';
 import { AlgoTransaction, BroadcastTx } from '@tatumio/tatum';
 import { PathFromTo } from './PathFromTo';
 import { Pagination } from './Pagination';
+import {Request} from 'express';
 export abstract class AlgoController {
-  protected constructor(protected readonly service: AlgoService) {}
+  protected constructor(protected readonly service: AlgoService) { }
+
+  @Get('/node/indexer/:key/*')
+  @HttpCode(HttpStatus.OK)
+  public async nodeGetIndexer(@Req() req: Request, @Param() param: { key: string }) {
+    try {
+      return await this.service.nodeMethod(req, param.key, AlgoNodeType.INDEXER);
+    } catch (e) {
+      if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+        throw new BadRequestException(e);
+      }
+      if (e.constructor.name === 'TatumError' || e.constructor.name === AlgoError.name) {
+        throw e;
+      }
+      throw new AlgoError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'Algo.error');
+    }
+  }
+
+  @Post('/node/indexer/:key/*')
+  @HttpCode(HttpStatus.OK)
+  public async nodePostIndexer(@Req() req: Request, @Param() param: { key: string }) {
+    try {
+      return await this.service.nodeMethod(req, param.key, AlgoNodeType.INDEXER);
+    } catch (e) {
+      if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+        throw new BadRequestException(e);
+      }
+      if (e.constructor.name === 'TatumError' || e.constructor.name === AlgoError.name) {
+        throw e;
+      }
+      throw new AlgoError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'Algo.error');
+    }
+  }
+
+  @Get('/node/algod/:key/*')
+  @HttpCode(HttpStatus.OK)
+  public async nodeGetAlgod(@Req() req: Request, @Param() param: { key: string }) {
+    try {
+      return await this.service.nodeMethod(req, param.key, AlgoNodeType.ALGOD);
+    } catch (e) {
+      if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+        throw new BadRequestException(e);
+      }
+      if (e.constructor.name === 'TatumError' || e.constructor.name === AlgoError.name) {
+        throw e;
+      }
+      throw new AlgoError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'Algo.error');
+    }
+  }
+
+  @Post('/node/algod/:key/*')
+  @HttpCode(HttpStatus.OK)
+  public async nodePostAlgod(@Req() req: Request, @Param() param: { key: string }) {
+    try {
+      return await this.service.nodeMethod(req, param.key, AlgoNodeType.ALGOD);
+    } catch (e) {
+      if (['Array', 'ValidationError'].includes(e.constructor.name)) {
+        throw new BadRequestException(e);
+      }
+      if (e.constructor.name === 'TatumError' || e.constructor.name === AlgoError.name) {
+        throw e;
+      }
+      throw new AlgoError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'Algo.error');
+    }
+  }
 
   @Get('/wallet')
   @HttpCode(HttpStatus.OK)
-  public async generateWallet(@Query() query: QueryMnemonic ) {
+  public async generateWallet(@Query() query: QueryMnemonic) {
     try {
       return await this.service.generateWallet(query.mnemonic)
     } catch (e) {
@@ -23,7 +88,7 @@ export abstract class AlgoController {
 
   @Get('/address/:fromPrivateKey')
   @HttpCode(HttpStatus.OK)
-  public async generateAddress(@Param() {fromPrivateKey}: GeneratePrivateKey) {
+  public async generateAddress(@Param() { fromPrivateKey }: GeneratePrivateKey) {
     try {
       return await this.service.generateAddress(fromPrivateKey);
     } catch (e) {
@@ -103,7 +168,7 @@ export abstract class AlgoController {
 
   @Get('/block/:roundNumber')
   @HttpCode(HttpStatus.OK)
-  public async getBlock(@Param() {roundNumber}: PathRountNumber) {
+  public async getBlock(@Param() { roundNumber }: PathRountNumber) {
     try {
       return await this.service.getBlock(Number(roundNumber));
     } catch (e) {
@@ -118,7 +183,7 @@ export abstract class AlgoController {
   }
 
   @Get('/transaction/:txid')
-  public async getTransaction(@Param() {txid}: PathTransactionId) {
+  public async getTransaction(@Param() { txid }: PathTransactionId) {
     try {
       return await this.service.getTransaction(txid);
     } catch (e) {
@@ -132,7 +197,7 @@ export abstract class AlgoController {
     }
   }
   @Get('/transactions/:from/:to')
-  public async getPayTransactions(@Param() {from, to}: PathFromTo, @Query() {limit, next}: Pagination) {
+  public async getPayTransactions(@Param() { from, to }: PathFromTo, @Query() { limit, next }: Pagination) {
     try {
       return await this.service.getPayTransactions(from, to, limit, next);
     } catch (e) {

@@ -18,6 +18,7 @@ tags:
       <ul>
       <li><b>Ethereum</b></li>
       <li><b>Polygon (Matic)</b></li>
+      <li><b>Kcc (KCS)</b></li>
       <li><b>Celo</b></li>
       <li><b>Harmony.ONE</b></li>
       <li><b>Tron</b></li>
@@ -38,6 +39,7 @@ paths:
         <ul>
         <li><b>Ethereum</b></li>
         <li><b>Polygon (Matic)</b></li>
+        <li><b>Kcc (KCS)</b></li>
         <li><b>Celo</b></li>
         <li><b>Harmony.ONE</b></li>
         <li><b>Flow</b></li>
@@ -132,6 +134,7 @@ paths:
         <ul>
         <li><b>Ethereum</b></li>
         <li><b>Polygon (Matic)</b></li>
+        <li><b>Kcc (KCS)</b></li>
         <li><b>Celo</b></li>
         <li><b>Solana</b></li>
         <li><b>Harmony.ONE</b></li>
@@ -227,6 +230,12 @@ paths:
           </tr>
           <tr>
             <td>MATIC</td>
+            <td>Mainnet</td>
+            <td>0xcf9e127455d28e7362380aec1b92ddee8200b295</td>
+            <td>0x6709bdda623af7eb152cb2fe2562ab7e031e564f</td>
+          </tr>
+          <tr>
+            <td>KCS</td>
             <td>Mainnet</td>
             <td>0xcf9e127455d28e7362380aec1b92ddee8200b295</td>
             <td>0x6709bdda623af7eb152cb2fe2562ab7e031e564f</td>
@@ -414,6 +423,7 @@ paths:
         <ul>
         <li><b>Ethereum</b></li>
         <li><b>Polygon (Matic)</b></li>
+        <li><b>Kcc (KCS)</b></li>
         <li><b>Celo</b></li>
         <li><b>Harmony.ONE</b></li>
         <li><b>Tron</b></li>
@@ -492,6 +502,7 @@ paths:
         <ul>
         <li><b>Ethereum</b></li>
         <li><b>Polygon (Matic)</b></li>
+        <li><b>Kcc (KCS)</b></li>
         <li><b>Celo</b></li>
         <li><b>Harmony.ONE</b></li>
         <li><b>Tron</b></li>
@@ -570,6 +581,7 @@ paths:
         <ul>
         <li><b>Ethereum</b></li>
         <li><b>Polygon (Matic)</b></li>
+        <li><b>Kcc (KCS)</b></li>
         <li><b>Celo</b></li>
         <li><b>Harmony.ONE</b></li>
         <li><b>Binance Smart Chain</b></li>
@@ -639,6 +651,7 @@ paths:
         <ul>
         <li><b>Ethereum</b></li>
         <li><b>Polygon (Matic)</b></li>
+        <li><b>Kcc (KCS)</b></li>
         <li><b>Celo</b></li>
         <li><b>Harmony.ONE</b></li>
         <li><b>Tron</b></li>
@@ -717,6 +730,7 @@ paths:
             enum:
               - ETH
               - MATIC
+              - KCS
               - CELO
             example: CELO
         - description: "Account address"
@@ -808,6 +822,7 @@ paths:
             enum:
               - ETH
               - MATIC
+              - KCS
               - CELO
             example: CELO
         - description: "NFT Token ID"
@@ -1100,6 +1115,7 @@ paths:
               - CELO
               - ETH
               - MATIC
+              - KCS
         - description: "Account address"
           in: path
           name: address

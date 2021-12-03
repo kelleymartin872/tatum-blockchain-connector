@@ -102,7 +102,7 @@ paths:
       description: |
         <h4>2 credits per API call.</h4><br/>
         <p>Use this endpoint URL as a http-based url to connect directly to the Algorand node provided by Tatum</p>
-      operationId: AlgoNodeIndexerDriver
+      operationId: AlgoNodeIndexerGetDriver
       parameters:
         - description: "Tatum X-API-Key used for authorization."
           in: path
@@ -142,7 +142,7 @@ paths:
       description: |
         <h4>2 credits per API call.</h4><br/>
         <p>Use this endpoint URL as a http-based url to connect directly to the Algorand node provided by Tatum</p>
-      operationId: AlgoNodeIndexerDriver
+      operationId: AlgoNodeIndexerPostDriver
       parameters:
         - description: "Tatum X-API-Key used for authorization."
           in: path
@@ -183,7 +183,7 @@ paths:
       description: |
         <h4>2 credits per API call.</h4><br/>
         <p>Use this endpoint URL as a http-based url to connect directly to the Algorand node provided by Tatum</p>
-      operationId: AlgoNodeDriver
+      operationId: AlgoNodeGetDriver
       parameters:
         - description: "Tatum X-API-Key used for authorization."
           in: path
@@ -223,7 +223,7 @@ paths:
       description: |
         <h4>2 credits per API call.</h4><br/>
         <p>Use this endpoint URL as a http-based url to connect directly to the Algorand node provided by Tatum</p>
-      operationId: AlgoNodeDriver
+      operationId: AlgoNodePostDriver
       parameters:
         - description: "Tatum X-API-Key used for authorization."
           in: path

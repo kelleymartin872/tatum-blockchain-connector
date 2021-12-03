@@ -422,6 +422,9 @@ export abstract class NftService {
                 break;
             case C.SOL.toString():
                 txData = await transferSolanaNft(body as TransferErc721, provider);
+                if (body.signatureId) {
+                    txData = JSON.stringify(txData);
+                }
                 break;
             case Currency.TRON:
                 await this.getClient(chain, await this.isTestnet());
@@ -557,7 +560,10 @@ export abstract class NftService {
                 txData = await prepareEgldCreateNftOrSftSignedTransaction(body as EgldEsdtTransaction, provider)
                 break;
             case C.SOL:
-                txData = await mintSolanaNft(body as SolanaMintNft, provider)
+                txData = await mintSolanaNft(body as SolanaMintNft, provider);
+                if (body.signatureId) {
+                    txData = JSON.stringify(txData);
+                }
                 break;
             case Currency.FLOW:
                 if (body.signatureId) {

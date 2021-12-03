@@ -13,146 +13,6 @@ tags:
       a faucet, e.g. <a target="_blank" href="https://bank.testnet.algorand.network/">https://bank.testnet.algorand.network/</a></li></ul></p>
     name: Blockchain / Algorand (ALGO)
 paths:
-  /node/indexer/{xApiKey}:
-    get:
-      description: |
-        <h4>2 credits per API call.</h4><br/>
-        <p>Use this endpoint URL as a http-based url to connect directly to the Algorand node provided by Tatum</p>
-      operationId: AlgoNodeIndexerDriver
-      parameters:
-        - description: "Tatum X-API-Key used for authorization."
-          in: path
-          name: xApiKey
-          required: true
-          schema:
-            type: string
-            example: asdlkfjnqunalkwjfnq2oi303294857k
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              description: Any vaild http method content body.
-        required: true
-      responses:
-        200:
-          content:
-            application/json:
-              schema:
-                type: object
-                description: Any valid http method response.
-          description: OK
-        400:
-          <<: *API400
-        401:
-          <<: *API401
-        500:
-          <<: *API500
-    post:
-      description: |
-        <h4>2 credits per API call.</h4><br/>
-        <p>Use this endpoint URL as a http-based url to connect directly to the Algorand node provided by Tatum</p>
-      operationId: AlgoNodeIndexerDriver
-      parameters:
-        - description: "Tatum X-API-Key used for authorization."
-          in: path
-          name: xApiKey
-          required: true
-          schema:
-            type: string
-            example: asdlkfjnqunalkwjfnq2oi303294857k
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              description: Any vaild http method content body.
-        required: true
-      responses:
-        200:
-          content:
-            application/json:
-              schema:
-                type: object
-                description: Any valid http method response.
-          description: OK
-        400:
-          <<: *API400
-        401:
-          <<: *API401
-        500:
-          <<: *API500
-       
-  /node/algod/{xApiKey}:
-    get:
-      description: |
-        <h4>2 credits per API call.</h4><br/>
-        <p>Use this endpoint URL as a http-based url to connect directly to the Algorand node provided by Tatum</p>
-      operationId: AlgoNodeDriver
-      parameters:
-        - description: "Tatum X-API-Key used for authorization."
-          in: path
-          name: xApiKey
-          required: true
-          schema:
-            type: string
-            example: asdlkfjnqunalkwjfnq2oi303294857k
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              description: Any vaild http method content body.
-        required: true
-      responses:
-        200:
-          content:
-            application/json:
-              schema:
-                type: object
-                description: Any valid http method response.
-          description: OK
-        400:
-          <<: *API400
-        401:
-          <<: *API401
-        500:
-          <<: *API500
-    post:
-      description: |
-        <h4>2 credits per API call.</h4><br/>
-        <p>Use this endpoint URL as a http-based url to connect directly to the Algorand node provided by Tatum</p>
-      operationId: AlgoNodeDriver
-      parameters:
-        - description: "Tatum X-API-Key used for authorization."
-          in: path
-          name: xApiKey
-          required: true
-          schema:
-            type: string
-            example: asdlkfjnqunalkwjfnq2oi303294857k
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              description: Any vaild http method content body.
-        required: true
-      responses:
-        200:
-          content:
-            application/json:
-              schema:
-                type: object
-                description: Any valid http method response.
-          description: OK
-        400:
-          <<: *API400
-        401:
-          <<: *API401
-        500:
-          <<: *API500
-
   /v3/algorand/wallet:
     get:
       description: |
@@ -237,6 +97,144 @@ paths:
       summary: Generate Algorand account address from private key
       tags:
         - Blockchain / Algorand (ALGO)
+  /node/indexer/{xApiKey}:
+    get:
+      description: |
+        <h4>2 credits per API call.</h4><br/>
+        <p>Use this endpoint URL as a http-based url to connect directly to the Algorand node provided by Tatum</p>
+      operationId: AlgoNodeIndexerDriver
+      parameters:
+        - description: "Tatum X-API-Key used for authorization."
+          in: path
+          name: xApiKey
+          required: true
+          schema:
+            type: string
+            example: asdlkfjnqunalkwjfnq2oi303294857k
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Any vaild http method content body.
+        required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Any valid http method response.
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        500:
+          <<: *API500
+    post:
+      description: |
+        <h4>2 credits per API call.</h4><br/>
+        <p>Use this endpoint URL as a http-based url to connect directly to the Algorand node provided by Tatum</p>
+      operationId: AlgoNodeIndexerDriver
+      parameters:
+        - description: "Tatum X-API-Key used for authorization."
+          in: path
+          name: xApiKey
+          required: true
+          schema:
+            type: string
+            example: asdlkfjnqunalkwjfnq2oi303294857k
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Any vaild http method content body.
+        required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Any valid http method response.
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        500:
+          <<: *API500
+  /node/algod/{xApiKey}:
+    get:
+      description: |
+        <h4>2 credits per API call.</h4><br/>
+        <p>Use this endpoint URL as a http-based url to connect directly to the Algorand node provided by Tatum</p>
+      operationId: AlgoNodeDriver
+      parameters:
+        - description: "Tatum X-API-Key used for authorization."
+          in: path
+          name: xApiKey
+          required: true
+          schema:
+            type: string
+            example: asdlkfjnqunalkwjfnq2oi303294857k
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Any vaild http method content body.
+        required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Any valid http method response.
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        500:
+          <<: *API500
+    post:
+      description: |
+        <h4>2 credits per API call.</h4><br/>
+        <p>Use this endpoint URL as a http-based url to connect directly to the Algorand node provided by Tatum</p>
+      operationId: AlgoNodeDriver
+      parameters:
+        - description: "Tatum X-API-Key used for authorization."
+          in: path
+          name: xApiKey
+          required: true
+          schema:
+            type: string
+            example: asdlkfjnqunalkwjfnq2oi303294857k
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Any vaild http method content body.
+        required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Any valid http method response.
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        500:
+          <<: *API500
   /v3/algorand/account/balance/{address}:
     get:
       description: |
@@ -255,7 +253,7 @@ paths:
         200:
           content:
             application/json:
-              schema: 
+              schema:
                 type: object
                 properties:
                   balance:
@@ -353,7 +351,7 @@ paths:
         200:
           content:
             application/json:
-              schema: 
+              schema:
                 oneOf:
                   - $ref: "#/components/schemas/TransactionHashKMS"
                   - $ref: "#/components/schemas/SignatureId"
@@ -505,7 +503,7 @@ components:
     AlgoBlock:
       type: object
       properties:
-        genesisHash: 
+        genesisHash:
           description: hash to which this block belongs
           type: string
           example: "SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI="
@@ -528,15 +526,15 @@ components:
             'rewards-rate': 0,
             'rewards-residue': 2020197303
           }
-        round: 
+        round:
           description: Current round on which this block was appended to the chain
           type: number
           example: 16775567
-        seed: 
+        seed:
           description: Sortition seed.
           type: string
           example: "VPBpyrHyqbfqrHqJ3l39LXGN4qgEdNnE5kpJfk3vJtA="
-        timestamp: 
+        timestamp:
           description: Block creation timestamp in seconds since eposh
           type: number
           example: 1632167753

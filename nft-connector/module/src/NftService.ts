@@ -195,8 +195,8 @@ export abstract class NftService {
         } else if (chain === Currency.EGLD) {
             return await this.getElrondNftDataForAddress(chain, token, contractAddress, nonce, await this.isTestnet())
         } else if (chain === C.SOL.toString()) {
-            const connection = new Connection(await this.isTestnet() ? 'Devnet' : 'MainnetBeta');
-            const metadata = await programs.metadata.Metadata.findMany(connection, {mint: token});
+            const connection = new Connection((await this.getNodesUrl(C.SOL, await this.isTestnet()))[0]);
+            const metadata = await programs.metadata.Metadata.findMany(connection, {mint: contractAddress});
             if (metadata?.length > 0) {
                 return {onchainData: metadata[0].data}
             }
@@ -234,7 +234,7 @@ export abstract class NftService {
             return {addresses: [token], values: [data?.royalties]}
         } else if (chain === C.SOL.toString()) {
             const connection = new Connection((await this.getNodesUrl(C.SOL, await this.isTestnet()))[0]);
-            const metadata = await programs.metadata.Metadata.findMany(connection, {mint: token});
+            const metadata = await programs.metadata.Metadata.findMany(connection, {mint: contractAddress});
             if (metadata?.length > 0) {
                 const creators = metadata[0].data.data.creators || [];
                 return {addresses: creators.map(c => c.address), values: creators.map(c => c.share.toString())};

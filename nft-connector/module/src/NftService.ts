@@ -195,8 +195,12 @@ export abstract class NftService {
         } else if (chain === Currency.EGLD) {
             return await this.getElrondNftDataForAddress(chain, token, contractAddress, nonce, await this.isTestnet())
         } else if (chain === C.SOL.toString()) {
-            const connection = new Connection((await this.getNodesUrl(C.SOL, await this.isTestnet()))[0]);
-            return {onchainData: (await programs.metadata.Metadata.load(connection, token)).data}
+            const connection = new Connection(await this.isTestnet() ? 'Devnet' : 'MainnetBeta');
+            const metadata = await programs.metadata.Metadata.findMany(connection, {mint: token});
+            if (metadata?.length > 0) {
+                return {onchainData: metadata[0].data}
+            }
+            throw new NftError(`Unable to obtain information for token.`, 'nft.erc721.failed');
         }
         // @ts-ignore
         const c = new (await this.getClient(chain, await this.isTestnet())).eth.Contract(erc721_abi, chain === Currency.ONE ? new HarmonyAddress(contractAddress).basicHex : contractAddress);
@@ -230,9 +234,12 @@ export abstract class NftService {
             return {addresses: [token], values: [data?.royalties]}
         } else if (chain === C.SOL.toString()) {
             const connection = new Connection((await this.getNodesUrl(C.SOL, await this.isTestnet()))[0]);
-            const metadata = await programs.metadata.Metadata.load(connection, token);
-            const creators = metadata.data.data.creators || [];
-            return {addresses: creators.map(c => c.address), values: creators.map(c => c.share.toString())};
+            const metadata = await programs.metadata.Metadata.findMany(connection, {mint: token});
+            if (metadata?.length > 0) {
+                const creators = metadata[0].data.data.creators || [];
+                return {addresses: creators.map(c => c.address), values: creators.map(c => c.share.toString())};
+            }
+            throw new NftError(`Unable to obtain information for token.`, 'nft.erc721.failed');
         }
         // @ts-ignore
         const c = new (await this.getClient(chain, await this.isTestnet())).eth.Contract(erc721_abi, chain === Currency.ONE ? new HarmonyAddress(contractAddress).basicHex : contractAddress);

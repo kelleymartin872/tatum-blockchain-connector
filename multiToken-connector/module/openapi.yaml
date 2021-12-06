@@ -626,11 +626,8 @@ paths:
           schema:
             type: string
             enum:
-              - ETH
-              - MATIC
-              - KCS
               - CELO
-            example: ETH
+            example: CELO
         - description: "Account address"
           in: path
           name: address

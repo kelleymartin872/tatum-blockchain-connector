@@ -97,7 +97,7 @@ paths:
       summary: Generate Algorand account address from private key
       tags:
         - Blockchain / Algorand (ALGO)
-  /node/indexer/{xApiKey}:
+  /v3/algorand/node/indexer/{xApiKey}:
     get:
       description: |
         <h4>2 credits per API call.</h4><br/>
@@ -111,13 +111,6 @@ paths:
           schema:
             type: string
             example: asdlkfjnqunalkwjfnq2oi303294857k
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              description: Any vaild http method content body.
-        required: true
       responses:
         200:
           content:
@@ -178,7 +171,7 @@ paths:
       summary: Access Algorand Indexer POST node endpoints
       tags:
         - Blockchain / Algorand (ALGO)
-  /node/algod/{xApiKey}:
+  /v3/algorand/node/algod/{xApiKey}:
     get:
       description: |
         <h4>2 credits per API call.</h4><br/>
@@ -192,13 +185,6 @@ paths:
           schema:
             type: string
             example: asdlkfjnqunalkwjfnq2oi303294857k
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              description: Any vaild http method content body.
-        required: true
       responses:
         200:
           content:

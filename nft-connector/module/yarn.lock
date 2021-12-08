@@ -1608,6 +1608,20 @@
     reflect-metadata "^0.1.13"
     web3 "1.4.0"
 
+"@tatumio/tatum-core@^2.0.0-alpha.80":
+  version "2.0.0-alpha.80"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum-core/-/tatum-core-2.0.0-alpha.80.tgz#5687f9c6fc037145fe40a801171f714a2a17ae00"
+  integrity sha512-cpqi5mSuI9vfhZCNe9rjjr/EQRrKvDqEcnxrhsOjsPosQKVvlSxnV5pOD785DCHTbEQHza7mV3k0ILN9aP/KIQ==
+  dependencies:
+    axios "^0.21.1"
+    axios-retry "^3.1.9"
+    bignumber.js "^9.0.0"
+    class-transformer "^0.2.3"
+    class-validator "0.13.0"
+    form-data "^4.0.0"
+    reflect-metadata "^0.1.13"
+    web3 "1.4.0"
+
 "@tatumio/tatum-defi@^2.0.0-alpha.76":
   version "2.0.0-alpha.76"
   resolved "https://registry.yarnpkg.com/@tatumio/tatum-defi/-/tatum-defi-2.0.0-alpha.76.tgz#6d4b78cb3b68ef4accfcacd82a50ec2396fe87d9"
@@ -1617,14 +1631,23 @@
     bignumber.js "^9.0.0"
     web3 "1.4.0"
 
-"@tatumio/tatum-kcc@^2.0.0-alpha.76":
-  version "2.0.0-alpha.76"
-  resolved "https://registry.yarnpkg.com/@tatumio/tatum-kcc/-/tatum-kcc-2.0.0-alpha.76.tgz#52d95c3a38f7d7fc376b977611fc5a443e95d55c"
-  integrity sha512-s7aW3kLD9Gs9PBXrd3HszniRZ34SpsDGsW8gkJhvq3SelEBKh8eOGcF0+7K7O0jg8vEdtcBp0coNBuojnDDbrA==
+"@tatumio/tatum-defi@^2.0.0-alpha.80":
+  version "2.0.0-alpha.80"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum-defi/-/tatum-defi-2.0.0-alpha.80.tgz#5e4967751635d92e423ff530c96977d88b8b51f6"
+  integrity sha512-Gujb1fIVpNWywuUhdC1ygD8Uej/t639/ucTpE3k/MBuUow13G/oI8MMH+AXpCSWfGc0YU4Xz+ObOUq8sRDlPaA==
   dependencies:
-    "@tatumio/tatum-core" "^2.0.0-alpha.76"
-    "@tatumio/tatum-defi" "^2.0.0-alpha.76"
-    "@tatumio/tatum-ledger" "^2.0.0-alpha.76"
+    "@tatumio/tatum-core" "^2.0.0-alpha.80"
+    bignumber.js "^9.0.0"
+    web3 "1.4.0"
+
+"@tatumio/tatum-kcs@^2.0.0-alpha.80":
+  version "2.0.0-alpha.80"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum-kcs/-/tatum-kcs-2.0.0-alpha.80.tgz#3b35ef9bc7fe1502a90f8f85bfe44bcf830cae1e"
+  integrity sha512-XyNmfwtb6AZNhGtnG37DnpL1V+bwo7WLAZvPubmdolWT6ecsGDruE7WWlvIdf6iGV/uSTjQq4ioXrPti+KUIWQ==
+  dependencies:
+    "@tatumio/tatum-core" "^2.0.0-alpha.80"
+    "@tatumio/tatum-defi" "^2.0.0-alpha.80"
+    "@tatumio/tatum-ledger" "^2.0.0-alpha.80"
     bignumber.js "^9.0.0"
     bip39 "^3.0.2"
     class-transformer "^0.2.3"
@@ -1639,6 +1662,13 @@
   integrity sha512-DenutIfzXZm4xAXwKbFIpXBw3Y8Po/fb5OUwpQOsepJ7sEhuHPpjlD5TQJe4pISpKWgpxEXPWtjOZ3iSgDh3Xw==
   dependencies:
     "@tatumio/tatum-core" "^2.0.0-alpha.76"
+
+"@tatumio/tatum-ledger@^2.0.0-alpha.80":
+  version "2.0.0-alpha.80"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum-ledger/-/tatum-ledger-2.0.0-alpha.80.tgz#b630b6985e87ebf939a236e793fc69361c6bbf91"
+  integrity sha512-h7UQvyU+Q2Dw3T9FxeEJt0bDFEkyURjWcAKY+trVrTKQjKA5hcqVXZkbhOT0hrXb25dnLnwl9ZmC3ywONeUNjw==
+  dependencies:
+    "@tatumio/tatum-core" "^2.0.0-alpha.80"
 
 "@tatumio/tatum-solana@^2.0.0-alpha.76":
   version "2.0.0-alpha.76"

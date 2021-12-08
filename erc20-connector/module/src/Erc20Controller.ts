@@ -16,10 +16,10 @@ import {
     ChainTransferPolygonErc20,
     ChainEgldEsdtTransaction,
     ChainTransferAlgoErc20,
-    ChainBurnKccErc20,
-    ChainDeployKccErc20,
-    ChainMintKccErc20,
-    ChainTransferKccErc20
+    ChainBurnKcsErc20,
+    ChainDeployKcsErc20,
+    ChainMintKcsErc20,
+    ChainTransferKcsErc20
 } from './Erc20Base';
 import {ApproveErc20} from '@tatumio/tatum';
 import {PathAddressContractAddressChain} from './dto/PathAddressContractAddressChain';
@@ -41,7 +41,7 @@ export abstract class Erc20Controller {
     @HttpCode(HttpStatus.OK)
     public async transactionErc20(
       @Body() body: ChainTransferEthErc20 | ChainTransferBscBep20 | ChainTransferCeloErc20Token | ChainTransferErc20
-        | ChainTransferHrm20 | ChainTransferPolygonErc20 | ChainEgldEsdtTransaction | ChainTransferAlgoErc20 | ChainTransferKccErc20
+        | ChainTransferHrm20 | ChainTransferPolygonErc20 | ChainEgldEsdtTransaction | ChainTransferAlgoErc20 | ChainTransferKcsErc20
     ) {
         try {
             return await this.service.transferErc20(body);
@@ -58,7 +58,7 @@ export abstract class Erc20Controller {
 
     @Post('/burn')
     @HttpCode(HttpStatus.OK)
-    public async burnErc20(@Body() body: ChainBurnErc20 | ChainBurnCeloErc20 | ChainEgldEsdtTransaction | ChainBurnKccErc20) {
+    public async burnErc20(@Body() body: ChainBurnErc20 | ChainBurnCeloErc20 | ChainEgldEsdtTransaction | ChainBurnKcsErc20) {
         try {
             return await this.service.burnErc20(body);
         } catch (e) {
@@ -74,7 +74,7 @@ export abstract class Erc20Controller {
 
     @Post('/mint')
     @HttpCode(HttpStatus.OK)
-    public async mintErc20(@Body() body: ChainMintErc20 | ChainMintCeloErc20 | ChainEgldEsdtTransaction | ChainMintKccErc20) {
+    public async mintErc20(@Body() body: ChainMintErc20 | ChainMintCeloErc20 | ChainEgldEsdtTransaction | ChainMintKcsErc20) {
         try {
             return await this.service.mintErc20(body);
         } catch (e) {
@@ -106,7 +106,7 @@ export abstract class Erc20Controller {
 
     @Post('/deploy')
     @HttpCode(HttpStatus.OK)
-    public async deployErc20(@Body() body: ChainDeployErc20 | ChainDeployCeloErc20 | ChainEgldEsdtTransaction | ChainDeployKccErc20) {
+    public async deployErc20(@Body() body: ChainDeployErc20 | ChainDeployCeloErc20 | ChainEgldEsdtTransaction | ChainDeployKcsErc20) {
         try {
             return await this.service.deployErc20(body);
         } catch (e) {

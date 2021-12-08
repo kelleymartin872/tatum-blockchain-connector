@@ -12,12 +12,12 @@ import {
     DeployErc721 as CoreDeployErc721,
 } from '@tatumio/tatum-core';
 import {
-    prepareKccBurnErc721SignedTransaction,
-    prepareKccDeployErc721SignedTransaction,
-    prepareKccMintErc721SignedTransaction, 
-    prepareKccTransferErc721SignedTransaction,
-    prepareKccUpdateCashbackForAuthorErc721SignedTransaction
-} from '@tatumio/tatum-kcc';
+    prepareKcsBurnErc721SignedTransaction,
+    prepareKcsDeployErc721SignedTransaction,
+    prepareKcsMintErc721SignedTransaction, 
+    prepareKcsTransferErc721SignedTransaction,
+    prepareKcsUpdateCashbackForAuthorErc721SignedTransaction
+} from '@tatumio/tatum-kcs';
 
 import {Connection, programs} from '@metaplex/js';
 import {NftError} from './NftError';
@@ -425,7 +425,7 @@ export abstract class NftService {
                 txData = await preparePolygonTransferErc721SignedTransaction(testnet, body as EthTransferErc721, provider);
                 break;
             case Currency.KCS:
-                txData = await prepareKccTransferErc721SignedTransaction(body as CoreTransferErc721, provider);
+                txData = await prepareKcsTransferErc721SignedTransaction(body as CoreTransferErc721, provider);
                 break;
             case C.SOL.toString():
                 txData = await transferSolanaNft(body as TransferErc721, provider);
@@ -510,7 +510,7 @@ export abstract class NftService {
                 if ((body as CoreMintErc721).provenance) {
                 } else {
                     if (!(body as CoreMintErc721).authorAddresses) {
-                        txData = await prepareKccMintErc721SignedTransaction((builtInBody || body) as CoreMintErc721, provider);
+                        txData = await prepareKcsMintErc721SignedTransaction((builtInBody || body) as CoreMintErc721, provider);
                     } else {
                     }
                 }
@@ -719,7 +719,7 @@ export abstract class NftService {
                 txData = await preparePolygonUpdateCashbackForAuthorErc721SignedTransaction(testnet, body, (await this.getNodesUrl(chain, testnet))[0]);
                 break;
             case Currency.KCS:
-                txData = await prepareKccUpdateCashbackForAuthorErc721SignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
+                txData = await prepareKcsUpdateCashbackForAuthorErc721SignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
                 break;
             case Currency.ONE:
                 txData = await prepareOneUpdateCashbackForAuthor721SignedTransaction(testnet, body as OneUpdateCashback721, (await this.getNodesUrl(chain, testnet))[0]);
@@ -764,7 +764,7 @@ export abstract class NftService {
                 txData = await preparePolygonBurnErc721SignedTransaction(testnet, body as EthBurnErc721, provider);
                 break;
             case Currency.KCS:
-                txData = await prepareKccBurnErc721SignedTransaction(body as CoreBurnErc721, provider);
+                txData = await prepareKcsBurnErc721SignedTransaction(body as CoreBurnErc721, provider);
                 break;
             case Currency.ONE:
                 txData = await prepareOneBurn721SignedTransaction(testnet, body as OneBurn721, provider);
@@ -820,7 +820,7 @@ export abstract class NftService {
                 txData = await preparePolygonDeployErc721SignedTransaction(testnet, body as EthDeployErc721, provider);
                 break;
             case Currency.KCS:
-                txData = await prepareKccDeployErc721SignedTransaction(body as CoreDeployErc721, provider);
+                txData = await prepareKcsDeployErc721SignedTransaction(body as CoreDeployErc721, provider);
                 break;
             case Currency.ONE:
                 txData = await prepareOneDeploy721SignedTransaction(testnet, body as OneDeploy721, provider);

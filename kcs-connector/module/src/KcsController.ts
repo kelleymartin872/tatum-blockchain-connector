@@ -1,13 +1,13 @@
 import {BadRequestException, Body, Get, HttpCode, HttpStatus, Param, Post, Query,} from '@nestjs/common';
-import {KccService} from './KccService';
+import {KcsService} from './KcsService';
 import {BroadcastTx} from './dto/BroadcastTx'
 import {
   EstimateGas,
   SmartContractMethodInvocation,
   SmartContractReadMethodInvocation,
   TransferErc20,
-} from '@tatumio/tatum-kcc';
-import {KccError} from './KccError';
+} from '@tatumio/tatum-core';
+import {KcsError} from './KcsError';
 import {
   EthBasedBlockchainControllerInterface,
   GeneratePrivateKey,
@@ -17,8 +17,8 @@ import {
   QueryMnemonic
 } from '@tatumio/blockchain-connector-common';
 
-export abstract class KccController implements EthBasedBlockchainControllerInterface {
-  protected constructor(protected readonly service: KccService) {
+export abstract class KcsController implements EthBasedBlockchainControllerInterface {
+  protected constructor(protected readonly service: KcsService) {
   }
 
   @Post('/web3/:xApiKey')
@@ -30,10 +30,10 @@ export abstract class KccController implements EthBasedBlockchainControllerInter
       if (['Array', 'ValidationError'].includes(e.constructor.name)) {
         throw new BadRequestException(e);
       }
-      if (e.constructor.name === 'TatumError' || e.constructor.name === KccError.name) {
+      if (e.constructor.name === 'TatumError' || e.constructor.name === KcsError.name) {
         throw e;
       }
-      throw new KccError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
+      throw new KcsError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
     }
   }
 
@@ -43,7 +43,7 @@ export abstract class KccController implements EthBasedBlockchainControllerInter
     try {
       return await this.service.generateWallet(mnemonic)
     } catch (e) {
-      throw new KccError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
+      throw new KcsError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
     }
   }
 
@@ -53,7 +53,7 @@ export abstract class KccController implements EthBasedBlockchainControllerInter
     try {
       return await this.service.generatePrivateKey(mnemonic, index)
     } catch (e) {
-      throw new KccError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
+      throw new KcsError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
     }
   }
 
@@ -66,10 +66,10 @@ export abstract class KccController implements EthBasedBlockchainControllerInter
       if (['Array', 'ValidationError'].includes(e.constructor.name)) {
         throw new BadRequestException(e);
       }
-      if (e.constructor.name === 'TatumError' || e.constructor.name === KccError.name) {
+      if (e.constructor.name === 'TatumError' || e.constructor.name === KcsError.name) {
         throw e;
       }
-      throw new KccError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
+      throw new KcsError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
     }
   }
 
@@ -82,10 +82,10 @@ export abstract class KccController implements EthBasedBlockchainControllerInter
       if (['Array', 'ValidationError'].includes(e.constructor.name)) {
         throw new BadRequestException(e);
       }
-      if (e.constructor.name === 'TatumError' || e.constructor.name === KccError.name) {
+      if (e.constructor.name === 'TatumError' || e.constructor.name === KcsError.name) {
         throw e;
       }
-      throw new KccError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
+      throw new KcsError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
     }
   }
 
@@ -95,7 +95,7 @@ export abstract class KccController implements EthBasedBlockchainControllerInter
     try {
       return await this.service.getTransactionCount(param.address);
     } catch (e) {
-      throw new KccError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
+      throw new KcsError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
     }
   }
 
@@ -108,10 +108,10 @@ export abstract class KccController implements EthBasedBlockchainControllerInter
       if (['Array', 'ValidationError'].includes(e.constructor.name)) {
         throw new BadRequestException(e);
       }
-      if (e.constructor.name === 'TatumError' || e.constructor.name === KccError.name) {
+      if (e.constructor.name === 'TatumError' || e.constructor.name === KcsError.name) {
         throw e;
       }
-      throw new KccError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
+      throw new KcsError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
     }
   }
 
@@ -124,10 +124,10 @@ export abstract class KccController implements EthBasedBlockchainControllerInter
       if (['Array', 'ValidationError'].includes(e.constructor.name)) {
         throw new BadRequestException(e);
       }
-      if (e.constructor.name === 'TatumError' || e.constructor.name === KccError.name) {
+      if (e.constructor.name === 'TatumError' || e.constructor.name === KcsError.name) {
         throw e;
       }
-      throw new KccError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
+      throw new KcsError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
     }
   }
 
@@ -137,7 +137,7 @@ export abstract class KccController implements EthBasedBlockchainControllerInter
     try {
       return await this.service.getCurrentBlock();
     } catch (e) {
-      throw new KccError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
+      throw new KcsError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
     }
   }
 
@@ -147,7 +147,7 @@ export abstract class KccController implements EthBasedBlockchainControllerInter
     try {
       return await this.service.getBlock(path.hash);
     } catch (e) {
-      throw new KccError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
+      throw new KcsError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
     }
   }
 
@@ -157,7 +157,7 @@ export abstract class KccController implements EthBasedBlockchainControllerInter
     try {
       return await this.service.getBalance(path.address);
     } catch (e) {
-      throw new KccError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
+      throw new KcsError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
     }
   }
 
@@ -167,7 +167,7 @@ export abstract class KccController implements EthBasedBlockchainControllerInter
     try {
       return await this.service.generateAddress(xpub, i);
     } catch (e) {
-      throw new KccError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
+      throw new KcsError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
     }
   }
 
@@ -176,7 +176,7 @@ export abstract class KccController implements EthBasedBlockchainControllerInter
     try {
       return await this.service.getTransaction(path.hash);
     } catch (e) {
-      throw new KccError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
+      throw new KcsError(`Unexpected error occurred. Reason: ${e.message?.message || e.response?.data || e.message || e}`, 'kcc.error');
     }
   }
 }

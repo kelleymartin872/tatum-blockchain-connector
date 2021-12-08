@@ -3,22 +3,22 @@ servers:
   - url: 'https://api-eu1.tatum.io'
 info:
   version: 1.0.1
-  title: Tatum Kcc (KCS) API
+  title: Tatum Kcs (KCS) API
 tags:
   - description: |
-      <p>Kcc (KCS) is an Ethereum EVM 100% compatible blockchain, and is very good for decentralized application (Dapp) development within many possible verticals including DeFi, NFT, Gaming, and many others.<br/>
+      <p>Kcs (KCS) is an Ethereum EVM 100% compatible blockchain, and is very good for decentralized application (Dapp) development within many possible verticals including DeFi, NFT, Gaming, and many others.<br/>
       Tatum supports 2 chains:
       <ul><li>Mainnet - a regular live chain
       <li>Mumbai Testnet - a chain used for testing purposes. Coins on the test chain have no value and can be obtained from
       a faucet, e.g. <a target="_blank" href="https://faucet-testnet.kcc.network/">https://faucet-testnet.kcc.network/</a></li></ul></p>
-    name: Blockchain / Kcc (KCS)
+    name: Blockchain / Kcs (KCS)
 paths:
-  /v3/kcc/wallet:
+  /v3/kcs/wallet:
     get:
       description: |
-        <h4>1 credit per API call.</h4><br/><p>Tatum supports BIP44 HD wallets. It is very convenient and secure, since it can generate 2^31 addresses from 1 mnemonic phrase. Mnemonic phrase consists of 24 special words in defined order and can restore access to all generated addresses and private keys.<br/>Each address is identified by 3 main values:<ul><li>Private Key - your secret value, which should never be revealed</li><li>Public Key - public address to be published</li><li>Derivation index - index of generated address</li></ul></p><p>Tatum follows BIP44 specification and generates for Kcc wallet with derivation path m'/44'/966'/0'/0. More about BIP44 HD wallets can be found here - <a target="_blank" href="https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki">https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki</a>.
-        Generate BIP44 compatible Kcc wallet.</p>
-      operationId: KccGenerateWallet
+        <h4>1 credit per API call.</h4><br/><p>Tatum supports BIP44 HD wallets. It is very convenient and secure, since it can generate 2^31 addresses from 1 mnemonic phrase. Mnemonic phrase consists of 24 special words in defined order and can restore access to all generated addresses and private keys.<br/>Each address is identified by 3 main values:<ul><li>Private Key - your secret value, which should never be revealed</li><li>Public Key - public address to be published</li><li>Derivation index - index of generated address</li></ul></p><p>Tatum follows BIP44 specification and generates for Kcs wallet with derivation path m'/44'/966'/0'/0. More about BIP44 HD wallets can be found here - <a target="_blank" href="https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki">https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki</a>.
+        Generate BIP44 compatible Kcs wallet.</p>
+      operationId: KcsGenerateWallet
       parameters:
         - description: "Mnemonic to use for generation of extended public and private keys."
           in: query
@@ -57,16 +57,16 @@ paths:
       security:
         - X-Api-Key: [ ]
       x-code-samples:
-      summary: Generate Kcc wallet
+      summary: Generate Kcs wallet
       tags:
-        - Blockchain / Kcc (KCS)
-  /v3/kcc/address/{xpub}/{index}:
+        - Blockchain / Kcs (KCS)
+  /v3/kcs/address/{xpub}/{index}:
     get:
       description: |
         <h4>1 credit per API call.</h4><br/>
-        <p>Generate Kcc account deposit address from Extended public key. Deposit address is generated for the specific index - each extended public key can generate
+        <p>Generate Kcs account deposit address from Extended public key. Deposit address is generated for the specific index - each extended public key can generate
         up to 2^31 addresses starting from index 0 until 2^31.</p>
-      operationId: KccGenerateAddress
+      operationId: KcsGenerateAddress
       parameters:
         - description: "Extended public key of wallet."
           in: path
@@ -91,7 +91,7 @@ paths:
                 properties:
                   address:
                     type: string
-                    description: Kcc address
+                    description: Kcs address
                     example: "0xa7673161CbfE0116A4De9E341f8465940c2211d4"
           description: OK
         400:
@@ -103,16 +103,16 @@ paths:
       security:
         - X-Api-Key: [ ]
       x-code-samples:
-      summary: Generate Kcc account address from Extended public key
+      summary: Generate Kcs account address from Extended public key
       tags:
-        - Blockchain / Kcc (KCS)
-  /v3/kcc/wallet/priv:
+        - Blockchain / Kcs (KCS)
+  /v3/kcs/wallet/priv:
     post:
       description: |
         <h4>1 credit per API call.</h4><br/>
         <p>Generate private key of address from mnemonic for given derivation path index. Private key is generated for the specific index - each mnemonic
         can generate up to 2^31 private keys starting from index 0 until 2^31.</p>
-      operationId: KccGenerateAddressPrivateKey
+      operationId: KcsGenerateAddressPrivateKey
       requestBody:
         content:
           application/json:
@@ -135,16 +135,16 @@ paths:
       security:
         - X-Api-Key: [ ]
       x-code-samples:
-      summary: Generate Kcc private key
+      summary: Generate Kcs private key
       tags:
-        - Blockchain / Kcc (KCS)
-  /v3/kcc/web3/{xApiKey}:
+        - Blockchain / Kcs (KCS)
+  /v3/kcs/web3/{xApiKey}:
     post:
       description: |
         <h4>2 credits per API call.</h4><br/>
-        <p>Use this endpoint URL as a http-based web3 driver to connect directly to the Kcc node provided by Tatum.
-        To learn more about Kcc Web3, please visit <a href="https://docs.kcc.io/" target="_blank">Kcc developer's guide.</a></p>
-      operationId: KccWeb3Driver
+        <p>Use this endpoint URL as a http-based web3 driver to connect directly to the Kcs node provided by Tatum.
+        To learn more about Kcs Web3, please visit <a href="https://docs.kcc.io/" target="_blank">Kcs developer's guide.</a></p>
+      operationId: KcsWeb3Driver
       parameters:
         - description: "Tatum X-API-Key used for authorization."
           in: path
@@ -179,11 +179,11 @@ paths:
       x-code-samples:
       summary: Web3 HTTP driver
       tags:
-        - Blockchain / Kcc (KCS)
-  /v3/kcc/block/current:
+        - Blockchain / Kcs (KCS)
+  /v3/kcs/block/current:
     get:
-      description: "<h4>1 credit per API call.</h4><br/><p>Get Kcc current block number. This is the number of the latest block in the blockchain.</p>"
-      operationId: KccGetCurrentBlock
+      description: "<h4>1 credit per API call.</h4><br/><p>Get Kcs current block number. This is the number of the latest block in the blockchain.</p>"
+      operationId: KcsGetCurrentBlock
       responses:
         200:
           content:
@@ -202,11 +202,11 @@ paths:
       x-code-samples:
       summary: Get current block number
       tags:
-        - Blockchain / Kcc (KCS)
-  /v3/kcc/block/{hash}:
+        - Blockchain / Kcs (KCS)
+  /v3/kcs/block/{hash}:
     get:
-      description: "<h4>1 credit per API call.</h4><br/><p>Get Kcc block by block hash or block number.</p>"
-      operationId: KccGetBlock
+      description: "<h4>1 credit per API call.</h4><br/><p>Get Kcs block by block hash or block number.</p>"
+      operationId: KcsGetBlock
       parameters:
         - description: "Block hash or block number"
           in: path
@@ -231,13 +231,13 @@ paths:
       security:
         - X-Api-Key: [ ]
       x-code-samples:
-      summary: Get Kcc block by hash
+      summary: Get Kcs block by hash
       tags:
-        - Blockchain / Kcc (KCS)
-  /v3/kcc/account/balance/{address}:
+        - Blockchain / Kcs (KCS)
+  /v3/kcs/account/balance/{address}:
     get:
-      description: "<h4>1 credit per API call.</h4><br/><p>Get Kcc account balance in KCS. This method does not prints any balance of the ERC20 or ERC721 tokens on the account.</p>"
-      operationId: KccGetBalance
+      description: "<h4>1 credit per API call.</h4><br/><p>Get Kcs account balance in KCS. This method does not prints any balance of the ERC20 or ERC721 tokens on the account.</p>"
+      operationId: KcsGetBalance
       parameters:
         - description: "Account address"
           in: path
@@ -267,13 +267,13 @@ paths:
       security:
         - X-Api-Key: [ ]
       x-code-samples:
-      summary: Get Kcc Account balance
+      summary: Get Kcs Account balance
       tags:
-        - Blockchain / Kcc (KCS)
-  /v3/kcc/transaction/{hash}:
+        - Blockchain / Kcs (KCS)
+  /v3/kcs/transaction/{hash}:
     get:
-      description: "<h4>2 credit per API call.</h4><br/><p>Get Kcc transaction by transaction hash.</p>"
-      operationId: KccGetTransaction
+      description: "<h4>2 credit per API call.</h4><br/><p>Get Kcs transaction by transaction hash.</p>"
+      operationId: KcsGetTransaction
       parameters:
         - description: "Transaction hash"
           in: path
@@ -287,7 +287,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/KccTx"
+                $ref: "#/components/schemas/KcsTx"
           description: OK
         400:
           <<: *API400
@@ -305,13 +305,13 @@ paths:
       security:
         - X-Api-Key: [ ]
       x-code-samples:
-      summary: Get Kcc Transaction
+      summary: Get Kcs Transaction
       tags:
-        - Blockchain / Kcc (KCS)
-  /v3/kcc/account/transaction/{address}:
+        - Blockchain / Kcs (KCS)
+  /v3/kcs/account/transaction/{address}:
     get:
-      description: "<h4>1 credit per API call.</h4><br/><p>Get Kcc transactions by address. This includes incoming and outgoing transactions for the address.</p>"
-      operationId: KccGetTransactionByAddress
+      description: "<h4>1 credit per API call.</h4><br/><p>Get Kcs transactions by address. This includes incoming and outgoing transactions for the address.</p>"
+      operationId: KcsGetTransactionByAddress
       parameters:
         - description: "Account address"
           in: path
@@ -366,7 +366,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/KccTx"
+                  $ref: "#/components/schemas/KcsTx"
           description: OK
         400:
           <<: *API400
@@ -377,17 +377,17 @@ paths:
       security:
         - X-Api-Key: [ ]
       x-code-samples:
-      summary: Get Kcc transactions by address
+      summary: Get Kcs transactions by address
       tags:
-        - Blockchain / Kcc (KCS)
-  /v3/kcc/transaction/count/{address}:
+        - Blockchain / Kcs (KCS)
+  /v3/kcs/transaction/count/{address}:
     get:
       description: |
         <h4>1 credit per API call.</h4><br/>
-        <p>Get a number of outgoing Kcc transactions for the address. When a transaction is sent, there can be multiple outgoing transactions,
+        <p>Get a number of outgoing Kcs transactions for the address. When a transaction is sent, there can be multiple outgoing transactions,
         which are not yet processed by the blockchain. To distinguish between them, there is a counter called a nonce, which represents
         the order of the transaction in the list of outgoing transactions.</p>
-      operationId: KccGetTransactionCount
+      operationId: KcsGetTransactionCount
       parameters:
         - description: "address"
           in: path
@@ -416,10 +416,10 @@ paths:
       security:
         - X-Api-Key: [ ]
       x-code-samples:
-      summary: Get count of outgoing Kcc transactions
+      summary: Get count of outgoing Kcs transactions
       tags:
-        - Blockchain / Kcc (KCS)
-  /v3/kcc/transaction:
+        - Blockchain / Kcs (KCS)
+  /v3/kcs/transaction:
     post:
       description: |
         <h4>2 credits per API call.</h4><br/>
@@ -430,14 +430,14 @@ paths:
         <a href="https://github.com/tatumio/tatum-kms" target="_blank">Tatum KMS</a> should be used for the highest security standards, and signatureId should be present in the request.
         Alternatively, using the Tatum client library for supported languages.
         </p>
-      operationId: KccBlockchainTransfer
+      operationId: KcsBlockchainTransfer
       requestBody:
         content:
           application/json:
             schema:
               oneOf:
-                - $ref: "#/components/schemas/TransferKccBlockchain"
-                - $ref: "#/components/schemas/TransferKccBlockchainKMS"
+                - $ref: "#/components/schemas/TransferKcsBlockchain"
+                - $ref: "#/components/schemas/TransferKcsBlockchainKMS"
         required: true
       responses:
         200:
@@ -458,12 +458,12 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: "#/components/schemas/Error403KccBroadcast"
-                  - $ref: "#/components/schemas/Error403KccGasPrice"
-                  - $ref: "#/components/schemas/Error403KccTxBody"
-                  - $ref: "#/components/schemas/Error403KccGasCalculation"
-                  - $ref: "#/components/schemas/Error403KccTxHash"
-                  - $ref: "#/components/schemas/Error403KccTxSign"
+                  - $ref: "#/components/schemas/Error403KcsBroadcast"
+                  - $ref: "#/components/schemas/Error403KcsGasPrice"
+                  - $ref: "#/components/schemas/Error403KcsTxBody"
+                  - $ref: "#/components/schemas/Error403KcsGasCalculation"
+                  - $ref: "#/components/schemas/Error403KcsTxHash"
+                  - $ref: "#/components/schemas/Error403KcsTxSign"
         500:
           <<: *API500
       security:
@@ -471,19 +471,19 @@ paths:
       x-code-samples:
       summary: Send KCS from account to account
       tags:
-        - Blockchain / Kcc (KCS)
-  /v3/kcc/gas:
+        - Blockchain / Kcs (KCS)
+  /v3/kcs/gas:
     post:
       description: |
         <h4>2 credits per API call.</h4><br/>
-        <p>Estimate gasLimit and gasPrice of the Kcc transaction.
+        <p>Estimate gasLimit and gasPrice of the Kcs transaction.
         </p>
-      operationId: KccEstimateGas
+      operationId: KcsEstimateGas
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/KccEstimateGas"
+              $ref: "#/components/schemas/KcsEstimateGas"
         required: true
       responses:
         200:
@@ -514,17 +514,17 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: "#/components/schemas/Error403KccTxBody"
-                  - $ref: "#/components/schemas/Error403KccGasCalculation"
+                  - $ref: "#/components/schemas/Error403KcsTxBody"
+                  - $ref: "#/components/schemas/Error403KcsGasCalculation"
         500:
           <<: *API500
       security:
         - X-Api-Key: [ ]
       x-code-samples:
-      summary: Estimate Kcc transaction fees
+      summary: Estimate Kcs transaction fees
       tags:
-        - Blockchain / Kcc (KCS)
-  /v3/kcc/smartcontract:
+        - Blockchain / Kcs (KCS)
+  /v3/kcs/smartcontract:
     post:
       description: |
         <h4>2 credits per API call.</h4><br/>
@@ -535,15 +535,15 @@ paths:
         or signatureId. PrivateKey should be used only for quick development on testnet versions of blockchain when there is no risk of losing funds. In production,
         <a href="https://github.com/tatumio/tatum-kms" target="_blank">Tatum KMS</a> should be used for the highest security standards, and signatureId should be present in the request.
         Alternatively, using the Tatum client library for supported languages.</p>
-      operationId: KccBlockchainSmartContractInvocation
+      operationId: KcsBlockchainSmartContractInvocation
       requestBody:
         content:
           application/json:
             schema:
               oneOf:
-                - $ref: "#/components/schemas/CallKccSmartContractReadMethod"
-                - $ref: "#/components/schemas/CallKccSmartContractMethod"
-                - $ref: "#/components/schemas/CallKccSmartContractMethodKMS"
+                - $ref: "#/components/schemas/CallKcsSmartContractReadMethod"
+                - $ref: "#/components/schemas/CallKcsSmartContractMethod"
+                - $ref: "#/components/schemas/CallKcsSmartContractMethodKMS"
         required: true
       responses:
         200:
@@ -565,12 +565,12 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: "#/components/schemas/Error403KccBroadcast"
-                  - $ref: "#/components/schemas/Error403KccGasPrice"
-                  - $ref: "#/components/schemas/Error403KccScBody"
-                  - $ref: "#/components/schemas/Error403KccGasCalculation"
-                  - $ref: "#/components/schemas/Error403KccTxHash"
-                  - $ref: "#/components/schemas/Error403KccTxSign"
+                  - $ref: "#/components/schemas/Error403KcsBroadcast"
+                  - $ref: "#/components/schemas/Error403KcsGasPrice"
+                  - $ref: "#/components/schemas/Error403KcsScBody"
+                  - $ref: "#/components/schemas/Error403KcsGasCalculation"
+                  - $ref: "#/components/schemas/Error403KcsTxHash"
+                  - $ref: "#/components/schemas/Error403KcsTxSign"
         500:
           <<: *API500
       security:
@@ -578,14 +578,14 @@ paths:
       x-code-samples:
       summary: Invoke Smart Contract method
       tags:
-        - Blockchain / Kcc (KCS)
-  /v3/kcc/broadcast:
+        - Blockchain / Kcs (KCS)
+  /v3/kcs/broadcast:
     post:
       description: |
         <h4>2 credits per API call.</h4><br/>
-        <p>Broadcast signed transaction to Kcc blockchain. This method is used internally from Tatum KMS or Tatum client libraries.
+        <p>Broadcast signed transaction to Kcs blockchain. This method is used internally from Tatum KMS or Tatum client libraries.
         It is possible to create custom signing mechanism and use this method only for broadcasting data to the blockchian.</p>
-      operationId: KccBroadcast
+      operationId: KcsBroadcast
       requestBody:
         content:
           application/json:
@@ -608,15 +608,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error403KccBroadcast"
+                $ref: "#/components/schemas/Error403KcsBroadcast"
         500:
           <<: *API500
       security:
         - X-Api-Key: [ ]
       x-code-samples:
-      summary: Broadcast signed Kcc transaction
+      summary: Broadcast signed Kcs transaction
       tags:
-        - Blockchain / Kcc (KCS)
+        - Blockchain / Kcs (KCS)
 components:
   securitySchemes:
     X-Api-Key:
@@ -628,7 +628,7 @@ components:
       name: x-api-key
       type: apiKey
   schemas:
-    KccBlock:
+    KcsBlock:
       type: object
       properties:
         difficulty:
@@ -703,12 +703,12 @@ components:
           description: Array of transactions.
           type: array
           items:
-            $ref: "#/components/schemas/KccTx"
+            $ref: "#/components/schemas/KcsTx"
         transactionsRoot:
           description: The root of the transaction trie of the block.
           type: string
           example: "0x5990081ef8515d561b50255af03c5d505f7725ddef27405dc67d23bfd0f47704"
-    KccTx:
+    KcsTx:
       type: object
       properties:
         blockHash:
@@ -808,11 +808,11 @@ components:
                 type: string
                 description: Hash of the transaction this event was created in.
                 example: "0xe6e7340394958674cdf8606936d292f565e4ecc476aaa8b258ec8a141f7c75d7"
-    Error403KccBroadcast:
+    Error403KcsBroadcast:
       properties:
         errorCode:
-          description: kcc.broadcast.failed
-          example: kcc.broadcast.failed
+          description: kcs.broadcast.failed
+          example: kcs.broadcast.failed
           type: string
         message:
           description: Unable to broadcast transaction due to ${error}.
@@ -827,7 +827,7 @@ components:
         - message
         - statusCode
       type: object
-    Error403KccBep20NotFound:
+    Error403KcsBep20NotFound:
       properties:
         errorCode:
           description: erc20.token.notFound
@@ -865,7 +865,7 @@ components:
         - message
         - statusCode
       type: object
-    Error403KccBep20Set:
+    Error403KcsBep20Set:
       properties:
         errorCode:
           description: erc20.address.set
@@ -884,7 +884,7 @@ components:
         - message
         - statusCode
       type: object
-    Error403KccMnemonicPrivateKey:
+    Error403KcsMnemonicPrivateKey:
       properties:
         errorCode:
           description: private.mnemonic.missing
@@ -903,11 +903,11 @@ components:
         - message
         - statusCode
       type: object
-    Error403KccBep20Unsupported:
+    Error403KcsBep20Unsupported:
       properties:
         errorCode:
-          description: kcc.bep20.unsupported
-          example: kcc.bep20.unsupported
+          description: kcs.bep20.unsupported
+          example: kcs.bep20.unsupported
           type: string
         message:
           description: Unsupported ETH ERC20 blockchain.
@@ -922,11 +922,11 @@ components:
         - message
         - statusCode
       type: object
-    Error403KccTxHash:
+    Error403KcsTxHash:
       properties:
         errorCode:
-          description: kcc.transaction.hash
-          example: kcc.transaction.hash
+          description: kcs.transaction.hash
+          example: kcs.transaction.hash
           type: string
         message:
           description: Unable to calculate transaction hash. ${error}
@@ -941,11 +941,11 @@ components:
         - message
         - statusCode
       type: object
-    Error403KccTxSign:
+    Error403KcsTxSign:
       properties:
         errorCode:
-          description: kcc.transaction.sign
-          example: kcc.transaction.sign
+          description: kcs.transaction.sign
+          example: kcs.transaction.sign
           type: string
         message:
           description: Unable to sign transaction. ${error}
@@ -960,11 +960,11 @@ components:
         - message
         - statusCode
       type: object
-    Error403KccErc20TxSign:
+    Error403KcsErc20TxSign:
       properties:
         errorCode:
-          description: kcc.bep20.sign
-          example: kcc.bep20.sign
+          description: kcs.bep20.sign
+          example: kcs.bep20.sign
           type: string
         message:
           description: Unable to sign transaction for contract creation. ${error}
@@ -979,11 +979,11 @@ components:
         - message
         - statusCode
       type: object
-    Error403KccGasCalculation:
+    Error403KcsGasCalculation:
       properties:
         errorCode:
-          description: kcc.transaction.gas
-          example: kcc.transaction.gas
+          description: kcs.transaction.gas
+          example: kcs.transaction.gas
           type: string
         message:
           description: Unable to calculate gas limit for transaction. ${error}
@@ -998,11 +998,11 @@ components:
         - message
         - statusCode
       type: object
-    Error403KccTxBody:
+    Error403KcsTxBody:
       properties:
         errorCode:
-          description: kcc.transaction.body
-          example: kcc.transaction.body
+          description: kcs.transaction.body
+          example: kcs.transaction.body
           type: string
         message:
           description: Either currency, or tokenAddress must be defined.
@@ -1017,11 +1017,11 @@ components:
         - message
         - statusCode
       type: object
-    Error403KccScBody:
+    Error403KcsScBody:
       properties:
         errorCode:
-          description: kcc.sc.invalid
-          example: kcc.sc.invalid
+          description: kcs.sc.invalid
+          example: kcs.sc.invalid
           type: string
         message:
           description: Invalid parameters for smart contract invocation.
@@ -1036,7 +1036,7 @@ components:
         - message
         - statusCode
       type: object
-    Error403KccGasPrice:
+    Error403KcsGasPrice:
       properties:
         errorCode:
           description: gas.price.failed
@@ -1090,7 +1090,7 @@ components:
         nonce:
           type: number
           minimum: 0
-          description: Nonce to be set to Kcc transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to Kcs transaction. If not present, last known nonce will be used.
         fee:
           description: Custom defined fee. If not present, it will be calculated automatically.
           type: object
@@ -1154,7 +1154,7 @@ components:
         nonce:
           type: number
           minimum: 0
-          description: Nonce to be set to Kcc transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to Kcs transaction. If not present, last known nonce will be used.
         fee:
           description: Custom defined fee. If not present, it will be calculated automatically.
           type: object
@@ -1178,7 +1178,7 @@ components:
         - signatureId
         - digits
         - amount
-    CallKccSmartContractMethod:
+    CallKcsSmartContractMethod:
       type: object
       properties:
         contractAddress:
@@ -1229,7 +1229,7 @@ components:
         nonce:
           type: number
           minimum: 0
-          description: Nonce to be set to Kcc transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to Kcs transaction. If not present, last known nonce will be used.
         fee:
           description: Custom defined fee. If not present, it will be calculated automatically.
           type: object
@@ -1253,7 +1253,7 @@ components:
         - methodABI
         - fromPrivateKey
         - methodName
-    CallKccSmartContractReadMethod:
+    CallKcsSmartContractReadMethod:
       type: object
       properties:
         contractAddress:
@@ -1295,7 +1295,7 @@ components:
         - params
         - methodABI
         - methodName
-    CallKccSmartContractMethodKMS:
+    CallKcsSmartContractMethodKMS:
       type: object
       properties:
         contractAddress:
@@ -1332,7 +1332,7 @@ components:
         nonce:
           type: number
           minimum: 0
-          description: Nonce to be set to Kcc transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to Kcs transaction. If not present, last known nonce will be used.
         fee:
           description: Custom defined fee. If not present, it will be calculated automatically.
           type: object
@@ -1356,7 +1356,7 @@ components:
         - methodABI
         - signatureId
         - methodName
-    TransferKccBlockchain:
+    TransferKcsBlockchain:
       type: object
       properties:
         data:
@@ -1367,7 +1367,7 @@ components:
         nonce:
           type: number
           minimum: 0
-          description: Nonce to be set to Kcc transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to Kcs transaction. If not present, last known nonce will be used.
         to:
           description: Blockchain address to send assets
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
@@ -1375,7 +1375,7 @@ components:
           minLength: 42
           type: string
         currency:
-          description: Currency to transfer from Kcc Blockchain Account. ERC20 tokens USDC and USDT are available only for mainnet use.
+          description: Currency to transfer from Kcs Blockchain Account. ERC20 tokens USDC and USDT are available only for mainnet use.
           enum:
             - KCS
             - USDC_KCS
@@ -1415,7 +1415,7 @@ components:
         - amount
         - currency
         - fromPrivateKey
-    KccEstimateGas:
+    KcsEstimateGas:
       type: object
       properties:
         from:
@@ -1445,7 +1445,7 @@ components:
         - to
         - amount
         - from
-    TransferKccBlockchainKMS:
+    TransferKcsBlockchainKMS:
       type: object
       properties:
         data:
@@ -1456,7 +1456,7 @@ components:
         nonce:
           type: number
           minimum: 0
-          description: Nonce to be set to Kcc transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to Kcs transaction. If not present, last known nonce will be used.
         to:
           description: Blockchain address to send assets
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
@@ -1464,7 +1464,7 @@ components:
           minLength: 42
           type: string
         currency:
-          description: Currency to transfer from Kcc Blockchain Account. ERC20 tokens BETH, BBTC, BADA, WMATIC, BDOT, BXRP, BLTC, BBCH, KCS are available only for mainnet use.
+          description: Currency to transfer from Kcs Blockchain Account. ERC20 tokens BETH, BBTC, BADA, WMATIC, BDOT, BXRP, BLTC, BBCH, KCS are available only for mainnet use.
           enum:
             - BETH
             - BBTC
@@ -1551,13 +1551,13 @@ components:
           minimum: 1
           type: number
         address:
-          description: Address on Kcc blockchain, where all created ERC20 tokens will be transferred.
+          description: Address on Kcs blockchain, where all created ERC20 tokens will be transferred.
           maxLength: 42
           minLength: 42
           example: "0xa0Ca9FF38Bad06eBe64f0fDfF279cAE35129F5C6"
           type: string
         fromPrivateKey:
-          description: Private key of Kcc account address, from which the fee for the deployment of ERC20 will be paid. Private key, or signature Id must be present.
+          description: Private key of Kcs account address, from which the fee for the deployment of ERC20 will be paid. Private key, or signature Id must be present.
           type: string
           example: "0x05e150c73f1920ec14caa1e0b6aa09940899678051a78542840c2668ce5080c2"
           maxLength: 66
@@ -1565,7 +1565,7 @@ components:
         nonce:
           type: number
           minimum: 0
-          description: Nonce to be set to Kcc transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to Kcs transaction. If not present, last known nonce will be used.
         fee:
           description: Custom defined fee. If not present, it will be calculated automatically.
           type: object
@@ -1625,7 +1625,7 @@ components:
           minimum: 1
           type: number
         address:
-          description: Address on Kcc blockchain, where all created ERC20 tokens will be transferred.
+          description: Address on Kcs blockchain, where all created ERC20 tokens will be transferred.
           maxLength: 42
           minLength: 42
           example: "0xa0Ca9FF38Bad06eBe64f0fDfF279cAE35129F5C6"
@@ -1644,7 +1644,7 @@ components:
         nonce:
           type: number
           minimum: 0
-          description: Nonce to be set to Kcc transaction. If not present, last known nonce will be used.
+          description: Nonce to be set to Kcs transaction. If not present, last known nonce will be used.
         fee:
           description: Custom defined fee. If not present, it will be calculated automatically.
           type: object

@@ -1,6 +1,6 @@
 {
-  "name": "@tatumio/kcc-connector",
-  "version": "1.0.3",
+  "name": "@tatumio/kcs-connector",
+  "version": "1.0.0",
   "description": "Kcc Connector for Tatum API",
   "license": "MIT",
   "files": [
@@ -31,14 +31,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/tatumio/tatum-blockchain-connector/kcc-connector"
+    "url": "https://github.com/tatumio/tatum-blockchain-connector/kcs-connector"
   },
   "bugs": "https://github.com/tatumio/tatum-blockchain-connector/",
   "peerDependencies": {
     "@nestjs/common": "^7.6.1",
     "@tatumio/blockchain-connector-common": "^1.1.2",
-    "@tatumio/tatum-kcc": "^2.0.0-alpha.46",
-    "@tatumio/tatum": "^1.29.20",
+    "@tatumio/tatum-kcs": "^2.0.0-alpha.80",
+    "@tatumio/tatum": "^1.29.23",
     "axios": "^0.21.1",
     "bignumber.js": "^9.0.0",
     "class-transformer": "^0.2.3",
@@ -50,8 +50,8 @@
   "devDependencies": {
     "@nestjs/common": "^7.6.1",
     "@tatumio/blockchain-connector-common": "^1.1.2",
-    "@tatumio/tatum-kcc": "^2.0.0-alpha.42",
-    "@tatumio/tatum": "^1.29.19",
+    "@tatumio/tatum-kcs": "^2.0.0-alpha.80",
+    "@tatumio/tatum": "^1.29.23",
     "@types/express": "4.17.9",
     "@types/jest": "26.0.18",
     "@types/node": "14.14.12",

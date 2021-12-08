@@ -79,7 +79,7 @@ import erc1155_abi from '@tatumio/tatum/dist/src/contracts/erc1155/erc1155_abi';
 import Web3 from 'web3';
 import {Transaction, TransactionReceipt} from 'web3-eth';
 import {HarmonyAddress} from '@harmony-js/crypto';
-import { prepareKccBatchTransferMultiTokenSignedTransaction, prepareKccBurnMultiTokenBatchSignedTransaction, prepareKccBurnMultiTokenSignedTransaction, prepareKccDeployMultiTokenSignedTransaction, prepareKccMintMultiTokenBatchSignedTransaction, prepareKccMintMultiTokenSignedTransaction, prepareKccTransferMultiTokenSignedTransaction } from '@tatumio/tatum-kcc';
+import { prepareKcsBatchTransferMultiTokenSignedTransaction, prepareKcsBurnMultiTokenBatchSignedTransaction, prepareKcsBurnMultiTokenSignedTransaction, prepareKcsDeployMultiTokenSignedTransaction, prepareKcsMintMultiTokenBatchSignedTransaction, prepareKcsMintMultiTokenSignedTransaction, prepareKcsTransferMultiTokenSignedTransaction } from '@tatumio/tatum-kcs';
 
 export abstract class MultiTokenService {
 
@@ -157,7 +157,7 @@ export abstract class MultiTokenService {
                 txData = await preparePolygonTransferMultiTokenSignedTransaction(testnet, body, (await this.getNodesUrl(chain, testnet))[0]);
                 break;
             case Currency.KCS:
-                txData = await prepareKccTransferMultiTokenSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
+                txData = await prepareKcsTransferMultiTokenSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
                 break;
             case Currency.BSC:
                 txData = await prepareBscTransferMultiTokenSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
@@ -204,7 +204,7 @@ export abstract class MultiTokenService {
                 txData = await preparePolygonBatchTransferMultiTokenSignedTransaction(testnet, body, (await this.getNodesUrl(chain, testnet))[0]);
                 break;
             case Currency.KCS:
-                txData = await prepareKccBatchTransferMultiTokenSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
+                txData = await prepareKcsBatchTransferMultiTokenSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
                 break;
             case Currency.BSC:
                 txData = await prepareBscBatchTransferMultiTokenSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
@@ -238,7 +238,7 @@ export abstract class MultiTokenService {
                 txData = await preparePolygonMintMultiTokenSignedTransaction(testnet, body, provider);
                 break;
             case Currency.KCS:
-                txData = await prepareKccMintMultiTokenSignedTransaction(body, provider);
+                txData = await prepareKcsMintMultiTokenSignedTransaction(body, provider);
                 break;
             case Currency.BSC:
                 txData = await prepareBscMintMultiTokenSignedTransaction(body, provider);
@@ -275,7 +275,7 @@ export abstract class MultiTokenService {
                 txData = await preparePolygonMintMultiTokenBatchSignedTransaction(testnet, body, provider);
                 break;
             case Currency.KCS:
-                txData = await prepareKccMintMultiTokenBatchSignedTransaction(body, provider);
+                txData = await prepareKcsMintMultiTokenBatchSignedTransaction(body, provider);
                 break;
             case Currency.BSC:
                 txData = await prepareBscMintMultiTokenBatchSignedTransaction(body, provider);
@@ -308,7 +308,7 @@ export abstract class MultiTokenService {
                 txData = await preparePolygonBurnMultiTokenSignedTransaction(testnet, body, (await this.getNodesUrl(chain, testnet))[0]);
                 break;
             case Currency.KCS:
-                txData = await prepareKccBurnMultiTokenSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
+                txData = await prepareKcsBurnMultiTokenSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
                 break;
             case Currency.BSC:
                 txData = await prepareBscBurnMultiTokenSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
@@ -343,7 +343,7 @@ export abstract class MultiTokenService {
                 txData = await preparePolygonBurnMultiTokenBatchSignedTransaction(testnet, body, (await this.getNodesUrl(chain, testnet))[0]);
                 break;
             case Currency.KCS:
-                txData = await prepareKccBurnMultiTokenBatchSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
+                txData = await prepareKcsBurnMultiTokenBatchSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
                 break;
             case Currency.BSC:
                 txData = await prepareBscBurnMultiTokenBatchSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
@@ -376,7 +376,7 @@ export abstract class MultiTokenService {
                 txData = await preparePolygonDeployMultiTokenSignedTransaction(testnet, body, (await this.getNodesUrl(chain, testnet))[0]);
                 break;
             case Currency.KCS:
-                txData = await prepareKccDeployMultiTokenSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
+                txData = await prepareKcsDeployMultiTokenSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);
                 break;
             case Currency.BSC:
                 txData = await prepareBscDeployMultiTokenSignedTransaction(body, (await this.getNodesUrl(chain, testnet))[0]);

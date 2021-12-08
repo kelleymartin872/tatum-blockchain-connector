@@ -102,25 +102,25 @@ export class ChainEgldEsdtTransaction extends EgldEsdtTransaction {
   public chain: Currency;
 }
 
-export class ChainBurnKccErc20 extends CoreBurnErc20 {
+export class ChainBurnKcsErc20 extends CoreBurnErc20 {
   @IsNotEmpty()
   @IsIn([Currency.KCS])
   public chain: Currency
 }
 
-export class ChainDeployKccErc20 extends CoreDeployErc20 {
+export class ChainDeployKcsErc20 extends CoreDeployErc20 {
   @IsNotEmpty()
   @IsIn([Currency.KCS])
   public chain: Currency
 }
 
-export class ChainMintKccErc20 extends CoreMintErc20 {
+export class ChainMintKcsErc20 extends CoreMintErc20 {
   @IsNotEmpty()
   @IsIn([Currency.KCS])
   public chain: Currency
 }
 
-export class ChainTransferKccErc20 extends CoreTransferErc20 {
+export class ChainTransferKcsErc20 extends CoreTransferErc20 {
   @IsNotEmpty()
   @IsIn([Currency.KCS])
   public chain: Currency

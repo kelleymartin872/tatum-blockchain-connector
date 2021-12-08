@@ -2,27 +2,29 @@ import {PinoLogger} from 'nestjs-pino';
 import {
     Currency,
     EstimateGas,
-    generateAddressFromXPub,
-    generatePrivateKeyFromMnemonic,
-    generateWallet,
-    kccGetGasPriceInWei,
-    prepareKccSignedTransaction,
-    prepareKccSmartContractWriteMethodInvocation,
-    sendKccSmartContractReadMethodInvocationTransaction,
     SignatureId,
     SmartContractMethodInvocation,
     SmartContractReadMethodInvocation,
     TransactionHash,
     TransferErc20,
-} from '@tatumio/tatum-kcc';
+} from '@tatumio/tatum-core'
+import {
+    generateAddressFromXPub,
+    generatePrivateKeyFromMnemonic,
+    generateWallet,
+    kcsGetGasPriceInWei,
+    prepareKcsSignedTransaction,
+    prepareKcsSmartContractWriteMethodInvocation,
+    sendKcsSmartContractReadMethodInvocationTransaction,
+} from '@tatumio/tatum-kcs';
 import {BroadcastOrStoreKMSTransaction} from '@tatumio/blockchain-connector-common';
 import Web3 from 'web3';
 import {fromWei} from 'web3-utils';
 import axios from 'axios';
-import {KccError} from './KccError';
+import {KcsError} from './KcsError';
 import BigNumber from 'bignumber.js';
 
-export abstract class KccService {
+export abstract class KcsService {
 
     public static mapBlock(block: any) {
         return {
@@ -41,7 +43,7 @@ export abstract class KccService {
             stateRoot: block.stateRoot,
             timestamp: parseInt(block.timestamp, 16),
             totalDifficulty: parseInt(block.totalDifficulty, 16),
-            transactions: block.transactions.map(KccService.mapTransaction),
+            transactions: block.transactions.map(KcsService.mapTransaction),
             uncles: block.uncles,
         };
     }
@@ -85,7 +87,7 @@ export abstract class KccService {
     public async getFirstNodeUrl(testnet: boolean): Promise<string> {
         const nodes = await this.getNodesUrl(testnet);
         if (nodes.length === 0) {
-            new KccError('Nodes url array must have at least one element.', 'kcc.nodes.url');
+            new KcsError('Nodes url array must have at least one element.', 'kcc.nodes.url');
         }
         return nodes[0];
     }
@@ -109,15 +111,15 @@ export abstract class KccService {
                 params: [txData]
             }, {headers: {'Content-Type': 'application/json'}})).data;
             if (error) {
-                throw new KccError(`Unable to broadcast transaction due to ${error.message}.`, 'kcc.broadcast.failed');
+                throw new KcsError(`Unable to broadcast transaction due to ${error.message}.`, 'kcc.broadcast.failed');
             }
             txId = result;
         } catch (e) {
-            if (e.constructor.name === KccError.name) {
+            if (e.constructor.name === KcsError.name) {
                 throw e;
             }
             this.logger.error(e);
-            throw new KccError(`Unable to broadcast transaction due to ${e.message}.`, 'kcc.broadcast.failed');
+            throw new KcsError(`Unable to broadcast transaction due to ${e.message}.`, 'kcc.broadcast.failed');
         }
 
         if (signatureId) {
@@ -150,7 +152,7 @@ export abstract class KccService {
                     true
                 ]
             }, {headers: {'Content-Type': 'application/json'}})).data.result;
-            return KccService.mapBlock(block);
+            return KcsService.mapBlock(block);
         } catch (e) {
             this.logger.error(e);
             throw e;
@@ -169,7 +171,7 @@ export abstract class KccService {
                 ]
             }, {headers: {'Content-Type': 'application/json'}})).data;
             if (!data?.result) {
-                throw new KccError('Transaction not found. Possible not exists or is still pending.', 'tx.not.found');
+                throw new KcsError('Transaction not found. Possible not exists or is still pending.', 'tx.not.found');
             }
             const {r, s, v, hash, ...transaction} = data.result;
             let receipt = {};
@@ -185,10 +187,10 @@ export abstract class KccService {
             } catch (_) {
                 transaction.transactionHash = hash;
             }
-            return KccService.mapTransaction({...transaction, ...receipt, hash});
+            return KcsService.mapTransaction({...transaction, ...receipt, hash});
         } catch (e) {
             this.logger.error(e);
-            throw new KccError('Transaction not found. Possible not exists or is still pending.', 'tx.not.found');
+            throw new KcsError('Transaction not found. Possible not exists or is still pending.', 'tx.not.found');
         }
     }
 
@@ -211,7 +213,7 @@ export abstract class KccService {
     }
 
     public async generateWallet(mnemonic?: string) {
-        return generateWallet(await this.isTestnet(), mnemonic);
+        return generateWallet(mnemonic);
     }
 
     public async generatePrivateKey(mnemonic: string, index: number) {
@@ -228,7 +230,7 @@ export abstract class KccService {
         const client = await this.getClient(await this.isTestnet());
         return {
             gasLimit: await client.eth.estimateGas(body),
-            gasPrice: await kccGetGasPriceInWei(),
+            gasPrice: await kcsGetGasPriceInWei(),
         };
     }
 
@@ -238,7 +240,7 @@ export abstract class KccService {
     }
 
     public async sendKCS(transfer: TransferErc20): Promise<TransactionHash | SignatureId> {
-        const transactionData = await prepareKccSignedTransaction(transfer, await this.getFirstNodeUrl(await this.isTestnet()));
+        const transactionData = await prepareKcsSignedTransaction(transfer, await this.getFirstNodeUrl(await this.isTestnet()));
         return this.broadcastOrStoreKMSTransaction({
             transactionData, signatureId: transfer.signatureId,
             index: transfer.index
@@ -253,10 +255,10 @@ export abstract class KccService {
     public async invokeSmartContractMethod(smartContractMethodInvocation: SmartContractMethodInvocation | SmartContractReadMethodInvocation) {
         const node = await this.getFirstNodeUrl(await this.isTestnet());
         if (smartContractMethodInvocation.methodABI.stateMutability === 'view') {
-            return sendKccSmartContractReadMethodInvocationTransaction(smartContractMethodInvocation, node);
+            return sendKcsSmartContractReadMethodInvocationTransaction(smartContractMethodInvocation, node);
         }
 
-        const transactionData = await prepareKccSmartContractWriteMethodInvocation(smartContractMethodInvocation, node);
+        const transactionData = await prepareKcsSmartContractWriteMethodInvocation(smartContractMethodInvocation, {provider: node});
         return this.broadcastOrStoreKMSTransaction({
             transactionData,
             signatureId: (smartContractMethodInvocation as SmartContractMethodInvocation).signatureId,

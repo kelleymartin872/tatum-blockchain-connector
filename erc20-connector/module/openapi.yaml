@@ -12,7 +12,7 @@ tags:
       <ul>
       <li><b>Ethereum</b></li>
       <li><b>Polygon (Matic)</b></li>
-      <li><b>Kcc (KCS)</b></li>
+      <li><b>Kcs (KCS)</b></li>
       <li><b>Binance Smart Chain</b></li>
       <li><b>Celo</b></li>
       <li><b>Harmony.ONE</b></li>
@@ -55,8 +55,8 @@ paths:
               oneOf:
                 - $ref: "#/components/schemas/ChainDeployErc20"                
                 - $ref: "#/components/schemas/ChainDeployErc20KMS"
-                - $ref: "#/components/schemas/ChainDeployKccErc20"
-                - $ref: "#/components/schemas/ChainDeployKccErc20KMS"
+                - $ref: "#/components/schemas/ChainDeployKcsErc20"
+                - $ref: "#/components/schemas/ChainDeployKcsErc20KMS"
                 - $ref: "#/components/schemas/ChainDeployCeloErc20"
                 - $ref: "#/components/schemas/ChainDeployCeloErc20KMS"
                 # - $ref: "#/components/schemas/ChainCreateTronTrc20"
@@ -135,8 +135,8 @@ paths:
               oneOf:
                 - $ref: "#/components/schemas/ChainMintErc20"                
                 - $ref: "#/components/schemas/ChainMintErc20KMS"
-                - $ref: "#/components/schemas/ChainMintKccErc20"
-                - $ref: "#/components/schemas/ChainMintKccErc20KMS"
+                - $ref: "#/components/schemas/ChainMintKcsErc20"
+                - $ref: "#/components/schemas/ChainMintKcsErc20KMS"
                 - $ref: "#/components/schemas/ChainMintCeloErc20"
                 - $ref: "#/components/schemas/ChainMintCeloErc20KMS"
         required: true
@@ -200,8 +200,8 @@ paths:
               oneOf:
                 - $ref: "#/components/schemas/ChainBurnErc20"
                 - $ref: "#/components/schemas/ChainBurnErc20KMS"
-                - $ref: "#/components/schemas/ChainBurnKccErc20"
-                - $ref: "#/components/schemas/ChainBurnKccErc20KMS"
+                - $ref: "#/components/schemas/ChainBurnKcsErc20"
+                - $ref: "#/components/schemas/ChainBurnKcsErc20KMS"
                 - $ref: "#/components/schemas/ChainBurnCeloErc20"
                 - $ref: "#/components/schemas/ChainBurnCeloErc20KMS"
         required: true
@@ -333,8 +333,8 @@ paths:
                 - $ref: "#/components/schemas/ChainTransferAlgoErc20KMS"
                 - $ref: "#/components/schemas/ChainTransferEthErc20"
                 - $ref: "#/components/schemas/ChainTransferEthErc20KMS"
-                - $ref: "#/components/schemas/ChainTransferKccEthErc20"
-                - $ref: "#/components/schemas/ChainTransferKccEthErc20KMS"
+                - $ref: "#/components/schemas/ChainTransferKcsEthErc20"
+                - $ref: "#/components/schemas/ChainTransferKcsEthErc20KMS"
                 - $ref: "#/components/schemas/ChainTransferBscBep20"
                 - $ref: "#/components/schemas/ChainTransferBscBep20KMS"
                 - $ref: "#/components/schemas/ChainTransferCeloErc20Token"
@@ -739,7 +739,7 @@ components:
         - supply
         - signatureId
         - digits
-    ChainDeployKccErc20:
+    ChainDeployKcsErc20:
       type: object
       properties:
         chain:
@@ -820,7 +820,7 @@ components:
         - supply
         - fromPrivateKey
         - digits
-    ChainDeployKccErc20KMS:
+    ChainDeployKcsErc20KMS:
       type: object
       properties:
         chain:
@@ -1145,7 +1145,7 @@ components:
         - amount
         - contractAddress
         - fromPrivateKey
-    ChainMintKccErc20:
+    ChainMintKcsErc20:
       type: object
       properties:
         chain:
@@ -1230,7 +1230,7 @@ components:
         - amount
         - contractAddress
         - signatureId
-    ChainMintKccErc20KMS:
+    ChainMintKcsErc20KMS:
       type: object
       properties:
         chain:
@@ -1642,7 +1642,7 @@ components:
         - contractAddress
         - signatureId
         - amount
-    ChainBurnKccErc20:
+    ChainBurnKcsErc20:
       type: object
       properties:
         chain:
@@ -1677,7 +1677,7 @@ components:
         - contractAddress
         - fromPrivateKey
         - amount
-    ChainBurnKccErc20KMS:
+    ChainBurnKcsErc20KMS:
       type: object
       properties:
         chain:
@@ -2021,7 +2021,7 @@ components:
         - digits
         - signatureId
         - amount
-    ChainTransferKccEthErc20:
+    ChainTransferKcsEthErc20:
       type: object
       properties:
         chain:
@@ -2088,7 +2088,7 @@ components:
         - digits
         - fromPrivateKey
         - amount
-    ChainTransferKccEthErc20KMS:
+    ChainTransferKcsEthErc20KMS:
       type: object
       properties:
         chain:

@@ -97,11 +97,17 @@ paths:
       summary: Generate Algorand account address from private key
       tags:
         - Blockchain / Algorand (ALGO)
-  /v3/algorand/node/indexer/{xApiKey}:
+  /v3/algorand/node/indexer/{xApiKey}/**:
     get:
       description: |
-        <h4>2 credits per API call.</h4><br/>
-        <p>Use this endpoint URL as a http-based url to connect directly to the Algorand node provided by Tatum</p>
+        <h4>1 credits per API call.</h4><br/>
+        <p>Use this endpoint URL as a http-based url to connect directly to the Algorand node provided by Tatum.
+        You can check al available APIs here - <a href="https://developer.algorand.org/docs/rest-apis/indexer/" target="_blank">https://developer.algorand.org/docs/rest-apis/indexer/</a>.
+        <br/>
+        Example call for Get Tx By ID is described in the response. <a href="https://developer.algorand.org/docs/rest-apis/indexer/#get-v2transactionstxid" target="_blank">https://developer.algorand.org/docs/rest-apis/indexer/#get-v2transactionstxid</a>.
+        <br/>
+        URL used for this call would be <pre>https://api-eu1.tatum.io/v3/algorand/node/indexer/YOUR_API_KEY/v2/transactions/HNIQ76UTJYPOLZP5FWODYABBJPYPGJNEM2QEJSMDMQRWEKHEYJHQ</pre>
+        </p>
       operationId: AlgoNodeIndexerGetDriver
       parameters:
         - description: "Tatum X-API-Key used for authorization."
@@ -116,8 +122,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                description: Any valid http method response.
+                $ref: "#/components/schemas/AlgoTx"
           description: OK
         400:
           <<: *API400
@@ -131,51 +136,17 @@ paths:
       summary: Access Algorand Indexer GET node endpoints
       tags:
         - Blockchain / Algorand (ALGO)
-    post:
-      description: |
-        <h4>2 credits per API call.</h4><br/>
-        <p>Use this endpoint URL as a http-based url to connect directly to the Algorand node provided by Tatum</p>
-      operationId: AlgoNodeIndexerPostDriver
-      parameters:
-        - description: "Tatum X-API-Key used for authorization."
-          in: path
-          name: xApiKey
-          required: true
-          schema:
-            type: string
-            example: asdlkfjnqunalkwjfnq2oi303294857k
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              description: Any vaild http method content body.
-        required: true
-      responses:
-        200:
-          content:
-            application/json:
-              schema:
-                type: object
-                description: Any valid http method response.
-          description: OK
-        400:
-          <<: *API400
-        401:
-          <<: *API401
-        500:
-          <<: *API500
-      security:
-        - X-Api-Key: [ ]
-      x-code-samples:
-      summary: Access Algorand Indexer POST node endpoints
-      tags:
-        - Blockchain / Algorand (ALGO)
-  /v3/algorand/node/algod/{xApiKey}:
+  /v3/algorand/node/algod/{xApiKey}/**:
     get:
       description: |
-        <h4>2 credits per API call.</h4><br/>
-        <p>Use this endpoint URL as a http-based url to connect directly to the Algorand node provided by Tatum</p>
+        <h4>1 credit per API call.</h4><br/>
+        <p>Use this endpoint URL as a http-based url to connect directly to the Algorand node provided by Tatum.
+        You can check al available APIs here - <a href="https://developer.algorand.org/docs/rest-apis/algod/v2/" target="_blank">https://developer.algorand.org/docs/rest-apis/algod/v2/</a>.
+        <br/>
+        Example call for Get Block is described in the response. <a href="https://developer.algorand.org/docs/rest-apis/algod/v2/#get-v2blocksround" target="_blank">https://developer.algorand.org/docs/rest-apis/algod/v2/#get-v2blocksround</a>.
+        <br/>
+        URL used for this call would be <pre>https://api-eu1.tatum.io/v3/algorand/node/algod/YOUR_API_KEY/v2/blocks/16775567</pre>
+        </p>
       operationId: AlgoNodeGetDriver
       parameters:
         - description: "Tatum X-API-Key used for authorization."
@@ -190,8 +161,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                description: Any valid http method response.
+                $ref: "#/components/schemas/AlgoBlock"
           description: OK
         400:
           <<: *API400
@@ -208,7 +178,13 @@ paths:
     post:
       description: |
         <h4>2 credits per API call.</h4><br/>
-        <p>Use this endpoint URL as a http-based url to connect directly to the Algorand node provided by Tatum</p>
+        <p>Use this endpoint URL as a http-based url to connect directly to the Algorand node provided by Tatum.
+         You can check al available APIs here - <a href="https://developer.algorand.org/docs/rest-apis/algod/v2/" target="_blank">https://developer.algorand.org/docs/rest-apis/algod/v2/</a>.
+         <br/>
+         Example call for Broadcast a raw transaction is described in the response. <a href="https://developer.algorand.org/docs/rest-apis/algod/v2/#post-v2transactions" target="_blank">https://developer.algorand.org/docs/rest-apis/algod/v2/#post-v2transactions</a>.
+         <br/>
+         URL used for this call would be <pre>https://api-eu1.tatum.io/v3/algorand/node/algod/YOUR_API_KEY/v2/transactions</pre>
+         </p>
       operationId: AlgoNodePostDriver
       parameters:
         - description: "Tatum X-API-Key used for authorization."
@@ -223,7 +199,10 @@ paths:
           application/json:
             schema:
               type: object
-              description: Any vaild http method content body.
+              properties:
+                rawtxn:
+                  type: string
+                  description: Check here - <a href="https://developer.algorand.org/docs/rest-apis/algod/v2/#post-v2transactions" target="_blank">https://developer.algorand.org/docs/rest-apis/algod/v2/#post-v2transactions</a>
         required: true
       responses:
         200:
@@ -231,7 +210,11 @@ paths:
             application/json:
               schema:
                 type: object
-                description: Any valid http method response.
+                properties:
+                  txId:
+                    type: string
+                    description: Check here - <a href="https://developer.algorand.org/docs/rest-apis/algod/v2/#rawtransaction-response-200" target="_blank">https://developer.algorand.org/docs/rest-apis/algod/v2/#rawtransaction-response-200</a>
+                    example: X4VI2Q3SHG4RC3T2RNDCFHNPUL6WYX2ONWHJGLKNMBA4SVE5M4KQ
           description: OK
         400:
           <<: *API400

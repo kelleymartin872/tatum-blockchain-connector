@@ -191,7 +191,7 @@ paths:
       description: |
         <h4>2 credits per API call.</h4><br/>
         <p>Create a fixed amount of multiple Multi Tokens Tokens and transfer them to destination account in one transaction. Create and transfer Multi Tokens tokens from smart contract defined in contractAddress.<br/><br/>
-        Tatum now supports Multi Tokens these blockchains:<br/>
+        Tatum now supports Multi Tokens on these blockchains:<br/>
         <ul>
         <li><b>Ethereum</b></li>
         <li><b>Polygon (Matic)</b></li>

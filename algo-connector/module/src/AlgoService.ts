@@ -66,8 +66,8 @@ export abstract class AlgoService {
 
   protected abstract completeKMSTransaction(txId: string, signatureId: string): Promise<void>;
 
-  public async getClient() {
-    return getAlgoClient(await this.isTestnet(), (await this.getNodesUrl(AlgoNodeType.ALGOD))[0]);
+  public async getClient(testnet?: boolean) {
+    return getAlgoClient(testnet !== null ? testnet : await this.isTestnet(), (await this.getNodesUrl(AlgoNodeType.ALGOD))[0]);
   }
 
   public async getIndexerClient() {
@@ -149,8 +149,8 @@ export abstract class AlgoService {
     }
   }
 
-  public async getCurrentBlock(): Promise<number> {
-    const client = await this.getClient();
+  public async getCurrentBlock(testnet?: boolean): Promise<number> {
+    const client = await this.getClient(testnet);
     return (await client.getTransactionParams().do()).firstRound;
   }
 

@@ -1,6 +1,6 @@
 {
   "name": "@tatumio/kcs-connector",
-  "version": "1.0.2",
+  "version": "1.0.1",
   "description": "Kcs Connector for Tatum API",
   "license": "MIT",
   "files": [

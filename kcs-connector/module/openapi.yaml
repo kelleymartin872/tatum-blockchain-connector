@@ -308,6 +308,45 @@ paths:
       summary: Get Kcs Transaction
       tags:
         - Blockchain / Kcs (KCS)
+  /v3/kcs/transaction/count/{address}:
+    get:
+      description: |
+        <h4>1 credit per API call.</h4><br/>
+        <p>Get a number of outgoing Kcs transactions for the address. When a transaction is sent, there can be multiple outgoing transactions,
+        which are not yet processed by the blockchain. To distinguish between them, there is a counter called a nonce, which represents
+        the order of the transaction in the list of outgoing transactions.</p>
+      operationId: KcsGetTransactionCount
+      parameters:
+        - description: "address"
+          in: path
+          name: address
+          required: true
+          schema:
+            type: string
+            maxLength: 42
+            minLength: 42
+            example: "0xdac17f958d2ee523a2206206994597c13d831ec7"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: number
+                example: 5
+                description: Number of transactions, that were made from this address. Can be used as a nonce parameter in send transaction calls.
+          description: OK
+        400:
+          <<: *API400
+        401:
+          <<: *API401
+        500:
+          <<: *API500
+      security:
+        - X-Api-Key: [ ]
+      x-code-samples:
+      summary: Get count of outgoing Kcs transactions
+      tags:
+        - Blockchain / Kcs (KCS)
   /v3/kcs/transaction:
     post:
       description: |

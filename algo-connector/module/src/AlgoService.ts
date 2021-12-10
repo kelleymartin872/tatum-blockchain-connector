@@ -67,7 +67,7 @@ export abstract class AlgoService {
   protected abstract completeKMSTransaction(txId: string, signatureId: string): Promise<void>;
 
   public async getClient(testnet?: boolean) {
-    return getAlgoClient(testnet !== null ? testnet : await this.isTestnet(), (await this.getNodesUrl(AlgoNodeType.ALGOD))[0]);
+    return getAlgoClient(testnet !== undefined ? testnet : await this.isTestnet(), (await this.getNodesUrl(AlgoNodeType.ALGOD))[0]);
   }
 
   public async getIndexerClient() {

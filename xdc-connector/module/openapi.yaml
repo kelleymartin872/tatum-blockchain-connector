@@ -227,7 +227,7 @@ paths:
           required: true
           schema:
             type: string
-            example: 647065
+            example: '647065'
       responses:
         200:
           content:
@@ -648,6 +648,8 @@ components:
         uncles:
           description: 'Array of uncle hashes.'
           type: array
+          items:
+            type: string
           example: [ "0x7a44a1f56f12ae825fdc04550d7c3af2344daab987691771c06235f25fafcaa6" ]
     XdcTx:
       type: object
@@ -750,7 +752,8 @@ components:
                 description: Hash of the transaction this event was created in.
                 example: "0xe6e7340394958674cdf8606936d292f565e4ecc476aaa8b258ec8a141f7c75d7"
         logsBloom:
-          type: DATA, 256 Bytes
+          type: string
+          format: DATA, 256 Bytes
           description: Bloom filter for light clients to quickly retrieve related logs.
           example:
         root:
@@ -1072,7 +1075,7 @@ components:
           type: array
           example: [ '0x632' ]
           items:
-            type: object
+            type: string
           description: Parameters of the method to be invoked.
         fromPrivateKey:
           type: string
@@ -1142,7 +1145,7 @@ components:
           type: array
           example: [ '0x632' ]
           items:
-            type: object
+            type: string
           description: Parameters of the method to be invoked.
       required:
         - contractAddress
@@ -1169,8 +1172,9 @@ components:
           description: ABI of the method to invoke.
         params:
           type: array
+          example: [ '0x632' ]
           items:
-            type: object
+            type: string
           description: Parameters of the method to be invoked.
         index:
           type: number

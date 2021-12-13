@@ -140,7 +140,7 @@ paths:
           required: true
           schema:
             type: string
-            example: 6470657
+            example: '6470657'
       responses:
         200:
           content:
@@ -319,7 +319,7 @@ paths:
           required: true
           schema:
             type: number
-            example: 0            
+            example: 0
       responses:
         200:
           content:
@@ -460,7 +460,7 @@ paths:
       summary: Broadcast signed QTUM transaction
       tags:
         - Blockchain / QTUM
-  
+
   /v3/qtum/wallet/priv:
     post:
       description: |
@@ -567,60 +567,60 @@ components:
               description: total amount received in satoshi
               example: 0
               type: number
-            totalSet: 
+            totalSet:
               description: total set amount
               example: 0
               type: number
-            totalSentSat: 
+            totalSentSat:
               description: total send amount in satoshi
               example: 0
               type: number
-            unconfirmedBalance: 
+            unconfirmedBalance:
               description: uncomfirmed balance
               example: 0
               type: number
-            unconfirmedBalanceSat: 
+            unconfirmedBalanceSat:
               description: unconfirmed balance in satoshi
               example: 0
               type: number
-            unconfirmedTxApperances: 
+            unconfirmedTxApperances:
               description: number of unconfirmed transaction
               example: 0
               type: number
-            txApperances: 
+            txApperances:
               description: number of txn apprerances
               example: 0
               type: number
-            transactions: 
+            transactions:
               description: list of transactions
               example: ["0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"]
               type: array
     QtumIRawTransactionInfo:
       type: object
       properties:
-        txid: 
+        txid:
           description: transaction hash
           example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
           type: string
-        version:  
+        version:
           description: version number
           example: 0
           type: number
-        locktime:  
+        locktime:
           description: locktime
           example: 0
           type: number
-        receipt: 
+        receipt:
           description: transaction receipts
           example: 0
           type: array
           items:
             properties:
-              blockHash: 
+              blockHash:
                 description: block hash
                 example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
                 type: string
-              blockNumber: 
+              blockNumber:
                 description: block number
                 example: 0
                 type: number
@@ -628,11 +628,11 @@ components:
                 description: transaction hash
                 example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
                 type: string
-              transactionIndex: 
+              transactionIndex:
                 description: transaction index
                 example: 0
                 type: number
-              from: 
+              from:
                 description: from address
                 example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
                 type: string
@@ -644,15 +644,15 @@ components:
                 description: cumulativeGasUsed
                 example: ""
                 type: string
-              gasUsed: 
+              gasUsed:
                 description: gas Used
                 example: "0"
                 type: string
-              contractAddress: 
+              contractAddress:
                 description: address of contract
                 example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
                 type: string
-              excepted: 
+              excepted:
                 description: expected
                 example: ""
                 type: string
@@ -660,15 +660,15 @@ components:
                 description: logs
                 example: [""]
                 type: array
-        vin: 
+        vin:
           type: array
-          items: 
+          items:
             properties:
-              value: 
+              value:
                 description: value
                 example: 0
                 type: number
-              script: 
+              script:
                 description: buffer of script
                 example: ""
                 type: string
@@ -680,7 +680,7 @@ components:
                 description: value
                 example: 0
                 type: string
-              address: 
+              address:
                 description: address
                 example: "qWpEineYmtc2Ea25GqDYhvuzCjTiu5hMYA"
                 type: string
@@ -688,10 +688,10 @@ components:
                 description: script buffer
                 example: ""
                 type: string
-              scriptPubKey: 
+              scriptPubKey:
                 type: object
                 properties:
-                  hex: 
+                  hex:
                     type: string
                     description: hex value
                     example: ""
@@ -703,27 +703,27 @@ components:
                     type: object
                     example: ["qWpEineYmtc2Ea25GqDYhvuzCjTiu5hMYA"]
                     description: array of addresses
-        confirmations: 
+        confirmations:
           type: number
           description: number of confirmations
           example: 0
-        time: 
+        time:
           type: number
           description: time of txn
           example: 1626959613
-        valueOut: 
+        valueOut:
           type: number
           description: out value
           example: 0
-        valueIn: 
+        valueIn:
           type: number
           description: in value
           example: 0
-        fees: 
+        fees:
           type: number
           description: txn fees
           example: 0
-        blockhash: 
+        blockhash:
           type: string
           description: block hash
           example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
@@ -789,7 +789,7 @@ components:
             description: block size
             example: 0
             type: number
-        height: 
+        height:
             description: block height
             example: 0
             type: number
@@ -797,11 +797,11 @@ components:
             description: version number
             example: 0
             type: number
-        merkleroot: 
+        merkleroot:
             description: merkle tree root
             example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
             type: string
-        tx: 
+        tx:
           description: transactions array
           type: object
           example: ["0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"]
@@ -809,23 +809,23 @@ components:
           description: timestamp
           example: 0
           type: number
-        nonce: 
+        nonce:
           description: nonce
           example: 0
           type: number
-        bits: 
+        bits:
           description: bits
           example: ""
           type: string
-        difficulty: 
+        difficulty:
           description: difficulty
           example: ""
           type: string
-        chainwork: 
+        chainwork:
           description: chainwork
           example: ""
           type: string
-        previousblockhash: 
+        previousblockhash:
           description: hash of previous block
           example: "0bc6703c708cc6fc5f7caee6f967e15261c2b28fb8939a5345e783bb69348ba4"
           type: string
@@ -833,29 +833,29 @@ components:
           description: hash of next block
           example: "0bc6703c708cc6fc5f7caee6f967e15261c2b28fb8939a5345e783bb69348ba4"
           type: string
-        flags: 
+        flags:
           description: flags
           example: ""
           type: string
-        reward: 
+        reward:
           description: reward
           example: 0
           type: number
-        isMainChain: 
+        isMainChain:
           description: is mainnet
           example: true
           type: string
-        minedBy: 
+        minedBy:
           description: mined by address
           example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
           type: string
-        poolInfo: 
+        poolInfo:
           description: pool information
           example: {}
           type: object
     QtumIRawTransactions:
       properties:
-        pagesTotal: 
+        pagesTotal:
           type: number
           description: number of pages
           example: 150
@@ -863,15 +863,15 @@ components:
           type: array
           items:
             properties:
-              txid: 
+              txid:
                 type: string
-                description: transaction ID 
+                description: transaction ID
                 example: "53faa103e8217e1520f5149a4e8c84aeb58e55bdab11164a95e69a8ca50f8fcc"
-              version: 
+              version:
                 type: number
                 description: version number
                 example: 0
-              locktime: 
+              locktime:
                 type: number
                 description: locktime
                 example: 1626959613
@@ -880,11 +880,11 @@ components:
                 description: transaction receipts
                 items:
                   properties:
-                    blockHash: 
+                    blockHash:
                       description: block hash
                       example: "0bc6703c708cc6fc5f7caee6f967e15261c2b28fb8939a5345e783bb69348ba4"
                       type: string
-                    blockNumber: 
+                    blockNumber:
                       description: block number
                       example: 0
                       type: number
@@ -892,11 +892,11 @@ components:
                       description: transaction hash
                       example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
                       type: string
-                    transactionIndex: 
+                    transactionIndex:
                       description: transaction index
                       example: 0
                       type: number
-                    from: 
+                    from:
                       description: from address
                       example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
                       type: string
@@ -908,31 +908,31 @@ components:
                       description: cumulativeGasUsed
                       example: ""
                       type: string
-                    gasUsed: 
+                    gasUsed:
                       description: gas Used
                       example: "0"
                       type: string
-                    contractAddress: 
+                    contractAddress:
                       description: address of contract
                       example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
                       type: string
-                    excepted: 
+                    excepted:
                       description: expected
                       example: ""
                       type: string
                     log:
                       description: logs
                       example: [""]
-                      type: array              
-              vin: 
+                      type: array
+              vin:
                 type: array
-                items: 
+                items:
                   properties:
-                    value: 
+                    value:
                       description: value
                       example: 0
                       type: number
-                    script: 
+                    script:
                       description: buffer of script
                       example: ""
                       type: string
@@ -944,7 +944,7 @@ components:
                       description: value
                       example: 0
                       type: string
-                    address: 
+                    address:
                       description: address
                       example: "qWpEineYmtc2Ea25GqDYhvuzCjTiu5hMYA"
                       type: string
@@ -952,10 +952,10 @@ components:
                       description: script buffer
                       example: ""
                       type: string
-                    scriptPubKey: 
+                    scriptPubKey:
                       type: object
                       properties:
-                        hex: 
+                        hex:
                           type: string
                           description: hex value
                           example: ""
@@ -971,7 +971,7 @@ components:
                 type: number
                 description: confirmations
                 example: 6
-              time: 
+              time:
                 type: number
                 description: timestamp
                 example: 1626959613

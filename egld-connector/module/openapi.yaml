@@ -95,8 +95,9 @@ paths:
           in: path
           name: index
           required: true
+          example: 1
           schema:
-            type: string
+            type: number
             example: 0
       responses:
         200:

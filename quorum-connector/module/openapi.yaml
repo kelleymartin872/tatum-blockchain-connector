@@ -247,7 +247,7 @@ paths:
           required: true
           schema:
             type: string
-            example: 6470657
+            example: '6470657'
       responses:
         200:
           content:

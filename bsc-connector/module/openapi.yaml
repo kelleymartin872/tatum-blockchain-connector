@@ -79,6 +79,7 @@ paths:
           in: path
           name: index
           required: true
+          example: 1
           schema:
             type: number
             example: 0
@@ -214,7 +215,7 @@ paths:
           required: true
           schema:
             type: string
-            example: 6470657
+            example: '6470657'
       responses:
         200:
           content:
@@ -1141,7 +1142,7 @@ components:
           type: array
           example: [ '0x632' ]
           items:
-            type: object
+            type: string
             description: Parameters of the method to be invoked
         amount:
           description: Amount of the assets to be sent.
@@ -1216,7 +1217,7 @@ components:
           type: array
           example: [ '0x632' ]
           items:
-            type: object
+            type: string
             description: Parameters of the method to be invoked
       required:
         - contractAddress
@@ -1243,8 +1244,9 @@ components:
           description: ABI of the method to invoke.
         params:
           type: array
+          example: [ '0x632' ]
           items:
-            type: object
+            type: string
           description: Parameters of the method to be invoked.
         index:
           type: number

@@ -776,7 +776,7 @@ components:
           type: number
           example: 0
         bits:
-          type: number
+          type: string
           example: 1c051271
         difficulty:
           type: number

@@ -42,18 +42,17 @@ paths:
           name: x-testnet-type
           required: false
           schema:
-            default: ropsten
+            default: ethereum-ropsten
             type: string
             enum:
               - ethereum-ropsten
               - ethereum-rinkeby
-            maxLength: 20
       requestBody:
         content:
           application/json:
             schema:
               oneOf:
-                - $ref: "#/components/schemas/ChainDeployErc20"                
+                - $ref: "#/components/schemas/ChainDeployErc20"
                 - $ref: "#/components/schemas/ChainDeployErc20KMS"
                 - $ref: "#/components/schemas/ChainDeployKcsErc20"
                 - $ref: "#/components/schemas/ChainDeployKcsErc20KMS"
@@ -121,19 +120,18 @@ paths:
           name: x-testnet-type
           required: false
           schema:
-            default: ropsten
+            default: ethereum-ropsten
             type: string
             enum:
               - ethereum-ropsten
               - ethereum-rinkeby
-            maxLength: 20
       operationId: Erc20Mint
       requestBody:
         content:
           application/json:
             schema:
               oneOf:
-                - $ref: "#/components/schemas/ChainMintErc20"                
+                - $ref: "#/components/schemas/ChainMintErc20"
                 - $ref: "#/components/schemas/ChainMintErc20KMS"
                 - $ref: "#/components/schemas/ChainMintKcsErc20"
                 - $ref: "#/components/schemas/ChainMintKcsErc20KMS"
@@ -186,12 +184,11 @@ paths:
           name: x-testnet-type
           required: false
           schema:
-            default: ropsten
+            default: ethereum-ropsten
             type: string
             enum:
               - ethereum-ropsten
               - ethereum-rinkeby
-            maxLength: 20
       operationId: Erc20Burn
       requestBody:
         content:
@@ -251,12 +248,11 @@ paths:
           name: x-testnet-type
           required: false
           schema:
-            default: ropsten
+            default: ethereum-ropsten
             type: string
             enum:
               - ethereum-ropsten
               - ethereum-rinkeby
-            maxLength: 20
       operationId: Erc20Approve
       requestBody:
         content:
@@ -307,7 +303,7 @@ paths:
         or signatureId. PrivateKey should be used only for quick development on testnet versions of blockchain when there is no risk of losing funds. In production,
         <a href="https://github.com/tatumio/tatum-kms" target="_blank">Tatum KMS</a> should be used for the highest security standards, and signatureId should be present in the request.
         Alternatively, using the Tatum client library for supported languages.
-        Algorand is unique a way that the receiving account should be ready before sending the FT(Erc20) asset. 
+        Algorand is unique a way that the receiving account should be ready before sending the FT(Erc20) asset.
         To perform this, the receiving account should transfer the FT(Erc20) asset with 0 amount to itself.
         During the process, it's using the same API as the main transaction: the only difference is that the "fromPrivateKey" should be the privateKey of the receiving account.
         </p>
@@ -317,12 +313,11 @@ paths:
           name: x-testnet-type
           required: false
           schema:
-            default: ropsten
+            default: ethereum-ropsten
             type: string
             enum:
               - ethereum-ropsten
               - ethereum-rinkeby
-            maxLength: 20
       operationId: Erc20Transfer
       requestBody:
         content:
@@ -460,8 +455,7 @@ paths:
         - Blockchain / Fungible Token
   /v3/blockchain/token/balance/{chain}/{contractAddress}/{address}:
     get:
-      description: "<h4>1 credit per API call.</h4><br/>
-      <p>Get ERC20 Account balance. Returns number of tokens Account holds.</p>"
+      description: "<h4>1 credit per API call.</h4><br/><p>Get ERC20 Account balance. Returns number of tokens Account holds.</p>"
       operationId: Erc20GetBalance
       parameters:
         - description: "Network name"
@@ -490,12 +484,11 @@ paths:
           name: x-testnet-type
           required: false
           schema:
-            default: ropsten
+            default: ethereum-ropsten
             type: string
             enum:
               - ethereum-ropsten
               - ethereum-rinkeby
-            maxLength: 20
       responses:
         200:
           content:
@@ -665,7 +658,9 @@ components:
           example: ETH
           description: Chain to work with.
           enum:
-            - ETH, BSC, XDC
+            - ETH
+            - BSC
+            - XDC
         symbol:
           description: Symbol of the ERC20 token
           example: ERC_SYMBOL
@@ -1195,7 +1190,9 @@ components:
           example: ETH
           description: Chain to work with.
           enum:
-            - ETH, BSC, XDC
+            - ETH
+            - BSC
+            - XDC
         amount:
           description: Amount to be minted and transfered to the recipient.
           example: "100000"
@@ -1614,7 +1611,10 @@ components:
           example: ETH
           description: Chain to work with.
           enum:
-            - ETH, BSC, XDC, ALGO
+            - ETH
+            - BSC
+            - XDC
+            - ALGO
         amount:
           description: Amount of tokens to be destroyed.
           example: "100000"
@@ -1894,7 +1894,11 @@ components:
           example: ETH
           description: Chain to work with.
           enum:
-            - ETH, BSC, MATIC, XDC, ONE
+            - ETH
+            - BSC
+            - MATIC
+            - XDC
+            - ONE
         to:
           maxLength: 50
           minLength: 1
@@ -1961,7 +1965,11 @@ components:
           example: ETH
           description: Chain to work with.
           enum:
-            - ETH, BSC, MATIC, XDC, ONE
+            - ETH
+            - BSC
+            - MATIC
+            - XDC
+            - ONE
         to:
           maxLength: 50
           minLength: 1
@@ -2476,8 +2484,9 @@ components:
           description: ABI of the method to invoke.
         params:
           type: array
+          example: [ '0x632' ]
           items:
-            type: object
+            type: string
           description: Parameters of the method to be invoked.
         fromPrivateKey:
           type: string
@@ -2539,8 +2548,9 @@ components:
           description: ABI of the method to invoke.
         params:
           type: array
+          example: [ '0x632' ]
           items:
-            type: object
+            type: string
           description: Parameters of the method to be invoked.
         fromPrivateKey:
           type: string

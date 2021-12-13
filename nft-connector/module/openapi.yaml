@@ -61,12 +61,11 @@ paths:
           name: x-testnet-type
           required: false
           schema:
-            default: ropsten
+            default: ethereum-ropsten
             type: string
             enum:
               - ethereum-ropsten
               - ethereum-rinkeby
-            maxLength: 10
       requestBody:
         content:
           application/json:
@@ -156,7 +155,7 @@ paths:
         Second mode works without private key or signature id.
         Mint NFT requests use built-in smart contract, private key and token id which are provided by Tatum.
         You dont need to provide fromPrivateKey (or signatureId), contractAddress and tokenId fields to perform the mint NFT request.
-  
+
         Performed request without fromPrivateKey or signatureId fields will be populated with following attributes:
 
         <ul>
@@ -275,12 +274,11 @@ paths:
           name: x-testnet-type
           required: false
           schema:
-            default: ropsten
+            default: ethereum-ropsten
             type: string
             enum:
               - ethereum-ropsten
               - ethereum-rinkeby
-            maxLength: 10
       requestBody:
         content:
           application/json:
@@ -352,7 +350,7 @@ paths:
         or signatureId. PrivateKey should be used only for quick development on testnet versions of blockchain when there is no risk of losing funds. In production,
         <a href="https://github.com/tatumio/tatum-kms" target="_blank">Tatum KMS</a> should be used for the highest security standards, and signatureId should be present in the request.
         Alternatively, using the Tatum client library for supported languages.
-        Algorand is unique a way that the receiving account should be ready before sending the NFT asset. 
+        Algorand is unique a way that the receiving account should be ready before sending the NFT asset.
         To perform this, the receiving account should transfer the NFT asset with 0 amount to itself.
         During the process, it's using the same API as the main transaction: the only difference is that the "fromPrivateKey" should be the privateKey of the receiving account.
         </p>
@@ -363,12 +361,11 @@ paths:
           name: x-testnet-type
           required: false
           schema:
-            default: ropsten
+            default: ethereum-ropsten
             type: string
             enum:
               - ethereum-ropsten
               - ethereum-rinkeby
-            maxLength: 10
       requestBody:
         content:
           application/json:
@@ -443,12 +440,11 @@ paths:
           name: x-testnet-type
           required: false
           schema:
-            default: ropsten
+            default: ethereum-ropsten
             type: string
             enum:
               - ethereum-ropsten
               - ethereum-rinkeby
-            maxLength: 10
       requestBody:
         content:
           application/json:
@@ -523,12 +519,11 @@ paths:
           name: x-testnet-type
           required: false
           schema:
-            default: ropsten
+            default: ethereum-ropsten
             type: string
             enum:
               - ethereum-ropsten
               - ethereum-rinkeby
-            maxLength: 10
       requestBody:
         content:
           application/json:
@@ -599,12 +594,11 @@ paths:
           name: x-testnet-type
           required: false
           schema:
-            default: ropsten
+            default: ethereum-ropsten
             type: string
             enum:
               - ethereum-ropsten
               - ethereum-rinkeby
-            maxLength: 10
       requestBody:
         content:
           application/json:
@@ -670,12 +664,11 @@ paths:
           name: x-testnet-type
           required: false
           schema:
-            default: ropsten
+            default: ethereum-ropsten
             type: string
             enum:
               - ethereum-ropsten
               - ethereum-rinkeby
-            maxLength: 10
       requestBody:
         content:
           application/json:
@@ -930,12 +923,11 @@ paths:
           name: x-testnet-type
           required: false
           schema:
-            default: ropsten
+            default: ethereum-ropsten
             type: string
             enum:
               - ethereum-ropsten
               - ethereum-rinkeby
-            maxLength: 10
       responses:
         200:
           content:
@@ -999,12 +991,11 @@ paths:
           name: x-testnet-type
           required: false
           schema:
-            default: ropsten
+            default: ethereum-ropsten
             type: string
             enum:
               - ethereum-ropsten
               - ethereum-rinkeby
-            maxLength: 10
       responses:
         200:
           content:
@@ -1133,12 +1124,11 @@ paths:
           name: x-testnet-type
           required: false
           schema:
-            default: ropsten
+            default: ethereum-ropsten
             type: string
             enum:
               - ethereum-ropsten
               - ethereum-rinkeby
-            maxLength: 10
       responses:
         200:
           content:
@@ -1206,12 +1196,11 @@ paths:
           name: x-testnet-type
           required: false
           schema:
-            default: ropsten
+            default: ethereum-ropsten
             type: string
             enum:
               - ethereum-ropsten
               - ethereum-rinkeby
-            maxLength: 10
       responses:
         200:
           content:
@@ -1267,14 +1256,6 @@ paths:
               - TRON
               - FLOW
               - BSC
-        - description: "Token ID, required for all except SOL"
-          in: path
-          name: token
-          required: false
-          schema:
-            type: string
-            example: "1"
-            maxLength: 32
         - description: "NFT contract address"
           in: path
           name: contractAddress
@@ -1282,6 +1263,14 @@ paths:
           schema:
             type: string
             example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+        - description: "Token ID, required for all except SOL"
+          in: path
+          name: token
+          required: true
+          schema:
+            type: string
+            example: "1"
+            maxLength: 32
         - description: Account holding this token. FLOW only.
           in: query
           required: false
@@ -1294,12 +1283,11 @@ paths:
           name: x-testnet-type
           required: false
           schema:
-            default: ropsten
+            default: ethereum-ropsten
             type: string
             enum:
               - ethereum-ropsten
               - ethereum-rinkeby
-            maxLength: 10
       responses:
         200:
           content:
@@ -1350,14 +1338,6 @@ paths:
               - CELO
               - TRON
               - BSC
-        - description: "Token ID, required for all except SOL"
-          in: path
-          name: token
-          required: false
-          schema:
-            type: string
-            example: "1"
-            maxLength: 32
         - description: "NFT contract address"
           in: path
           name: contractAddress
@@ -1365,17 +1345,24 @@ paths:
           schema:
             type: string
             example: "0x94Ce79B9F001E25BBEbE7C01998A78F7B27D1326"
+        - description: "Token ID, required for all except SOL"
+          in: path
+          name: token
+          required: true
+          schema:
+            type: string
+            example: "1"
+            maxLength: 32
         - description: "Type of Ethereum testnet. Defaults to ropsten. Valid only for ETH invocations."
           in: header
           name: x-testnet-type
           required: false
           schema:
-            default: ropsten
+            default: ethereum-ropsten
             type: string
             enum:
               - ethereum-ropsten
               - ethereum-rinkeby
-            maxLength: 10
       responses:
         200:
           content:
@@ -4837,13 +4824,13 @@ components:
             - BSC
         contractAddress:
           maxLength: 42
-          minLength: 43
+          minLength: 42
           description: Address of NFT token
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
           type: string
         minter:
           maxLength: 42
-          minLength: 43
+          minLength: 42
           description: Address of NFT minter
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
           type: string

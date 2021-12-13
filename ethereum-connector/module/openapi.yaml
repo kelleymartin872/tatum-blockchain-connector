@@ -82,6 +82,7 @@ paths:
           in: path
           name: index
           required: true
+          example: 1
           schema:
             type: number
             example: 0
@@ -217,7 +218,7 @@ paths:
           required: true
           schema:
             type: string
-            example: 6470657
+            example: '6470657'
       responses:
         200:
           content:
@@ -1262,8 +1263,9 @@ components:
           description: ABI of the method to invoke.
         params:
           type: array
+          example: [ '0x632' ]
           items:
-            type: object
+            type: string
           description: Parameters of the method to be invoked.
         fromPrivateKey:
           type: string
@@ -1318,8 +1320,9 @@ components:
           description: ABI of the method to invoke.
         params:
           type: array
+          example: [ '0x632' ]
           items:
-            type: object
+            type: string
           description: Parameters of the method to be invoked.
         signatureId:
           type: string

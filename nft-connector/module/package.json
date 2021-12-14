@@ -36,9 +36,10 @@
   "peerDependencies": {
     "@nestjs/common": "^7.6.1",
     "@tatumio/blockchain-connector-common": "^1.1.6",
-    "@tatumio/tatum-kcs": "^2.0.0-alpha.80",
+    "@tatumio/tatum-kcs": "^2.0.0-alpha.84",
+    "@tatumio/tatum-core": "^2.0.0-alpha.84",
     "@tatumio/tatum": "^1.29.33",
-    "@tatumio/tatum-solana": "^2.0.0-alpha.76",
+    "@tatumio/tatum-solana": "^2.0.0-alpha.84",
     "axios": "^0.21.1",
     "bignumber.js": "^9.0.0",
     "class-transformer": "^0.2.3",

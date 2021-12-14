@@ -1616,10 +1616,10 @@
   dependencies:
     "@tatumio/tatum-core" "^2.0.0-alpha.80"
 
-"@tatumio/tatum@^1.29.23":
-  version "1.29.23"
-  resolved "https://registry.yarnpkg.com/@tatumio/tatum/-/tatum-1.29.23.tgz#eabbdd79f5fb70125d76954b8f841a47351ca5f2"
-  integrity sha512-EEZaPc91mqId09foh/fU692bfI/ZK6Z0iEgOAK1wmK9N4bzujzfMjkoJV8gzWUr9mf80eY6z7DFptfu+akz8iQ==
+"@tatumio/tatum@^1.29.33":
+  version "1.29.33"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum/-/tatum-1.29.33.tgz#579c3dc527de0c54bf207e776844aebf64efc812"
+  integrity sha512-/S4FwRCkI7aWKZkqkiZAGig2dQTgCaJMsEHgSD1nB/P0alxGJdNmSkGmf4sKMog40m7ijjoTdQ+DFinpYSJhDg==
   dependencies:
     "@binance-chain/javascript-sdk" "^4.1.1"
     "@celo-tools/celo-ethers-wrapper" "0.0.5"

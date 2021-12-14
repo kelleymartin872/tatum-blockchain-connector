@@ -428,7 +428,7 @@ export abstract class NftService {
                 txData = await prepareKcsTransferErc721SignedTransaction(body as CoreTransferErc721, provider);
                 break;
             case C.SOL.toString():
-                txData = await transferSolanaNft(body as TransferErc721, provider);
+                txData = await transferSolanaNft(body as any, provider);
                 if (body.signatureId) {
                     txData = JSON.stringify(txData);
                 }

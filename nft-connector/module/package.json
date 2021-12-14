@@ -1,6 +1,6 @@
 {
   "name": "@tatumio/nft-connector",
-  "version": "1.6.17",
+  "version": "1.6.18",
   "description": "NFT Connector for Tatum API",
   "license": "MIT",
   "files": [
@@ -37,7 +37,7 @@
     "@nestjs/common": "^7.6.1",
     "@tatumio/blockchain-connector-common": "^1.1.6",
     "@tatumio/tatum-kcs": "^2.0.0-alpha.80",
-    "@tatumio/tatum": "^1.29.23",
+    "@tatumio/tatum": "^1.29.33",
     "@tatumio/tatum-solana": "^2.0.0-alpha.76",
     "axios": "^0.21.1",
     "bignumber.js": "^9.0.0",
@@ -50,7 +50,7 @@
     "@nestjs/common": "^7.6.1",
     "@tatumio/blockchain-connector-common": "^1.1.6",
     "@tatumio/tatum-kcs": "^2.0.0-alpha.80",
-    "@tatumio/tatum": "^1.29.23",
+    "@tatumio/tatum": "^1.29.33",
     "@tatumio/tatum-solana": "^2.0.0-alpha.76",
     "@types/express": "4.17.9",
     "@types/jest": "26.0.18",

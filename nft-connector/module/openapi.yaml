@@ -1724,6 +1724,10 @@ components:
           description: True if the contract is provenance type
           example: true
           type: boolean
+        publicMint:
+          description: True if the contract is publicMint type
+          example: true
+          type: boolean
         symbol:
           description: Symbol of the NFT token
           example: ERC_SYMBOL
@@ -1805,6 +1809,10 @@ components:
           maxLength: 100
           minLength: 1
           type: string
+        publicMint:
+          description: True if the contract is publicMint type
+          example: true
+          type: boolean
         symbol:
           description: Symbol of the NFT token
           example: ERC_SYMBOL
@@ -3268,6 +3276,11 @@ components:
           description: Blockchain address to send NFT token to
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
           type: string
+        erc20:
+          maxLength: 42
+          minLength: 42
+          description: Address of custom ERC20 token
+          example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
         contractAddress:
           maxLength: 42
           minLength: 42
@@ -3419,6 +3432,11 @@ components:
           description: Address of NFT token
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
           type: string
+        erc20:
+          maxLength: 42
+          minLength: 42
+          description: Address of custom ERC20 token
+          example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
         url:
           description: Metadata of the token. See https://eips.ethereum.org/EIPS/eip-721#specification for more details.
           example: "https://my_token_data.com"
@@ -3754,6 +3772,10 @@ components:
           description: True if the contract is provenance type
           example: true
           type: boolean
+        publicMint:
+          description: True if the contract is publicMint type
+          example: true
+          type: boolean
         nonce:
           type: number
           minimum: 0
@@ -3801,6 +3823,10 @@ components:
           type: string
         provenance:
           description: True if the contract is provenance type
+          example: true
+          type: boolean
+        publicMint:
+          description: True if the contract is publicMint type
           example: true
           type: boolean
         symbol:
@@ -3961,6 +3987,12 @@ components:
           description: Address of NFT token
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
           type: string
+        erc20:
+          maxLength: 42
+          minLength: 42
+          description: Address of custom ERC20 token
+          example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
+          type: string
         url:
           description: Metadata of the token. See https://eips.ethereum.org/EIPS/eip-721#specification for more details.
           example: "https://my_token_data.com"
@@ -4056,6 +4088,11 @@ components:
           description: Address of NFT token
           example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
           type: string
+        erc20:
+          maxLength: 42
+          minLength: 42
+          description: Address of custom ERC20 token
+          example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
         url:
           description: Metadata of the token. See https://eips.ethereum.org/EIPS/eip-721#specification for more details.
           example: "https://my_token_data.com"

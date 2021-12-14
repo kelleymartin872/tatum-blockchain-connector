@@ -244,7 +244,7 @@ export abstract class NftService {
         // @ts-ignore
         const c = new (await this.getClient(chain, await this.isTestnet())).eth.Contract(erc721_abi, chain === Currency.ONE ? new HarmonyAddress(contractAddress).basicHex : contractAddress);
         try {
-            const [addresses, values] = await Promise.all([c.methods.tokenCashbackRecipients(token).call(), c.methods.tokenCashbackValues(token).call()]);
+            const [addresses, values] = await Promise.all([c.methods.tokenCashbackRecipients(token).call(), c.methods.tokenCashbackValues(token,`0x${new BigNumber(1).multipliedBy(1e18).toString(16)}`).call()]);
             return {addresses, values: values.map(c => new BigNumber(c).dividedBy(1e18).toString(10))};
         } catch (e) {
             this.logger.error(e);

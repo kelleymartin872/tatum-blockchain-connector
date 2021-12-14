@@ -1330,6 +1330,10 @@ components:
           maxLength: 100
           minLength: 1
           type: string
+        publicMint:
+          description: True if the contract is publicMint type
+          example: true
+          type: boolean
         fromPrivateKey:
           description: Private key of account address, from which gas for deployment of ERC1155 will be paid. Private key, or signature Id must be present.
           type: string
@@ -1367,6 +1371,10 @@ components:
           maxLength: 100
           minLength: 1
           type: string
+        publicMint:
+          description: True if the contract is publicMint type
+          example: true
+          type: boolean
         index:
           type: number
           minimum: 0
@@ -2343,6 +2351,10 @@ components:
           maxLength: 66
           example: "0x05e150c73f1920ec14caa1e0b6aa09940899678051a78542840c2668ce5080c2"
           minLength: 66
+        publicMint:
+          description: True if the contract is publicMint type
+          example: true
+          type: boolean
         nonce:
           type: number
           minimum: 0
@@ -2385,6 +2397,10 @@ components:
           description: URI of the Multi Token token
           example: example.com
           type: string
+        publicMint:
+          description: True if the contract is publicMint type
+          example: true
+          type: boolean
         signatureId:
           type: string
           minLength: 36

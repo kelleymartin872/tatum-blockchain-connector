@@ -175,19 +175,20 @@ export abstract class AlgoService {
   }
 
   public async getPayTransactions(from: string, to: string, limit?: string, next?: string, testnet?: boolean) {
-    const istestnet = testnet || (await this.isTestnet());
+    const isTestnet = testnet || (await this.isTestnet());
     const baseurl = (await this.getNodesUrl(AlgoNodeType.INDEXER))[0];
-    const apiurl = `${baseurl}/v2/transactions?tx-type=pay&after-time=${from}&before-time=${to}` + (limit ? `&limit=${limit}` : '') + (next ? `&next=${next}` : '');
+    const apiUrl = `${baseurl}/v2/transactions?tx-type=pay&after-time=${from}&before-time=${to}` + (limit ? `&limit=${limit}` : '') + (next ? `&next=${next}` : '');
     try {
       const res = (await axios({
         method: 'get',
-        url: apiurl,
-        headers: istestnet ? (process.env.TATUM_ALGORAND_TESTNET_THIRD_API_KEY ? {} : { 'X-API-Key': `${process.env.TATUM_ALGORAND_TESTNET_THIRD_API_KEY}` }) :
+        url: apiUrl,
+        headers: isTestnet ? (process.env.TATUM_ALGORAND_TESTNET_THIRD_API_KEY ? {} : { 'X-API-Key': `${process.env.TATUM_ALGORAND_TESTNET_THIRD_API_KEY}` }) :
           (process.env.TATUM_ALGORAND_MAINNET_THIRD_API_KEY ? {} : { 'X-API-Key': `${process.env.TATUM_ALGORAND_MAINNET_THIRD_API_KEY}` })
       })).data;
       const transactions = res.transactions.map(AlgoService.mapTransaction);
       return { nextToken: res['next-token'], transactions: transactions }
-    } catch (_) {
+    } catch (e) {
+      this.logger.error(e);
       throw new AlgoError(`Failed Algo get pay transactions by from and to`, 'algo.error');
     }
   }

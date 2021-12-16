@@ -1707,11 +1707,11 @@ components:
           minLength: 1
           type: string
         provenance:
-          description: True if the contract is provenance type
+          description: True if the contract is provenance type - each transfer of the NFT can track the provenance history of the transaction. Based on this features, percentage royalties could be enabled.
           example: true
           type: boolean
         publicMint:
-          description: True if the contract is publicMint type
+          description: True if anyone will be able to mint NFTs, false by default for deployer as a default minter.
           example: true
           type: boolean
         symbol:

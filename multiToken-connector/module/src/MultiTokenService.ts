@@ -79,7 +79,15 @@ import erc1155_abi from '@tatumio/tatum/dist/src/contracts/erc1155/erc1155_abi';
 import Web3 from 'web3';
 import {Transaction, TransactionReceipt} from 'web3-eth';
 import {HarmonyAddress} from '@harmony-js/crypto';
-import { prepareKcsBatchTransferMultiTokenSignedTransaction, prepareKcsBurnMultiTokenBatchSignedTransaction, prepareKcsBurnMultiTokenSignedTransaction, prepareKcsDeployMultiTokenSignedTransaction, prepareKcsMintMultiTokenBatchSignedTransaction, prepareKcsMintMultiTokenSignedTransaction, prepareKcsTransferMultiTokenSignedTransaction } from '@tatumio/tatum-kcs';
+import { 
+    prepareBatchTransferMultiTokenSignedTransaction as prepareKcsBatchTransferMultiTokenSignedTransaction, 
+    prepareBurnMultiTokenBatchSignedTransaction as prepareKcsBurnMultiTokenBatchSignedTransaction, 
+    prepareBurnMultiTokenSignedTransaction as prepareKcsBurnMultiTokenSignedTransaction, 
+    prepareDeployMultiTokenSignedTransaction as prepareKcsDeployMultiTokenSignedTransaction, 
+    prepareMintMultiTokenBatchSignedTransaction as prepareKcsMintMultiTokenBatchSignedTransaction, 
+    prepareMintMultiTokenSignedTransaction as prepareKcsMintMultiTokenSignedTransaction, 
+    prepareTransferMultiTokenSignedTransaction as prepareKcsTransferMultiTokenSignedTransaction 
+} from '@tatumio/tatum-kcs';
 
 export abstract class MultiTokenService {
 

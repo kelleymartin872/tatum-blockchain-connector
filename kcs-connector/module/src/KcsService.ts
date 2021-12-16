@@ -213,7 +213,7 @@ export abstract class KcsService {
     }
 
     public async generateWallet(mnemonic?: string) {
-        return generateWallet(mnemonic);
+        return generateWallet(mnemonic, {testnet: await this.isTestnet()});
     }
 
     public async generatePrivateKey(mnemonic: string, index: number) {

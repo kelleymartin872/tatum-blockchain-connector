@@ -722,6 +722,8 @@ paths:
             type: string
             enum:
               - CELO
+              - ETH
+              - MATIC
             example: CELO
         - description: "Account address"
           in: path
@@ -766,16 +768,6 @@ paths:
             type: number
             minimum: 0
             example: 1087823
-        - description: Sorting of the data. ASC - oldest first, DESC - newest first.
-          in: query
-          name: sort
-          schema:
-            type: string
-            default: DESC
-            example: ASC
-            enum:
-              - ASC
-              - DESC
       responses:
         200:
           content:
@@ -811,6 +803,8 @@ paths:
             type: string
             enum:
               - CELO
+              - ETH
+              - MATIC
             example: CELO
         - description: "NFT Token ID"
           in: path
@@ -856,16 +850,6 @@ paths:
             type: number
             minimum: 0
             example: 1087823
-        - description: Sorting of the data. ASC - oldest first, DESC - newest first.
-          in: query
-          name: sort
-          schema:
-            type: string
-            default: DESC
-            example: ASC
-            enum:
-              - ASC
-              - DESC
       responses:
         200:
           content:
@@ -1041,6 +1025,8 @@ paths:
             enum:
               - ALGO
               - CELO
+              - MATIC
+              - ETH
         - description: "Account address"
           in: path
           name: address
@@ -1081,7 +1067,7 @@ paths:
       security:
         - X-Api-Key: [ ]
       x-code-samples:
-      summary: Get NFT Account tokens with balances
+      summary: Get NFT tokens for address
       tags:
         - Blockchain / NFT
   /v3/nft/balance/{chain}/{contractAddress}/{address}:

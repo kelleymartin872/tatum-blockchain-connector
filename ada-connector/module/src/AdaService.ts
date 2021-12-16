@@ -263,9 +263,11 @@ export abstract class AdaService {
     });
   }
 
-  public async getTransactionsFromBlockTillNow(blockNumber: number, isTestnet?: boolean): Promise<Transaction[]> {
+  public async getTransactionsFromBlockTillNow(blockNumber: number, isTestnet?: boolean, limit?: number, offset?: number): Promise<Transaction[]> {
     try {
-      const response = await this.sendNodeRequest({query: `{transactions(where:{block:{number:{_gte:${blockNumber}}}})${TX_FIELDS}}`}, isTestnet)
+      const query = limit && offset ? `{transactions(limit: ${limit}, offset: ${offset}, where:{block:{number:{_gte:${blockNumber}}}})${TX_FIELDS}}` : `{transactions(where:{block:{number:{_gte:${blockNumber}}}})${TX_FIELDS}}`
+
+      const response = await this.sendNodeRequest({query}, isTestnet)
       const { data } = response.data;
       return (data?.transactions || []);
     } catch (e) {

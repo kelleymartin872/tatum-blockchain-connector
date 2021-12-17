@@ -265,7 +265,7 @@ export abstract class AdaService {
 
   public async getTransactionsFromBlockTillNow(blockNumber: number, isTestnet?: boolean, limit?: number, offset?: number): Promise<Transaction[]> {
     try {
-      const query = limit && offset ? `{transactions(limit: ${limit}, offset: ${offset}, where:{block:{number:{_gte:${blockNumber}}}})${TX_FIELDS}}` : `{transactions(where:{block:{number:{_gte:${blockNumber}}}})${TX_FIELDS}}`
+      const query = new BigNumber(limit).isPositive() && new BigNumber(offset).isPositive() ? `{transactions(limit: ${limit}, offset: ${offset}, where:{block:{number:{_gte:${blockNumber}}}})${TX_FIELDS}}` : `{transactions(where:{block:{number:{_gte:${blockNumber}}}})${TX_FIELDS}}`
 
       const response = await this.sendNodeRequest({query}, isTestnet)
       const { data } = response.data;

@@ -1012,7 +1012,7 @@ paths:
   /v3/nft/address/balance/{chain}/{address}:
     get:
       description: |
-        <h4>1 credit per API call.</h4><br/><p>Get NFTs on address. Returns all NFTs this address holds.</p>
+        <h4>1 credit per API call + 5 credits for each owned token.</h4><br/><p>Get NFTs on address. Returns all NFTs this address holds.</p>
       operationId: NftGetTokensByAddressErc721
       parameters:
         - description: Blockchain to work with

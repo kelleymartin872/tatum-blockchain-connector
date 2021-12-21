@@ -1042,15 +1042,39 @@ paths:
                 type: array
                 items:
                   type: object
+                  required:
+                    - contractAddress
+                    - balances
                   properties:
                     contractAddress:
                       type: string
                       example: "43821281"
                       description: Contract address of the NFT. In Algorand case, it will be asset-id..
                     balances:
-                      type: string
-                      description: Amount of tokens available. It is always 1 or 0 for NFTs on Algorand, tokenId for EVM based chains like CELO or MATIC.
-                      example: "1"
+                      type: array
+                      items:
+                        type: string
+                        description: Amount of tokens available. It is always 1 or 0 for NFTs on Algorand, tokenId for EVM based chains like CELO or MATIC.
+                        example: "1"
+                    metadata:
+                      type: object
+                      required:
+                        - tokenID
+                      properties:
+                        tokenId:
+                          description: TokenID of the NFT token owned by this address.
+                          example: "1"
+                          type: string
+                        url:
+                          description: Metadata URL of the TokenID. This data don't have to be present, safest way (if not present) is to obtain them from the NFT Contract.tokenURI() method call.
+                          example: "ipfs://QmXFpaS3S7CkLZvihLFA9JbawKdqhjg8dJeDkPntmkD2Pc"
+                          type: string
+                        metadata:
+                          type: object
+                          description: Metadata scheme obtained from the url. This data don't have to be present, safest way (if not present) is to obtain them from the NFT Contract.tokenURI() method call.
+                          example: {"name": "Example NFT name",
+                                    "description": "Example NFT description",
+                                    "image": "ipfs://QmP4R7ACZ7JRQ6sLdmnPHqjWEXxzdnPvhAV2f6RnQ8uxJ6"}
           description: OK
         400:
           <<: *API400

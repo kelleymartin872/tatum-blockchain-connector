@@ -1608,10 +1608,10 @@
     reflect-metadata "^0.1.13"
     web3 "1.4.0"
 
-"@tatumio/tatum-core@^2.0.0-alpha.88":
-  version "2.0.0-alpha.88"
-  resolved "https://registry.yarnpkg.com/@tatumio/tatum-core/-/tatum-core-2.0.0-alpha.88.tgz#0037eda08a6c143f30aaa3663e8e31802945bb87"
-  integrity sha512-B1RYZ3UOzAA+j2JkLa3LeJNA6dg9f2kIaU5KUwoZIAglae53qgP67ji+wLqTfadmKcIa087jDy3T2udJTTctHQ==
+"@tatumio/tatum-core@^2.0.0-alpha.89":
+  version "2.0.0-alpha.89"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum-core/-/tatum-core-2.0.0-alpha.89.tgz#add72c1f274b33c2e0fe1b483d58f21dec001fc3"
+  integrity sha512-iBPgBO91qOYjJ8YfPSfVtm+B2JWcaJyWwRrD2XlmflKlUnK4MM+R9yfNQY25UbiB+7G1HsfMuNVDFIigAwxGkg==
   dependencies:
     axios "^0.21.1"
     axios-retry "^3.1.9"
@@ -1631,12 +1631,12 @@
     bignumber.js "^9.0.0"
     web3 "1.4.0"
 
-"@tatumio/tatum-kcs@2.0.0-alpha.88":
-  version "2.0.0-alpha.88"
-  resolved "https://registry.yarnpkg.com/@tatumio/tatum-kcs/-/tatum-kcs-2.0.0-alpha.88.tgz#d0a8053b5d6dce0b98a027fc3b22b912a7dab69b"
-  integrity sha512-mwCwUazxelv103oRIw2q773+GxIAEpCU/NhsRV+YGGyvefawK+2kqCu8DPB1yT69lpqL7Gft16eq0jab+Iv7FA==
+"@tatumio/tatum-kcs@2.0.0-alpha.89":
+  version "2.0.0-alpha.89"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum-kcs/-/tatum-kcs-2.0.0-alpha.89.tgz#8d477bbe3a375f807e101264e2c11ff7faaa3a2a"
+  integrity sha512-49GE2t4pXPBpB7PkDUr6Kl5Du+ki866l9THoW9JJI1V2njG4w1SagXT8TqMmCAkSHSohdv9q4YKZzVAtRvT9rw==
   dependencies:
-    "@tatumio/tatum-core" "^2.0.0-alpha.88"
+    "@tatumio/tatum-core" "^2.0.0-alpha.89"
     bignumber.js "^9.0.0"
     bip39 "^3.0.2"
     class-transformer "^0.2.3"

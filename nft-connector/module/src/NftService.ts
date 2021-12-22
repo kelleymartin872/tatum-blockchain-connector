@@ -12,11 +12,11 @@ import {
     DeployErc721 as CoreDeployErc721,
 } from '@tatumio/tatum-core';
 import {
-    prepareKcsBurnErc721SignedTransaction,
-    prepareKcsDeployErc721SignedTransaction,
-    prepareKcsMintErc721SignedTransaction, 
-    prepareKcsTransferErc721SignedTransaction,
-    prepareKcsUpdateCashbackForAuthorErc721SignedTransaction
+    prepareBurnErc721SignedTransaction as prepareKcsBurnErc721SignedTransaction,
+    prepareDeployErc721SignedTransaction as prepareKcsDeployErc721SignedTransaction,
+    prepareMintErc721SignedTransaction as prepareKcsMintErc721SignedTransaction, 
+    prepareTransferErc721SignedTransaction as prepareKcsTransferErc721SignedTransaction,
+    prepareUpdateCashbackForAuthorErc721SignedTransaction as prepareKcsUpdateCashbackForAuthorErc721SignedTransaction
 } from '@tatumio/tatum-kcs';
 
 import {Connection, programs} from '@metaplex/js';

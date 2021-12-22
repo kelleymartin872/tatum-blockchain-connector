@@ -12,10 +12,10 @@ import {
     generateAddressFromXPub,
     generatePrivateKeyFromMnemonic,
     generateWallet,
-    kcsGetGasPriceInWei,
-    prepareKcsSignedTransaction,
-    prepareKcsSmartContractWriteMethodInvocation,
-    sendKcsSmartContractReadMethodInvocationTransaction,
+    getGasPriceInWei,
+    prepareSignedTransaction,
+    prepareSmartContractWriteMethodInvocation,
+    sendSmartContractReadMethodInvocationTransaction,
 } from '@tatumio/tatum-kcs';
 import {BroadcastOrStoreKMSTransaction} from '@tatumio/blockchain-connector-common';
 import Web3 from 'web3';
@@ -230,7 +230,7 @@ export abstract class KcsService {
         const client = await this.getClient(await this.isTestnet());
         return {
             gasLimit: await client.eth.estimateGas(body),
-            gasPrice: await kcsGetGasPriceInWei(),
+            gasPrice: await getGasPriceInWei(),
         };
     }
 
@@ -240,7 +240,7 @@ export abstract class KcsService {
     }
 
     public async sendKCS(transfer: TransferErc20): Promise<TransactionHash | SignatureId> {
-        const transactionData = await prepareKcsSignedTransaction(transfer, await this.getFirstNodeUrl(await this.isTestnet()));
+        const transactionData = await prepareSignedTransaction(transfer, await this.getFirstNodeUrl(await this.isTestnet()));
         return this.broadcastOrStoreKMSTransaction({
             transactionData, signatureId: transfer.signatureId,
             index: transfer.index
@@ -255,10 +255,10 @@ export abstract class KcsService {
     public async invokeSmartContractMethod(smartContractMethodInvocation: SmartContractMethodInvocation | SmartContractReadMethodInvocation) {
         const node = await this.getFirstNodeUrl(await this.isTestnet());
         if (smartContractMethodInvocation.methodABI.stateMutability === 'view') {
-            return sendKcsSmartContractReadMethodInvocationTransaction(smartContractMethodInvocation, node);
+            return sendSmartContractReadMethodInvocationTransaction(smartContractMethodInvocation, node);
         }
 
-        const transactionData = await prepareKcsSmartContractWriteMethodInvocation(smartContractMethodInvocation, {provider: node});
+        const transactionData = await prepareSmartContractWriteMethodInvocation(smartContractMethodInvocation, {provider: node});
         return this.broadcastOrStoreKMSTransaction({
             transactionData,
             signatureId: (smartContractMethodInvocation as SmartContractMethodInvocation).signatureId,

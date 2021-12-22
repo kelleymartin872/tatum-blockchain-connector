@@ -1570,7 +1570,7 @@
   dependencies:
     "@tatumio/bitcoincash-ops" "2.0.0"
 
-"@tatumio/tatum-core@^2.0.0-alpha.84", "@tatumio/tatum-core@^2.0.0-alpha.85":
+"@tatumio/tatum-core@^2.0.0-alpha.84":
   version "2.0.0-alpha.85"
   resolved "https://registry.yarnpkg.com/@tatumio/tatum-core/-/tatum-core-2.0.0-alpha.85.tgz#e2b2d78fb716fb1da7e343d165d6b132598345b6"
   integrity sha512-9+1L5NR8OXGwnFmuAb1HxqDpENXy1nOmZBEEFPKZJ4/fCQdWoSi4dI4jnDFqgGOTdnmW1PdulNDkR2tOvSa1sg==
@@ -1584,12 +1584,26 @@
     reflect-metadata "^0.1.13"
     web3 "1.4.0"
 
-"@tatumio/tatum-kcs@^2.0.0-alpha.84":
-  version "2.0.0-alpha.85"
-  resolved "https://registry.yarnpkg.com/@tatumio/tatum-kcs/-/tatum-kcs-2.0.0-alpha.85.tgz#5f306a7bed7b00c1aa08d429271319c788d53d38"
-  integrity sha512-+g05JMqenMYHMUsDN2Yv7i5+wgLcynTGTsrH1Hkkk+GcTcOn5pOTe2EDmzcXNSw3B2uZiGeaK0tW8Up17scPew==
+"@tatumio/tatum-core@^2.0.0-alpha.88":
+  version "2.0.0-alpha.88"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum-core/-/tatum-core-2.0.0-alpha.88.tgz#0037eda08a6c143f30aaa3663e8e31802945bb87"
+  integrity sha512-B1RYZ3UOzAA+j2JkLa3LeJNA6dg9f2kIaU5KUwoZIAglae53qgP67ji+wLqTfadmKcIa087jDy3T2udJTTctHQ==
   dependencies:
-    "@tatumio/tatum-core" "^2.0.0-alpha.85"
+    axios "^0.21.1"
+    axios-retry "^3.1.9"
+    bignumber.js "^9.0.0"
+    class-transformer "^0.2.3"
+    class-validator "0.13.0"
+    form-data "^4.0.0"
+    reflect-metadata "^0.1.13"
+    web3 "1.4.0"
+
+"@tatumio/tatum-kcs@2.0.0-alpha.88":
+  version "2.0.0-alpha.88"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum-kcs/-/tatum-kcs-2.0.0-alpha.88.tgz#d0a8053b5d6dce0b98a027fc3b22b912a7dab69b"
+  integrity sha512-mwCwUazxelv103oRIw2q773+GxIAEpCU/NhsRV+YGGyvefawK+2kqCu8DPB1yT69lpqL7Gft16eq0jab+Iv7FA==
+  dependencies:
+    "@tatumio/tatum-core" "^2.0.0-alpha.88"
     bignumber.js "^9.0.0"
     bip39 "^3.0.2"
     class-transformer "^0.2.3"

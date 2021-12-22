@@ -84,10 +84,10 @@ import {
     TransferErc20 as CoreTransferErc20
 } from '@tatumio/tatum-core'
 import {
-    prepareKcsBurnErc20SignedTransaction,
-    prepareKcsDeployErc20SignedTransaction,
-    prepareKcsMintErc20SignedTransaction,
-    prepareKcsTransferErc20SignedTransaction
+    prepareBurnErc20SignedTransaction as prepareKcsBurnErc20SignedTransaction,
+    prepareDeployErc20SignedTransaction as prepareKcsDeployErc20SignedTransaction,
+    prepareMintErc20SignedTransaction as prepareKcsMintErc20SignedTransaction,
+    prepareTransferErc20SignedTransaction as prepareKcsTransferErc20SignedTransaction
 } from '@tatumio/tatum-kcs'
 
 export abstract class Erc20Service {

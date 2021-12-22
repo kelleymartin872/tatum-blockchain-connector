@@ -1,7 +1,6 @@
 import {IsNotEmpty, Length, ValidateIf} from 'class-validator';
 import {PathChain} from './PathChain';
-import {Currency} from "@tatumio/tatum-solana";
-
+import {Currency} from '@tatumio/tatum';
 export class PathTokenIdContractAddressChain extends PathChain {
 
     @IsNotEmpty()

@@ -1570,10 +1570,10 @@
   dependencies:
     "@tatumio/bitcoincash-ops" "2.0.0"
 
-"@tatumio/tatum-core@^2.0.0-alpha.72":
-  version "2.0.0-alpha.72"
-  resolved "https://registry.yarnpkg.com/@tatumio/tatum-core/-/tatum-core-2.0.0-alpha.72.tgz#743cd6b7697bedabd4109f6314506db1cf2641e6"
-  integrity sha512-R93gBzHIjQl8et10a2IpoLUQ6LM4zIiymantEbE/7iVMiZ5uAsFvjZF+1A7+HXRndR9voRWfpaRHlpPhMDmC6w==
+"@tatumio/tatum-core@^2.0.0-alpha.89":
+  version "2.0.0-alpha.89"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum-core/-/tatum-core-2.0.0-alpha.89.tgz#add72c1f274b33c2e0fe1b483d58f21dec001fc3"
+  integrity sha512-iBPgBO91qOYjJ8YfPSfVtm+B2JWcaJyWwRrD2XlmflKlUnK4MM+R9yfNQY25UbiB+7G1HsfMuNVDFIigAwxGkg==
   dependencies:
     axios "^0.21.1"
     axios-retry "^3.1.9"
@@ -1584,32 +1584,14 @@
     reflect-metadata "^0.1.13"
     web3 "1.4.0"
 
-"@tatumio/tatum-defi@^2.0.0-alpha.72":
-  version "2.0.0-alpha.72"
-  resolved "https://registry.yarnpkg.com/@tatumio/tatum-defi/-/tatum-defi-2.0.0-alpha.72.tgz#c95554cad8e94dbcb863a4d0e34fa89cfc2e5dad"
-  integrity sha512-AK9Y7vgtOQP31L15R9B5MVd0NlEk6YVfSiV6sF6vNLADLDYh2HZAd5eH2eKLGXwkWuPlzlb/4zMyq6E2Wh+Tsw==
-  dependencies:
-    "@tatumio/tatum-core" "^2.0.0-alpha.72"
-    bignumber.js "^9.0.0"
-    web3 "1.4.0"
-
-"@tatumio/tatum-ledger@^2.0.0-alpha.72":
-  version "2.0.0-alpha.72"
-  resolved "https://registry.yarnpkg.com/@tatumio/tatum-ledger/-/tatum-ledger-2.0.0-alpha.72.tgz#dba8f0b33afee6084614e58e3644a969f04579b7"
-  integrity sha512-RAY3l9LJRU73EDKis11jb+nVc889PNmIVi8Eok92lt6d4m7XDDw9aAiFGFPOSqiGoRyyxor0bBeLwCmz7s/zSg==
-  dependencies:
-    "@tatumio/tatum-core" "^2.0.0-alpha.72"
-
-"@tatumio/tatum-solana@^2.0.0-alpha.72":
-  version "2.0.0-alpha.72"
-  resolved "https://registry.yarnpkg.com/@tatumio/tatum-solana/-/tatum-solana-2.0.0-alpha.72.tgz#9df386bef6d55c54e079d8b18984571c2e914b46"
-  integrity sha512-n4VycuzMqQd/w08gg7qYWIpb2KMdR9tRQRb5acVeN7jX2QLpiuZtV6nfHaHsQm/Gr+LqpuqfbiDvRBkL/b2NPQ==
+"@tatumio/tatum-solana@^2.0.0-alpha.89":
+  version "2.0.0-alpha.89"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum-solana/-/tatum-solana-2.0.0-alpha.89.tgz#3fe6a015e95e4de7eb18daf7f70b5d8797a78724"
+  integrity sha512-D/DiHYoVUU2JeKktB3QVMRBTp1k8Nsjs704LKA0u+AIH3vEGE/DQCcPAUwjosAQt2Rb1y9B5RKjrxQpsf1TRHw==
   dependencies:
     "@solana/spl-token" "^0.1.8"
     "@solana/web3.js" "^1.31.0"
-    "@tatumio/tatum-core" "^2.0.0-alpha.72"
-    "@tatumio/tatum-defi" "^2.0.0-alpha.72"
-    "@tatumio/tatum-ledger" "^2.0.0-alpha.72"
+    "@tatumio/tatum-core" "^2.0.0-alpha.89"
     reflect-metadata "^0.1.13"
 
 "@tatumio/tatum@^1.29.20":

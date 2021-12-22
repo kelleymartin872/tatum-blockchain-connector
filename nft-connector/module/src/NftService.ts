@@ -3,7 +3,7 @@ import {PinoLogger} from 'nestjs-pino';
 import BigNumber from 'bignumber.js';
 import * as fcl from '@onflow/fcl';
 import * as sdk from '@onflow/sdk';
-import {Currency as C, mintSolanaNft, SolanaMintNft, transferSolanaNft} from '@tatumio/tatum-solana';
+import {mintNft as mintSolanaNft, SolanaMintNft, transferNft as transferSolanaNft} from '@tatumio/tatum-solana';
 
 import {
     TransferErc721 as CoreTransferErc721, 
@@ -163,9 +163,9 @@ export abstract class NftService {
 
     protected abstract getTronClient(testnet: boolean): Promise<any>;
 
-    protected abstract getNodesUrl(chain: Currency | C, testnet: boolean): Promise<string[]>;
+    protected abstract getNodesUrl(chain: Currency, testnet: boolean): Promise<string[]>;
 
-    protected abstract broadcast(chain: Currency | C, txData: string, signatureId?: string);
+    protected abstract broadcast(chain: Currency, txData: string, signatureId?: string);
 
     protected abstract deployFlowNft(testnet: boolean, body: FlowDeployNft): Promise<TransactionHash>;
 
@@ -194,8 +194,8 @@ export abstract class NftService {
             }
         } else if (chain === Currency.EGLD) {
             return await this.getElrondNftDataForAddress(chain, token, contractAddress, nonce, await this.isTestnet())
-        } else if (chain === C.SOL.toString()) {
-            const connection = new Connection((await this.getNodesUrl(C.SOL, await this.isTestnet()))[0]);
+        } else if (chain === Currency.SOL.toString()) {
+            const connection = new Connection((await this.getNodesUrl(Currency.SOL, await this.isTestnet()))[0]);
             const metadata = await programs.metadata.Metadata.findMany(connection, {mint: contractAddress});
             if (metadata?.length > 0) {
                 return {onchainData: metadata[0].data}
@@ -232,8 +232,8 @@ export abstract class NftService {
         } else if (chain === Currency.EGLD) {
             const data = await this.getElrondNftDataForAddress(chain, token, contractAddress, nonce, await this.isTestnet())
             return {addresses: [token], values: [data?.royalties]}
-        } else if (chain === C.SOL.toString()) {
-            const connection = new Connection((await this.getNodesUrl(C.SOL, await this.isTestnet()))[0]);
+        } else if (chain === Currency.SOL.toString()) {
+            const connection = new Connection((await this.getNodesUrl(Currency.SOL, await this.isTestnet()))[0]);
             const metadata = await programs.metadata.Metadata.findMany(connection, {mint: contractAddress});
             if (metadata?.length > 0) {
                 const creators = metadata[0].data.data.creators || [];
@@ -427,7 +427,7 @@ export abstract class NftService {
             case Currency.KCS:
                 txData = await prepareKcsTransferErc721SignedTransaction(body as CoreTransferErc721, provider);
                 break;
-            case C.SOL.toString():
+            case Currency.SOL.toString():
                 txData = await transferSolanaNft(body as any, provider);
                 if (body.signatureId) {
                     txData = JSON.stringify(txData);
@@ -566,7 +566,7 @@ export abstract class NftService {
             case Currency.EGLD:
                 txData = await prepareEgldCreateNftOrSftSignedTransaction(body as EgldEsdtTransaction, provider)
                 break;
-            case C.SOL:
+            case Currency.SOL:
                 txData = await mintSolanaNft(body as SolanaMintNft, provider);
                 if (body.signatureId) {
                     txData = JSON.stringify(txData);

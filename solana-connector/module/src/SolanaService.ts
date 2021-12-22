@@ -3,14 +3,12 @@ import {BlockResponse, Connection, PublicKey, TransactionResponse} from '@solana
 import {BroadcastOrStoreKMSTransaction} from '@tatumio/blockchain-connector-common';
 import axios from 'axios';
 import {SolanaError} from './SolanaError';
+import {Currency, SignatureId, TransactionHash} from '@tatumio/tatum-core';
 import {
-    Currency,
     generateWallet,
-    getSolanaClient,
-    sendSolana,
-    SignatureId,
+    getClient as getSolanaClient,
+    send as sendSolana,
     TransferSolana,
-    TransactionHash
 } from '@tatumio/tatum-solana';
 import BigNumber from "bignumber.js";
 
@@ -104,6 +102,9 @@ export abstract class SolanaService {
                 signatureId: await this.storeKMSTransaction(JSON.stringify(transactionData), Currency.SOL, [body.signatureId], body.index),
             };
         }
-        return this.broadcast({txId: transactionData.txId});
+        if (transactionData.hasOwnProperty('txId')) {
+            const txId = Object.values(transactionData)[0];
+            return this.broadcast({txId});
+        }
     }
 }

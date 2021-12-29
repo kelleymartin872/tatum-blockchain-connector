@@ -1,6 +1,6 @@
 {
   "name": "@tatumio/multitoken-connector",
-  "version": "1.1.39",
+  "version": "1.1.40",
   "description": "MultiToken Connector for Tatum API",
   "license": "MIT",
   "files": [
@@ -36,7 +36,7 @@
   "peerDependencies": {
     "@nestjs/common": "^7.6.1",
     "@tatumio/blockchain-connector-common": "^1.1.6",
-    "@tatumio/tatum": "^1.29.33",
+    "@tatumio/tatum": "^1.30.4",
     "@tatumio/tatum-kcs": "^2.0.0-alpha.89",
     "axios": "^0.21.1",
     "class-transformer": "^0.2.3",
@@ -48,7 +48,7 @@
   "devDependencies": {
     "@nestjs/common": "^7.6.1",
     "@tatumio/blockchain-connector-common": "^1.1.6",
-    "@tatumio/tatum": "^1.29.33",
+    "@tatumio/tatum": "^1.30.4",
     "@tatumio/tatum-core": "^2.0.0-alpha.89",
     "@tatumio/tatum-kcs": "2.0.0-alpha.89",
     "@types/express": "4.17.9",

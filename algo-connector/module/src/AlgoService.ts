@@ -143,7 +143,7 @@ export abstract class AlgoService {
           return { txId: sendTx.txId, failed: true };
         }
       }
-      return sendTx.txId;
+      return {txId: sendTx.txId};
     } else {
       throw new AlgoError(`Failed Algo Transaction Signing`, 'algo.error');
     }

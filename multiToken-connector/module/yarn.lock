@@ -1570,20 +1570,6 @@
   dependencies:
     "@tatumio/bitcoincash-ops" "2.0.0"
 
-"@tatumio/tatum-core@^2.0.0-alpha.84":
-  version "2.0.0-alpha.85"
-  resolved "https://registry.yarnpkg.com/@tatumio/tatum-core/-/tatum-core-2.0.0-alpha.85.tgz#e2b2d78fb716fb1da7e343d165d6b132598345b6"
-  integrity sha512-9+1L5NR8OXGwnFmuAb1HxqDpENXy1nOmZBEEFPKZJ4/fCQdWoSi4dI4jnDFqgGOTdnmW1PdulNDkR2tOvSa1sg==
-  dependencies:
-    axios "^0.21.1"
-    axios-retry "^3.1.9"
-    bignumber.js "^9.0.0"
-    class-transformer "^0.2.3"
-    class-validator "0.13.0"
-    form-data "^4.0.0"
-    reflect-metadata "^0.1.13"
-    web3 "1.4.0"
-
 "@tatumio/tatum-core@^2.0.0-alpha.89":
   version "2.0.0-alpha.89"
   resolved "https://registry.yarnpkg.com/@tatumio/tatum-core/-/tatum-core-2.0.0-alpha.89.tgz#add72c1f274b33c2e0fe1b483d58f21dec001fc3"
@@ -1612,10 +1598,10 @@
     web3-core "1.4.0"
     web3-utils "1.4.0"
 
-"@tatumio/tatum@^1.29.33":
-  version "1.29.33"
-  resolved "https://registry.yarnpkg.com/@tatumio/tatum/-/tatum-1.29.33.tgz#579c3dc527de0c54bf207e776844aebf64efc812"
-  integrity sha512-/S4FwRCkI7aWKZkqkiZAGig2dQTgCaJMsEHgSD1nB/P0alxGJdNmSkGmf4sKMog40m7ijjoTdQ+DFinpYSJhDg==
+"@tatumio/tatum@^1.30.4":
+  version "1.30.4"
+  resolved "https://registry.yarnpkg.com/@tatumio/tatum/-/tatum-1.30.4.tgz#13f6da00b1fcb0c79e288afb2cbfd1898346d250"
+  integrity sha512-peLC9l6ByqMnLKisUDa3fBuctjiX5+uRTfFG49941UYEzqSLYxuFK0l7E8z4EyWnt0PPlP0M6lxA0cbR/nRmgg==
   dependencies:
     "@binance-chain/javascript-sdk" "^4.1.1"
     "@celo-tools/celo-ethers-wrapper" "0.0.5"

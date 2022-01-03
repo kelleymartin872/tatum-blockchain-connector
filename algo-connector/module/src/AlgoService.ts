@@ -193,6 +193,25 @@ export abstract class AlgoService {
     }
   }
 
+  public async getPayTransactionsByBlockRange(from:number, to: number, testnet?: boolean) {
+    const isTestnet = testnet || (await this.isTestnet());
+    const baseurl = (await this.getNodesUrl(AlgoNodeType.INDEXER))[0];
+    const apiUrl = `${baseurl}/v2/transactions?tx-type=pay&min-round=${from}&max-round=${to}`;
+    try {
+      const res = (await axios({
+        method: 'get',
+        url: apiUrl,
+        headers: isTestnet ? (process.env.TATUM_ALGORAND_TESTNET_THIRD_API_KEY ? {} : { 'X-API-Key': `${process.env.TATUM_ALGORAND_TESTNET_THIRD_API_KEY}` }) :
+          (process.env.TATUM_ALGORAND_MAINNET_THIRD_API_KEY ? {} : { 'X-API-Key': `${process.env.TATUM_ALGORAND_MAINNET_THIRD_API_KEY}` })
+      })).data;
+      const transations = res.transactions.map(AlgoService.mapTransaction);
+      return {transactions: transations}
+    } catch (e) {
+      this.logger.error(e)
+      throw new AlgoError(`Failed Algo get pay transactions by from and to`, 'algo.error');
+    }
+  }
+
   public async nodeMethod(req: Request, key: string, algoNodeType: AlgoNodeType) {
     try {
       const path = req.url;

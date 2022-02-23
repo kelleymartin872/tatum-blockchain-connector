@@ -1,4 +1,4 @@
-# Integration Guide
+# Integration Guide [DEPRECATED]
 
 This guide will explain how to integrate new blockchains or project into Tatum API. First thing to know is the technology stack. API are built using [NestJS framework](https://nestjs.com/) and [TatumJS](https://github.com/tatumio/tatum-js) is built with pure Typescript.
 
